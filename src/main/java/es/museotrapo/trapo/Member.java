@@ -8,6 +8,15 @@ public class Member {
     private String email;
     private String username;
     private List<Picture> likedPictures;
+    private boolean ticket;
+
+    public boolean isTicket() {
+        return ticket;
+    }
+
+    public void setTicket(boolean ticket) {
+        this.ticket = ticket;
+    }
 
     public String getRealName() {
         return realName;
