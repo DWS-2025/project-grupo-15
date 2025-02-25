@@ -1,15 +1,24 @@
 <html> 
     <body>
-        <p>Nombre: {{picture.name}}.</p>
-        <p>Fecha: {{picture.date}}.</p>
-        <p> {{picture.imageFilename}}.</p>
-
-
+        <h1>{{picture.name}}</h1>
         <img src="{{picture.imageFilename}}"></img>
-
+        
+        <p>
         <form action="/picture/{{numPicture}}/like" method="post">
             <input type='submit' value='Dar like a {{picture.name}}'/>
         </form>
+        </p>
+
+        <h2>Artista</h2>
+        <p>Aqui deberia ir el nombre del pintor</p>
+        <h2>Descripcion</h2>
+        <p>{{picture.description}}.</p>
+        
+
+
+        
+
+        
 
         <!-- Otro metodo que cuando se da like, apareza quitar like en vez de dar like-->
 

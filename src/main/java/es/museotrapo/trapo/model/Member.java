@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Member {
@@ -7,7 +8,7 @@ public class Member {
     private String realName;
     private String email;
     private String username;
-    private List<Picture> likedPictures;
+    private List<Picture> likedPictures = new ArrayList<>();
 
     public Member(String realName, String email, String username){
         
@@ -47,6 +48,5 @@ public class Member {
     public void setLikedPictures(List<Picture> likedPictures) {
         this.likedPictures = likedPictures;
     }
-    
     
 }

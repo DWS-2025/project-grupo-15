@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Picture {
@@ -7,31 +8,39 @@ public class Picture {
     private String name;
     private String id;
     private String imageFilename;
-    private String date;
+    private String description;
     private Artist author;
-    private List<Member> memberLikes;
+    private List<Member> memberLikes = new ArrayList<>();
     
 
     public Picture(){}
     
-    public Picture(String name, String date){
+    public Picture(String name, String description){
         this.name = name;
-        this.date = date;
+        this.description = description;
     }
 
-    public Picture(String name, String date, String imageFilename){
+    public Picture(String name, String description, String imageFilename){
 
         this.name = name;
-        this.date = date;
+        this.description = description;
         this.imageFilename = imageFilename;
     }
 
-    public Picture(String name, String id, String imageFilename, String date, Artist author){
+    public Picture(String name, String description, String imageFilename, Artist author){
+
+        this.name = name;
+        this.imageFilename = imageFilename;
+        this.description = description;
+        this.author = author;
+    }
+
+    public Picture(String name, String id, String imageFilename, String description, Artist author){
 
         this.name = name;
         this.id = id;
         this.imageFilename = imageFilename;
-        this.date = date;
+        this.description = description;
         this.author = author;
     }
 
@@ -47,8 +56,8 @@ public class Picture {
         this.imageFilename = imageFIlename;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setdescription(String description) {
+        this.description = description;
     }
 
     public void setAuthor(Artist author) {
@@ -67,8 +76,8 @@ public class Picture {
         return imageFilename;
     }
 
-    public String getDate() {
-        return date;
+    public String getdescription() {
+        return description;
     }
 
     public Artist getAuthor() {
