@@ -1,8 +1,7 @@
-package es.museotrapo.trapo;
-
-import org.springframework.objenesis.instantiator.basic.NewInstanceInstantiator;
+package es.museotrapo.trapo.model;
 
 import java.util.List;
+import es.museotrapo.trapo.controller.MusseumController;
 
 public class Service {
 
@@ -16,7 +15,7 @@ public class Service {
         picture.setMemberLikes(newMemberLike);
         member.setLikedPictures(newPictureLike);
     }
-
+/*
     public void purchaseTickets(Member member, String date){
         Ticket ticket;
         ticket = new Ticket(date, member);
@@ -27,6 +26,6 @@ public class Service {
     public boolean hasTicket(Member member){
         return member.isTicket();
     }
-
+*/
     
 }

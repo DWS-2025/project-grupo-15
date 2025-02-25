@@ -1,12 +1,27 @@
-package es.museotrapo.trapo;
+package es.museotrapo.trapo.model;
 
 import java.util.List;
 
 public class Artist {
+
     private String name;
     private String nickname;
     private String birthDate;
     private List<Picture> paintedPictures;
+    
+    public Artist(){}
+
+    public Artist(String name, String nickname){
+        this.name = name;
+        this.nickname = nickname;
+    }
+
+    public Artist(String name, String nickname, String birthDate){
+        
+        this.name = name;
+        this.nickname = nickname;
+        this.birthDate = birthDate;
+    }
 
     public String getName() {
         return name;
@@ -18,10 +33,6 @@ public class Artist {
 
     public String getBirthDate() {
         return birthDate;
-    }
-
-    public List<Picture> getPaintedPictures() {
-        return paintedPictures;
     }
 
     public void setName(String name) {
@@ -36,7 +47,14 @@ public class Artist {
         this.birthDate = birthDate;
     }
 
+    public List<Picture> getPaintedPictures() {
+        return paintedPictures;
+    }
+
     public void setPaintedPictures(List<Picture> paintedPictures) {
         this.paintedPictures = paintedPictures;
     }
+
+
+
 }
