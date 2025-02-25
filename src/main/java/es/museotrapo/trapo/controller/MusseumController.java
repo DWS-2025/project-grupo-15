@@ -1,7 +1,5 @@
 package es.museotrapo.trapo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Picture;
