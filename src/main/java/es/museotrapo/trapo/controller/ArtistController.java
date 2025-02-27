@@ -59,7 +59,6 @@ public class ArtistController {
         } else {
             return "artist_not_found";
         }
-		
 	}
 
     @PostMapping("/artist/{id}/delete")
@@ -71,7 +70,6 @@ public class ArtistController {
         } else {
             return "artist_not_found";
         }
-		
 	}
 
     @GetMapping("/artist/{id}/edit")
@@ -86,7 +84,7 @@ public class ArtistController {
 	}
 
     @PostMapping("/artist/{id}/edit")
-	public String updatePost(Model model, @PathVariable long id, Artist updatedArtist) {
+	public String updateArtist(Model model, @PathVariable long id, Artist updatedArtist) {
 		Optional<Artist> artist = artistService.findById(id);
 		if (artist.isPresent()) {
 			Artist oldArtist = artist.get();
