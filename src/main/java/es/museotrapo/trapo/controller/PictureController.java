@@ -3,6 +3,12 @@ package es.museotrapo.trapo.controller;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import es.museotrapo.trapo.service.ArtistService;
 import es.museotrapo.trapo.service.CommentService;
@@ -14,11 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
+@RequestMapping ("/pictures")
+
 public class PictureController {
 
     private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "picture");
@@ -35,18 +44,14 @@ public class PictureController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/pictures")
+    @GetMapping("")
     public String getPosts(Model model){
         model.addAttribute("Pictures", pictureService.findAll());
         return "pictures";
     }
 
-    @GetMapping("/picture/new")
-    public String newPicture(Model model){
-        return "new_picture";
-    }
 
-    @PostMapping("/picture/new")
+    @PostMapping("/new")
     public String newPicture(Model model,
                              @RequestParam("name") String name,
                              @RequestParam("date") String date,
@@ -62,18 +67,37 @@ public class PictureController {
 
         Picture picture = new Picture(name, date, fileName, author);
         model.addAttribute("picture", picture);
+
         return "saved_picture";
     }
+
     @GetMapping("/{id}")
-    public String getPost(Model model, @PathVariable long id) {
+    public String getPost(Model model, @PathVariable long id, @PathVariable String ImageFilename) {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
             String likedText = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
+
             model.addAttribute("likedText", likedText);
+            model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename());
+
             return "show_picture";
         } else {
             return "picture_not_found";
+        }
+    }
+
+    @GetMapping("/{ImageFilename}")
+    public ResponseEntity<Resource> getImage(@PathVariable String ImageFilename) throws MalformedURLException {
+        Path imagePath = PICTURE_PATH.resolve(ImageFilename);
+        Resource image = new UrlResource(imagePath.toUri());
+
+        if (image.exists() && image.isReadable()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Ajusta el tipo MIME según el formato
+                    .body(image);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
