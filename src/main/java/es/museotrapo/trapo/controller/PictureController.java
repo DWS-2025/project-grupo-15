@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
-
+@RequestMapping("/picture")
 public class PictureController {
 
     private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "picture");
@@ -43,18 +43,18 @@ public class PictureController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/pictures")
+    @GetMapping("")
     public String getPosts(Model model){
         model.addAttribute("Pictures", pictureService.findAll());
         return "pictures";
     }
 
-    @GetMapping("/picture/new")
+    @GetMapping("/new")
     public String newPicture(Model model) {
         return "new_picture";
     }
 
-    @PostMapping("/picture/new")
+    @PostMapping("/new")
     public String newPicture(@RequestParam("name") String name,
                              @RequestParam("date") String date,
                              @RequestParam("author") Artist author,
