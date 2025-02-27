@@ -4,23 +4,26 @@ import java.util.List;
 
 public class Artist {
 
+    private long id;
     private String name;
     private String nickname;
     private String birthDate;
     private List<Picture> paintedPictures;
-    
-    public Artist(){}
 
-    public Artist(String name, String nickname){
-        this.name = name;
-        this.nickname = nickname;
-    }
 
     public Artist(String name, String nickname, String birthDate){
         
         this.name = name;
         this.nickname = nickname;
         this.birthDate = birthDate;
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
     public String getName() {
