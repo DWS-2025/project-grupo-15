@@ -3,8 +3,6 @@ package es.museotrapo.trapo.controller;
 
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.Ticket;
-import es.museotrapo.trapo.service.MusseumService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MusseumController {
-    
-    private final MusseumService service;
 
+<<<<<<< HEAD
     public MusseumController(MusseumService service) {
         this.service = service;
     }
@@ -31,8 +28,10 @@ public class MusseumController {
 
     @PostMapping("/pictures/predefined")
     public String predefinedPictures(Model model){
+        Artist artista1 = new Artist("Samuel Lopez", "DjSamsa", "No he nacido todavia");
+        service.getArtists().add(artista1);
         service.getPictures().add(new Picture("La Mona Lisa", "La Mona Lisa, también conocida como La Gioconda, es una de las pinturas más famosas del mundo. Fue creada por el artista renacentista Leonardo da Vinci entre 1503 y 1506. La obra muestra a una mujer con una expresión enigmática, sentada frente a un paisaje imaginario. Su sonrisa misteriosa y la técnica del sfumato, que da un efecto de difuminado, son características distintivas del cuadro.", "https://th.bing.com/th/id/OIP.TPkYW_eMIbYQekiVd8_p6gAAAA?w=191&h=215&c=7&r=0&o=5&pid=1.7"));
-        service.getPictures().add(new Picture("La Mona Tiesa", "10 02 03", "https://th.bing.com/th?id=OIP.jOsfhX9fuPkNwu2SlzR4fgHaJ8&w=215&h=289&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"));
+        service.getPictures().add(new Picture("La Mona Tiesa", "10 02 03", "https://th.bing.com/th?id=OIP.jOsfhX9fuPkNwu2SlzR4fgHaJ8&w=215&h=289&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2", artista1));
         service.getPictures().add(new Picture("La Mona Calva", "10 02 03", "https://th.bing.com/th?id=OIP.pJsoD_jzIuo83_6Tj-RiwgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"));
 
         return "redirect:/";
@@ -121,4 +120,6 @@ public class MusseumController {
         
         return "show_picture";
     }
+=======
+>>>>>>> 7bcd531d99fc232b45da25ad9498a5407b403bb4
 }

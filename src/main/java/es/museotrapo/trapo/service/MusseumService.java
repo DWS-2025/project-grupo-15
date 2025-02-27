@@ -16,6 +16,7 @@ public class MusseumService {
     private List<Artist> artists = new ArrayList<>();
     private List<Ticket> boughtTickets = new ArrayList<>();
 
+    
     public List<Picture> getPictures() {
         return pictures;
     }

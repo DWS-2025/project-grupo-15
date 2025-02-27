@@ -5,27 +5,16 @@ import java.util.List;
 
 public class Picture {
 
+
+    private long id;
     private String name;
-    private String id;
     private String imageFilename;
     private String description;
     private Artist author;
-    private List<Member> memberLikes = new ArrayList<>();
-    
 
-    public Picture(){}
-    
-    public Picture(String name, String description){
-        this.name = name;
-        this.description = description;
-    }
+    private List<User> userLikes = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
-    public Picture(String name, String description, String imageFilename){
-
-        this.name = name;
-        this.description = description;
-        this.imageFilename = imageFilename;
-    }
 
     public Picture(String name, String description, String imageFilename, Artist author){
 
@@ -35,28 +24,20 @@ public class Picture {
         this.author = author;
     }
 
-    public Picture(String name, String id, String imageFilename, String description, Artist author){
-
-        this.name = name;
-        this.id = id;
-        this.imageFilename = imageFilename;
-        this.description = description;
-        this.author = author;
-    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setImageFIlename(String imageFIlename) {
+    public void setImageFilename(String imageFIlename) {
         this.imageFilename = imageFIlename;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -68,15 +49,15 @@ public class Picture {
         return name;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getImageFIlename() {
+    public String getImageFilename() {
         return imageFilename;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -84,12 +65,20 @@ public class Picture {
         return author;
     }
 
-    public void setMemberLikes(List<Member> memberLikes) {
-        this.memberLikes = memberLikes;
+    public void setUserLikesLikes(List<User> userLikes) {
+        this.userLikes = userLikes;
     }
 
-    public List<Member> getMemberLikes() {
-        return memberLikes;
+    public List<User> getUserLikes() {
+        return userLikes;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        return this.comments;
     }
 
 
