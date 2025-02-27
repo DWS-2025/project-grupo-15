@@ -1,10 +1,23 @@
-<html>
+<html  lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir cuadro</title>
+</head>
     <body>
-        <form action="/picture/new" method="post">
-            
-            <p>Nombre: <input type="text" name="name"></p>
-            <p>Fecha: <input type="text" name="date"></p>
-            <p>Direccion de la imagen: <input type="text" name="imageFilename"></p>
+    <h1>Añadir un nuevo cuadro</h1>
+        <form action="/picture/new" method="post" enctype="multipart/form-data">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="date">Fecha: </label>
+            <input type="text" id="date" name="date" required><br><br>
+
+            <label for="date">Autor: </label>
+            <input type="text" id="author" name="author" required><br><br>
+
+            <label for="imageFile">Imagen: </label>
+            <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg" required> <br> <br>
 
             <input type="submit" value="Enviar"/>
         </form>
