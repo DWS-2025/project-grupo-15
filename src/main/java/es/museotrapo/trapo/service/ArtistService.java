@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArtistService {
@@ -14,12 +15,20 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
-    public List<Artist> findAll() {
+    public List<Artist> getArtists() {
         return artistRepository.getArtists();
+    }
+
+    public Artist getArtistById(long id) {
+        return artistRepository.getArtist(id);
     }
 
     public boolean paintedPicture(Picture picture, long id) {
         return artistRepository.getArtist(id).getPaintedPictures().add(picture);
+    }
+
+    public void save (Artist artist) {
+        artistRepository.save(artist);
     }
 
     public void removePicture(long id, Picture picture) {

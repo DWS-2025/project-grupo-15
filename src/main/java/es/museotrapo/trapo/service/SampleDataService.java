@@ -33,6 +33,7 @@ public class SampleDataService {
         User Samu = new User("Samu", "sosacaustica@hotmail.com");
 
         Artist DaVinci = new Artist("Leonardo", "DaPichi", "1400");
+        Artist DaVinchi = new Artist("Webonardo", "Depincho", "1500");
 
         Picture MonaLisa = new Picture("Mona Picha", "1900", "monapicha.jpeg", DaVinci);
 
@@ -52,6 +53,7 @@ public class SampleDataService {
         userRepository.save(Samu);
         userRepository.save(Alex);
         artistRepository.save(DaVinci);
+        artistRepository.save(DaVinchi);
     }
 
 }

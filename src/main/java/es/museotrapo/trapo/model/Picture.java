@@ -81,7 +81,5 @@ public class Picture {
         return this.comments;
     }
 
-    //tu mai es una señorita educada
-    //prueba 2
 
 }

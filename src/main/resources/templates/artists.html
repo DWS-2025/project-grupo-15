@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Artistas</title>
+  </head>
+  <body>
+    <h1>Artistas</h1>
+
+    {{#artists}}
+      <p><a href="/artist/{{id}}">{{nickname}}</a></p>
+    {{/artists}} 
+    
+    {{^artists}}
+    <p>No hay artistas disponibles, somos unos tristes</p>
+    {{/artists}}
+
+    <div>
+      <a href="/artist/new">
+        <button>Añadir un nuevo artista</button><br /><br />
+      </a>
+    </div>
+
+    <div>
+      <a href="/">
+        <button>Volver al inicio</button>
+      </a>
+    </div>
+  </body>
+</html>

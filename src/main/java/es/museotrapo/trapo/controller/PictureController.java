@@ -19,8 +19,6 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/picture")
-
 public class PictureController {
 
     private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "picture");
@@ -37,19 +35,20 @@ public class PictureController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("")
+    @GetMapping("/pictures")
     public String getPosts(Model model){
         model.addAttribute("Pictures", pictureService.getPictures());
-        return "picture";
+        return "pictures";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/picture/new")
     public String newPicture(Model model){
         return "new_picture";
     }
 
-    @PostMapping("/new")
-    public String newPicture(@RequestParam("name") String name,
+    @PostMapping("/picture/new")
+    public String newPicture(Model model,
+                             @RequestParam("name") String name,
                              @RequestParam("date") String date,
                              @RequestParam("author") Artist author,
                              @RequestParam("imageFile") MultipartFile file)throws IOException {
@@ -62,6 +61,7 @@ public class PictureController {
         file.transferTo(picturePath);
 
         Picture picture = new Picture(name, date, fileName, author);
+        model.addAttribute("picture", picture);
         return "saved_picture";
     }
     @GetMapping("/{id}")
