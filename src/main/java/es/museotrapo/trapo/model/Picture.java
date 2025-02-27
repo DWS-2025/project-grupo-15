@@ -6,7 +6,7 @@ import java.util.List;
 public class Picture {
 
 
-    private long id;
+    long id;
     private String name;
     private String imageFilename;
     private String date;
@@ -81,5 +81,6 @@ public class Picture {
         return this.comments;
     }
 
+    //tu mai es una señorita educada
 
 }
