@@ -1,39 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Museo del Trapo</title>
+</head>
     <body>
         <h1>Gran Museo del Trapo</h1>
-        <h2>Cuadros</h2>
-
-        {{#pictures}}
-        <a href="pictures/{{-index}}">{{name}}</a><br>
-        {{/pictures}}
-
-        {{^pictures}}
-        <p>Todavia no hay cuadros en el museo, estamos pobres.</p>
-        <form action="/pictures/predefined" method="post">
-            <input type="submit" value="Valores predefinidos"/>
-        </form>
-        {{/pictures}}
-
-        <p><a href="/new_picture.html">Añadir un cuadro al museo</a></p>
-
-        <h2>Artistas</h2>
-
-        {{#artists}}
-        <a href="artists/{{-index}}">{{nickname}}</a><br>
-        {{/artists}}
-
-        {{^artists}}
-        <p>Todavia no hay ningun artista. Asi de triste es este museo</p>
-        <form action="/artists/predefined" method="post">
-            <input type="submit" value="Valores predefinidos"/>
-        </form>
-        {{/artists}}
-
-        <p><a href="new_artist.html">Añadir un nuevo artista al museo</a></p>
-
-        <h2>Mis likes</h2>
-
-        <h2>Comprar Ticket</h2>
-        <p><a href="buyTicket.html">Haz click aqui para comprar un ticket.</a></p>
+        <div class="btn-container">
+            <a href="/picture" class="btn">Ver Cuadros</a>
+            <a href="/artist" class="btn">Ver Artistas</a>
+        </div>
     </body>
 </html>

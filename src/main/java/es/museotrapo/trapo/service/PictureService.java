@@ -26,7 +26,7 @@ public class PictureService {
         return pictureRepository.getPictures();
     }
 
-    public Optional<Picture> getPictureById(int id) {
+    public Optional<Picture> getPictureById(long id) {
         return pictureRepository.findById(id);
     }
 
@@ -36,7 +36,7 @@ public class PictureService {
 
     public void update(Picture oldPicture, Picture picture) {
         oldPicture.setId(picture.getId());
-        oldPicture.setDescription(picture.getDescription());
+        oldPicture.setDate(picture.getDate());
         oldPicture.setAuthor(oldPicture.getAuthor());
         oldPicture.setImageFilename(oldPicture.getImageFilename());
         pictureRepository.save(oldPicture);

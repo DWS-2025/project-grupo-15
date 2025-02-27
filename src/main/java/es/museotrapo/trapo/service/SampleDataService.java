@@ -34,7 +34,7 @@ public class SampleDataService {
 
         Artist DaVinci = new Artist("Leonardo", "DaPichi", "1400");
 
-        Picture MonaLisa = new Picture("Mona Picha", "La obra mas corta de la historia", "monapicha.jpeg", DaVinci);
+        Picture MonaLisa = new Picture("Mona Picha", "1900", "monapicha.jpeg", DaVinci);
 
         Comment commentSample1 = new Comment("Amazing");
         Comment commentSample2 = new Comment("Disgusting");

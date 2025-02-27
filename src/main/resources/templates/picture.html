@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuadros</title>
+</head>
+<body>
+      <h1>Cuadros</h1>
+
+      {{#pictures}}
+        <h2>{{name}}</h2>
+        <p>Fecha: {{date}}</p>
+        <p>Autor: {{author}}</p>
+        <img src="/picture/{{imageFilename}}" alt="{{name}}" width="200"/>
+      {{/pictures}}
+
+      {{^pictures}}
+        <p>No hay cuadors disponibles, somos unos tristes</p>
+      {{/pictures}}
+      <div>
+          <a href="/new_picture.html">
+            <button>Añadir un nuevo cuadro</button><br><br>
+          </a>
+      </div>
+      <div>
+          <a href="/">
+            <button>Volver al inicio</button>
+          </a>
+      </div>
+
+</body>
+</html>

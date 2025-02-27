@@ -9,18 +9,18 @@ public class Picture {
     private long id;
     private String name;
     private String imageFilename;
-    private String description;
+    private String date;
     private Artist author;
 
     private List<User> userLikes = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
 
 
-    public Picture(String name, String description, String imageFilename, Artist author){
+    public Picture(String name, String date, String imageFilename, Artist author){
 
         this.name = name;
         this.imageFilename = imageFilename;
-        this.description = description;
+        this.date = date;
         this.author = author;
     }
 
@@ -33,12 +33,12 @@ public class Picture {
         this.id = id;
     }
 
-    public void setImageFilename(String imageFIlename) {
-        this.imageFilename = imageFIlename;
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setAuthor(Artist author) {
@@ -57,8 +57,8 @@ public class Picture {
         return imageFilename;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDate() {
+        return date;
     }
 
     public Artist getAuthor() {
