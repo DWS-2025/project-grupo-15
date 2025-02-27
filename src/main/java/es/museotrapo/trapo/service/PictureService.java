@@ -22,11 +22,11 @@ public class PictureService {
     @Autowired
     private ArtistService artistService;
 
-    public List<Picture> getPictures() {
-        return pictureRepository.getPictures();
+    public List<Picture> findAll() {
+        return pictureRepository.findAll();
     }
 
-    public Optional<Picture> getPictureById(long id) {
+    public Optional<Picture> findById(long id) {
         return pictureRepository.findById(id);
     }
 
@@ -48,9 +48,10 @@ public class PictureService {
         }
         picture.getUserLikes().clear();
 
-        for(Comment comment: picture.getComments()){
-            commentService.delete(comment.getId(), picture);
-        }
+        List<Comment> list = picture.getComments();
+		for(int i = list.size() - 1; i >= 0; --i) {
+			commentService.delete(list.get(i).getId(), picture);
+		}
 
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());

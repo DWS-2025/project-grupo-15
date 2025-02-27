@@ -26,29 +26,33 @@ public class Artist {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+
+    public String getNickname() {
+        return nickname;
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+
+    public String getBirthDate() {
+        return birthDate;
     }
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
+
 
     public List<Picture> getPaintedPictures() {
         return paintedPictures;
@@ -57,7 +61,4 @@ public class Artist {
     public void setPaintedPictures(List<Picture> paintedPictures) {
         this.paintedPictures = paintedPictures;
     }
-
-
-
 }

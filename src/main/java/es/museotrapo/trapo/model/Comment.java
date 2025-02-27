@@ -1,14 +1,14 @@
 package es.museotrapo.trapo.model;
 
 public class Comment {
+
     private long id;
 
     private String message;
 
     private User author;
 
-    protected Comment() {
-    }
+    protected Comment(){}
 
     public Comment(String message) {
         this.message = message;

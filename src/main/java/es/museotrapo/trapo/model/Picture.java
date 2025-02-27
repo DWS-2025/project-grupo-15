@@ -12,9 +12,12 @@ public class Picture {
     private String date;
     private Artist author;
 
-    private List<User> userLikes = new ArrayList<>();
-    private List<Comment> comments = new ArrayList<>();
+    //Lists inside a picture
+    private List<User> userLikes = new ArrayList<>();       //Users wich give like to the picture
+    private List<Comment> comments = new ArrayList<>();     //Comments in the picture
 
+
+    public Picture(){}
 
     public Picture(String name, String date, String imageFilename, Artist author){
 
@@ -24,62 +27,72 @@ public class Picture {
         this.author = author;
     }
 
-
-    public void setName(String name) {
-        this.name = name;
+    // Getters & Setters
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getImageFilename() {
+        return imageFilename;
+    }
+
     public void setImageFilename(String imageFilename) {
         this.imageFilename = imageFilename;
+    }
+
+
+    public String getDate() {
+        return date;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public void setAuthor(Artist author) {
-        this.author = author;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getImageFilename() {
-        return imageFilename;
-    }
-
-    public String getDate() {
-        return date;
-    }
 
     public Artist getAuthor() {
         return author;
     }
 
-    public void setUserLikesLikes(List<User> userLikes) {
-        this.userLikes = userLikes;
+    public void setAuthor(Artist author) {
+        this.author = author;
     }
+
 
     public List<User> getUserLikes() {
         return userLikes;
+    }
+
+    public void setUserLikes(List<User> userLikes) {
+        this.userLikes = userLikes;
+    }
+
+
+    public List<Comment> getComments() {
+        return this.comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
-    public List<Comment> getComments() {
-        return this.comments;
-    }
 
-
+    @Override
+	public String toString() {
+		return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", author=" + author + "]";
+	}
 }

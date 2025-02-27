@@ -15,33 +15,26 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
-    public List<Artist> getArtists() {
-        return artistRepository.getArtists();
+    public List<Artist> findAll() {
+        return artistRepository.findAll();
     }
 
-    public Artist getArtistById(long id) {
-        return artistRepository.getArtist(id);
-    }
-
-    public boolean paintedPicture(Picture picture, long id) {
-        return artistRepository.getArtist(id).getPaintedPictures().add(picture);
+    public Optional<Artist> findById(long id) {
+        return artistRepository.findById(id);
     }
 
     public void save (Artist artist) {
         artistRepository.save(artist);
     }
 
-    public void removePicture(long id, Picture picture) {
-        Artist artist = artistRepository.getArtist(id);
-        if(paintedPicture(picture, id)){
-            List<Picture> updatedPictures = artist.getPaintedPictures();
-            updatedPictures.remove(picture);
-            artist.setPaintedPictures(updatedPictures);
-        }
-        artistRepository.save(artist);
-    }
+    public void update(Artist oldArtist, Artist updatedArtist) {
+		oldArtist.setName(updatedArtist.getName());
+		oldArtist.setNickname(updatedArtist.getNickname());
+        oldArtist.setBirthDate(updatedArtist.getBirthDate());
+		artistRepository.save(oldArtist);
+	}
 
-    public void deleteArtist(Artist artist) {
-        artistRepository.delete(artist);
+    public void delete(Artist artist) {
+        artistRepository.deleteById(artist.getId());
     }
 }

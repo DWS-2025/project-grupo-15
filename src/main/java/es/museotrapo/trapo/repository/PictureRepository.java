@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class PictureRepository {
 
-    private AtomicLong nextId = new AtomicLong(0);
+    private AtomicLong nextId = new AtomicLong(1L);
     private ConcurrentHashMap<Long, Picture> pictureMap = new ConcurrentHashMap<>();
 
-    public List<Picture> getPictures() {
+    public List<Picture> findAll() {
         return pictureMap.values().stream().toList();
     }
 

@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class CommentRepository {
 
-    private AtomicLong nextId = new AtomicLong(0);
+    private AtomicLong nextId = new AtomicLong(1L);
     private ConcurrentHashMap<Long, Comment> comments = new ConcurrentHashMap<>();
 
     public Optional<Comment> findById(long id) {

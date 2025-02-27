@@ -14,7 +14,7 @@ import es.museotrapo.trapo.service.ArtistService;
 import es.museotrapo.trapo.service.CommentService;
 import es.museotrapo.trapo.service.PictureService;
 import es.museotrapo.trapo.service.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -35,7 +35,7 @@ public class ArtistController {
 
      @GetMapping("/artists")
     public String getArtists(Model model){
-        model.addAttribute("artists", artistService.getArtists());
+        model.addAttribute("artists", artistService.findAll());
         return "artists";
     }
 
@@ -52,19 +52,49 @@ public class ArtistController {
 
     @GetMapping("/artist/{id}")
 	public String getArtist(Model model, @PathVariable long id) {
-		Artist artist = artistService.getArtistById(id);
-		model.addAttribute("artist", artist);
-		return "show_artist";
+		Optional<Artist> artist = artistService.findById(id);
+        if(artist.isPresent()){
+            model.addAttribute("artist", artist.get());
+		    return "show_artist";
+        } else {
+            return "artist_not_found";
+        }
+		
 	}
-
 
     @PostMapping("/artist/{id}/delete")
 	public String deleteArtist(@PathVariable long id) {
-	    Artist artist = artistService.getArtistById(id);
-		artistService.deleteArtist(artist);
-		return "redirect:/artists";
+	    Optional<Artist> artist = artistService.findById(id);
+        if(artist.isPresent()){
+            artistService.delete(artist.get());
+		    return "deleted_artist";
+        } else {
+            return "artist_not_found";
+        }
+		
 	}
 
+    @GetMapping("/artist/{id}/edit")
+	public String editArtist(Model model, @PathVariable long id) {
+		Optional<Artist> artist = artistService.findById(id);
+		if (artist.isPresent()) {
+			model.addAttribute("artist", artist.get());
+			return "edit_artist";
+		} else {
+			return "artist_not_found";
+		}
+	}
 
+    @PostMapping("/artist/{id}/edit")
+	public String updatePost(Model model, @PathVariable long id, Artist updatedArtist) {
+		Optional<Artist> artist = artistService.findById(id);
+		if (artist.isPresent()) {
+			Artist oldArtist = artist.get();
+			artistService.update(oldArtist, updatedArtist);
+			return "redirect:/artist/" + id;
+		} else {
+			return "artist_not_found";
+		}
+	}
 
 }

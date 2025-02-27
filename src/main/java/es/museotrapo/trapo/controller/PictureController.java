@@ -37,7 +37,7 @@ public class PictureController {
 
     @GetMapping("/pictures")
     public String getPosts(Model model){
-        model.addAttribute("Pictures", pictureService.getPictures());
+        model.addAttribute("Pictures", pictureService.findAll());
         return "pictures";
     }
 
@@ -66,7 +66,7 @@ public class PictureController {
     }
     @GetMapping("/{id}")
     public String getPost(Model model, @PathVariable long id) {
-        Optional<Picture> picture = pictureService.getPictureById(id);
+        Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
             String likedText = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
@@ -79,7 +79,7 @@ public class PictureController {
 
     @GetMapping("/{id}/edit")
     public String editPost(Model model, @PathVariable long id) {
-        Optional<Picture> picture = pictureService.getPictureById(id);
+        Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
             return "show_picture";
@@ -90,7 +90,7 @@ public class PictureController {
 
     @PostMapping("/{id}/edit")
     public String updatePost(Model model, @PathVariable long id, Picture updatedPost) {
-        Optional<Picture> picture = pictureService.getPictureById(id);
+        Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             Picture oldPicture = picture.get();
             pictureService.update(oldPicture, updatedPost);
@@ -102,7 +102,7 @@ public class PictureController {
 
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable long id) {
-        Optional<Picture> picture = pictureService.getPictureById(id);
+        Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             pictureService.delete(picture.get());
             return "deleted_picture";
@@ -113,7 +113,7 @@ public class PictureController {
 
     @PostMapping("/{picId}/comments/new")
     public String newComment(@PathVariable long picId, Comment comment) {
-        Optional<Picture> picture = pictureService.getPictureById(picId);
+        Optional<Picture> picture = pictureService.findById(picId);
         if (picture.isPresent()) {
             Picture picture1 = picture.get();
             commentService.save(picture1, comment);
@@ -126,7 +126,7 @@ public class PictureController {
     @PostMapping("/{picId}/comments/{commentId}/delete")
     public String deleteComment(@PathVariable long picId, @PathVariable long commentId) {
 
-        Optional<Picture> picture = pictureService.getPictureById(picId);
+        Optional<Picture> picture = pictureService.findById(picId);
 
         if (picture.isPresent()) {
             Picture picture1 = picture.get();
@@ -140,7 +140,7 @@ public class PictureController {
 
     @PostMapping("/{picId}/likeToggle")
     public String likePost(@PathVariable Long picId, Long userId) {
-        Optional<Picture> picture = pictureService.getPictureById(picId);
+        Optional<Picture> picture = pictureService.findById(picId);
         if (picture.isPresent()) {
             Picture picture1 = picture.get();
             userService.likeOrRemovePicture(userId, picture1);
