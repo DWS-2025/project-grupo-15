@@ -9,8 +9,16 @@
         </form>
         </p>
 
-        <h2>Artista</h2>
-        <p>Aqui deberia ir el nombre del pintor</p>
+        <p><b>Artista: </b>
+            {{#picture.author}}  
+                <a href="/artists/{{picture.author.nickname}}"> {{picture.author.nickname}}</a> 
+            {{/picture.author}} 
+            
+            {{^picture.author}}
+                No hay artista asociado.
+            {{/picture.author}}
+        </p>
+        
         <h2>Descripcion</h2>
         <p>{{picture.description}}.</p>
         
