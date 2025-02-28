@@ -37,4 +37,8 @@ public class ArtistService {
     public void delete(Artist artist) {
         artistRepository.deleteById(artist.getId());
     }
+
+    public void addPicture(Long id, Picture picture) {
+        artistRepository.addPicture(picture, id);
+    }
 }

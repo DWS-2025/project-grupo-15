@@ -64,9 +64,10 @@ public class PictureController {
         if(picture.getDate() == null || picture.getName() == null) {
             throw new IllegalArgumentException("NO pueden haber campos vacios");
         }
-
         picture.setImageFilename(imageService.createImage(imageFile));
         pictureService.save(picture, artistID);
+        artistService.addPicture(artistID, picture);
+
         model.addAttribute("picture", picture);
 
         return "saved_picture";

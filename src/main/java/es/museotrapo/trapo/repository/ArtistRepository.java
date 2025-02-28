@@ -1,6 +1,8 @@
 package es.museotrapo.trapo.repository;
 
 import es.museotrapo.trapo.model.Artist;
+import es.museotrapo.trapo.model.Picture;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Component
 public class ArtistRepository {
 
     private AtomicLong nextId = new AtomicLong(1L);
+
     private ConcurrentHashMap<Long, Artist> artistMap = new ConcurrentHashMap<>();
 
     public List<Artist> findAll() {
@@ -29,10 +33,19 @@ public class ArtistRepository {
            id = nextId.incrementAndGet();
            artist.setId(id);
         }
+
         artistMap.put(id, artist);
     }
 
     public void deleteById(long id) {
         artistMap.remove(id);
-        }
     }
+
+    public void addPicture(Picture picture, long id) {
+        List<Picture> pictures;
+        pictures = artistMap.get(id).getPaintedPictures();
+        pictures.add(picture);
+        artistMap.get(id).setPaintedPictures(pictures);
+    }
+}
+

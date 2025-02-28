@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Artist {
@@ -8,7 +9,7 @@ public class Artist {
     private String name;
     private String nickname;
     private String birthDate;
-    private List<Picture> paintedPictures;
+    private List<Picture> paintedPictures = new ArrayList<>();
 
 
     public Artist(String name, String nickname, String birthDate){
