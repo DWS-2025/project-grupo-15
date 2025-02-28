@@ -26,7 +26,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void likeOrRemovePicture(long userId, Picture picture) {
+    public void likeOrRemovePicture(Long userId, Picture picture) {
         User user = getLoggedUser();
         if(user.getLikedPictures().contains(picture)) {
             user.getLikedPictures().remove(picture);

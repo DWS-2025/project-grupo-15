@@ -29,19 +29,4 @@ public class MusseumService {
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
     }
-
-
-
-/*
-    public void purchaseTickets(Member member, String date){
-        Ticket ticket;
-        ticket = new Ticket(date, member);
-        ticket.setOwner(member);
-        member.setTicket(true);
-    }
-
-    public boolean hasTicket(Member member){
-        return member.isTicket();
-    }
-*/
 }

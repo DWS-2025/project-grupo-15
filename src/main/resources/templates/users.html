@@ -15,12 +15,12 @@
         </ul>
         <p>Posts liked by <b>{{ name }}</b></p>
         <ul>
-            {{#likedPosts}}
-            <li><a href="/picture/{{id}}">{{ title }}</a></li>
-            {{/likedPosts}}
-            {{^likedPosts}}
+            {{#likedPicture}}
+            <li><a href="/picture/{{id}}">{{name}}</a></li>
+            {{/likedPicture}}
+            {{^likedPicture}}
             <li>No liked posts by {{name}}</li>
-            {{/likedPosts}}
+            {{/likedPicture}}
         </ul>
         <br>
         {{/users}}
