@@ -56,10 +56,10 @@ public class PictureController {
     }
 
     @PostMapping("/new")
-    public String newPicture(@RequestParam("name") String name,
-                             @RequestParam("date") String date,
-                             @RequestParam("author") Artist author,
-                             @RequestParam("imageFile") MultipartFile file)throws IOException {
+    public String newPicture(Model model,
+                             Picture picture,
+                             MultipartFile file,
+                             Artist author) throws IOException {
         if(file.isEmpty()){
             return "error";
         }
@@ -68,7 +68,7 @@ public class PictureController {
         Path picturePath = PICTURE_PATH.resolve(fileName);
         file.transferTo(picturePath);
 
-        Picture picture = new Picture(name, date, fileName, author);
+        
 
         return "saved_picture";
     }

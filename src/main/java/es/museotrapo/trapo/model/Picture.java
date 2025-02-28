@@ -19,6 +19,12 @@ public class Picture {
 
     public Picture(){}
 
+    public Picture(String name, String date){
+        super();
+        this.name = name;
+        this.date = date;
+    }
+
     public Picture(String name, String date, String imageFilename, Artist author){
 
         this.name = name;

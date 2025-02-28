@@ -35,7 +35,10 @@ public class SampleDataService {
         Artist DaVinci = new Artist("Leonardo", "DaPichi", "1400");
         Artist DaVinchi = new Artist("Webonardo", "Depincho", "1500");
 
-        Picture MonaLisa = new Picture("Mona Picha", "1900", "monapicha.jpeg", DaVinci);
+        Picture MonaLisa = new Picture("Mona Picha", "1900");
+        MonaLisa.setImageFilename("monapicha.jpeg");
+        
+        
 
         Comment commentSample1 = new Comment("Amazing");
         Comment commentSample2 = new Comment("Disgusting");

@@ -22,6 +22,9 @@ public class PictureService {
     @Autowired
     private ArtistService artistService;
 
+    @Autowired
+    private ImageService imageService;
+
     public List<Picture> findAll() {
         return pictureRepository.findAll();
     }

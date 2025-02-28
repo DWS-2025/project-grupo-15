@@ -9,4 +9,7 @@ Cosas que voy encontrando que hay que retocar/cambiar:
  - Artist.java:
  anadir el @ToString.
 
+ - show_artist:
+ meter los cuadros pintados por el artista.
+
 
