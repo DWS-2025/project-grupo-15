@@ -37,8 +37,6 @@ public class SampleDataService {
 
         Picture MonaLisa = new Picture("Mona Picha", "1900");
         MonaLisa.setImageFilename("monapicha.jpeg");
-        
-        
 
         Comment commentSample1 = new Comment("Amazing");
         Comment commentSample2 = new Comment("Disgusting");

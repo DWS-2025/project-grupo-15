@@ -1,10 +1,13 @@
 package es.museotrapo.trapo.service;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 
+import es.museotrapo.trapo.repository.PictureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -14,28 +17,36 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ImageService {
-    
-    private static final Path IMAGES_FOLDER = Paths.get(System.getProperty("user.dir"), "images");
 
-    public String createImage(MultipartFile multiPartFile) {
+    private static final Path IMAGES_FOLDER = Paths.get(System.getProperty("user.dir"), "pictures");
 
-        String originalName = multiPartFile.getOriginalFilename();
+    @Autowired
+    private PictureRepository pictureRepository;
 
-        if(!originalName.matches(".*\\.(jpg|jpeg|gif|png)")){
+    public String createImage(MultipartFile multiPartFile) throws IOException {
+
+        if(multiPartFile.isEmpty()){
+            throw new IllegalArgumentException("File is empty");
+        }
+
+        String originalName = System.currentTimeMillis() + "_" + multiPartFile.getOriginalFilename();
+
+        if(!originalName.matches("(?i).*\\.(jpg|jpeg|gif|png)")){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The url is not an image resource");  
         }
-        
-        String fileName = "image_" + UUID.randomUUID() + "_" +originalName;
-        
-        Path imagePath = IMAGES_FOLDER.resolve(fileName);
+
+        Files.createDirectories(IMAGES_FOLDER);
+
+        Path imagePath = IMAGES_FOLDER.resolve(originalName);
+
         try {
             multiPartFile.transferTo(imagePath);
         } catch (Exception ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't save image locally", ex);
         } 
 
-        return fileName;
+        return originalName;
     }
 
     public Resource getImage(String imageName) {

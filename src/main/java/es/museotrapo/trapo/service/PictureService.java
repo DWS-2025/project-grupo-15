@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
@@ -33,7 +34,8 @@ public class PictureService {
         return pictureRepository.findById(id);
     }
 
-    public void save (Picture picture) {
+    public void save (Picture picture, Long artistId) {
+        picture.setAuthor(artistService.findById(artistId).get());
         pictureRepository.save(picture);
     }
 
@@ -59,4 +61,5 @@ public class PictureService {
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());
     }
+
 }

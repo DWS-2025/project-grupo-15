@@ -4,16 +4,13 @@ import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 
+import es.museotrapo.trapo.service.*;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import es.museotrapo.trapo.service.ArtistService;
-import es.museotrapo.trapo.service.CommentService;
-import es.museotrapo.trapo.service.PictureService;
-import es.museotrapo.trapo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +26,7 @@ import java.util.Optional;
 @RequestMapping("/picture")
 public class PictureController {
 
-    private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "picture");
+    private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "pictures");
 
     @Autowired
     private PictureService pictureService;
@@ -43,9 +40,12 @@ public class PictureController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private ImageService imageService;
+
     @GetMapping("")
     public String getPosts(Model model){
-        model.addAttribute("Pictures", pictureService.findAll());
+        model.addAttribute("pictures", pictureService.findAll());
         return "pictures";
     }
 
@@ -58,23 +58,21 @@ public class PictureController {
     @PostMapping("/new")
     public String newPicture(Model model,
                              Picture picture,
-                             MultipartFile file,
-                             Artist author) throws IOException {
-        if(file.isEmpty()){
-            return "error";
+                             @RequestParam MultipartFile imageFile,
+                             @RequestParam Long artistID) throws IOException {
+
+        if(picture.getDate() == null || picture.getName() == null) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios");
         }
 
-        String fileName = file.getOriginalFilename() + "_" + System.currentTimeMillis();
-        Path picturePath = PICTURE_PATH.resolve(fileName);
-        file.transferTo(picturePath);
-
-        
+        pictureService.save(picture, artistID);
+        model.addAttribute("picture", picture);
 
         return "saved_picture";
     }
 
     @GetMapping("/{id}")
-    public String getPost(Model model, @PathVariable long id, @PathVariable String ImageFilename) {
+    public String getPost(Model model, @PathVariable long id) {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
@@ -89,7 +87,7 @@ public class PictureController {
         }
     }
 
-    @GetMapping("/{ImageFilename}")
+    @GetMapping("/image/{ImageFilename}")
     public ResponseEntity<Resource> getImage(@PathVariable String ImageFilename) throws MalformedURLException {
         Path imagePath = PICTURE_PATH.resolve(ImageFilename);
         Resource image = new UrlResource(imagePath.toUri());
