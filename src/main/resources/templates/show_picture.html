@@ -1,10 +1,10 @@
 <html> 
     <body>
-        <p>Nombre: {{picture.name}}</p>
-        <p>Fecha: {{picture.date}}</p>
-
+        <h1>{{picture.name}}</h1>
+    
         <img src="/picture/image/{{picture.imageFilename}}"></img>
         
+        <p>Fecha: {{picture.date}}</p>
 
         <p><b>Artista: </b>
             {{#picture.author}}  
@@ -15,7 +15,38 @@
                 No hay artista asociado.
             {{/picture.author}}
         </p>
+
+        <form action="/picture/{{picture.id}}/likeToggle" method="post">
+            <input type='submit' value='{{likedPicture}}'/>
+        </form>
+
+        <h2>Comments</h2>
+        {{#picture.comments}}
+		    <div>
+			    <b>{{author.name}}</b>: {{message}}
+			    <form action="/picture/{{picture.id}}/comments/{{id}}/delete" method="post" style="display: inline;">
+				    <input type='submit' value='Eliminar comentario'/>
+			    </form>
+		    </div>
+		    <br>
+		
+	    {{/picture.comments}}  
+
+        {{^picture.comments}}
+	        <p>No comments yet.</p>
+	    {{/picture.comments}}
+
+        <form action="/picture/{{picture.id}}/comments/new" method="post" style="background-color: #c2c2c2; width: 200px; padding: 10px;">
+            <p>Message: <input type='text' name='message' required/></p>
+            <input type='submit' value='Agregar comentario'/>
+        </form>
+
+        <form action="/picture/{{picture.id}}/delete" method="post">
+            <input type='submit' value='Eliminar cuadro'/>
+        </form>
     
-	    <a href="/">Back</a>
+        <p><a href="/picture/{{picture.id}}/edit">Edit post</a></p>
+    
+	    <p><a href="/">Back</a></p>
     </body>
 </html>

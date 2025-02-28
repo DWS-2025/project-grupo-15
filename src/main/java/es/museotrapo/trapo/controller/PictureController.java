@@ -78,9 +78,8 @@ public class PictureController {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
-            String likedText = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
-
-            model.addAttribute("likedText", likedText);
+            String likedPicture = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
+            model.addAttribute("likedPicture", likedPicture);
             model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename());
 
             return "show_picture";
@@ -107,20 +106,25 @@ public class PictureController {
     public String editPost(Model model, @PathVariable long id) {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
+            model.addAttribute("availableArtists", artistService.findAll());
             model.addAttribute("picture", picture.get());
-            return "show_picture";
+            return "edit_picture";
         } else {
             return "picture_not_found";
         }
     }
 
     @PostMapping("/{id}/edit")
-    public String updatePost(Model model, @PathVariable long id, Picture updatedPost) {
+    public String updatePost(Model model, 
+                             @PathVariable long id, 
+                             Picture updatedPost, 
+                             @RequestParam MultipartFile imageFile,
+                             @RequestParam Long artistID) {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             Picture oldPicture = picture.get();
             pictureService.update(oldPicture, updatedPost);
-            return "redirect:/pictures/" + id;
+            return "redirect:/picture/" + id;
         } else {
             return "post_not_found";
         }
@@ -143,7 +147,7 @@ public class PictureController {
         if (picture.isPresent()) {
             Picture picture1 = picture.get();
             commentService.save(picture1, comment);
-            return "redirect:/pictures/" + picId;
+            return "redirect:/picture/" + picId;
         } else {
             return "picture_not_found";
         }
@@ -165,7 +169,7 @@ public class PictureController {
     }
 
     @PostMapping("/{picId}/likeToggle")
-    public String likePost(@PathVariable Long picId, Long userId) {
+    public String likePicture(@PathVariable Long picId, Long userId) {
         Optional<Picture> picture = pictureService.findById(picId);
         if (picture.isPresent()) {
             Picture picture1 = picture.get();

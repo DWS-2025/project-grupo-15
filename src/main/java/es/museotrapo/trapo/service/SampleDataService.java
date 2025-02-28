@@ -32,29 +32,37 @@ public class SampleDataService {
         User Alex = new User("Alex", "ponisalvaje@gmail.com");
         User Samu = new User("Samu", "sosacaustica@hotmail.com");
 
+        Artist unknown = new Artist("", "Artista Desconocido", "");
         Artist daVinci = new Artist("Leonardo", "DaPichi", "1400");
         Artist daVinchi = new Artist("Webonardo", "DePincho", "1500");
 
         Picture MonaLisa = new Picture("Mona Picha", "1900");
         MonaLisa.setImageFilename("monapicha.jpeg");
+        MonaLisa.setAuthor(unknown);
+        unknown.getPaintedPictures().add(MonaLisa);
 
         Comment commentSample1 = new Comment("Amazing");
-        Comment commentSample2 = new Comment("Disgusting");
-
         commentSample1.setAuthor(Alex);
-        commentSample2.setAuthor(Samu);
-
         MonaLisa.getComments().add(commentSample1);
-        MonaLisa.getComments().add(commentSample2);
-
+        Alex.getComments().add(commentSample1);
         commentRepository.save(commentSample1);
+    
+        Comment commentSample2 = new Comment("Disgusting");
+        commentSample2.setAuthor(Samu);
+        MonaLisa.getComments().add(commentSample2);
+        Samu.getComments().add(commentSample2);
         commentRepository.save(commentSample2);
 
+        
+        
+        
         pictureRepository.save(MonaLisa);
         userRepository.save(Samu);
         userRepository.save(Alex);
+        artistRepository.save(unknown);
         artistRepository.save(daVinci);
         artistRepository.save(daVinchi);
+        
     }
 
 }

@@ -11,6 +11,11 @@ public class Artist {
     private String birthDate;
     private List<Picture> paintedPictures = new ArrayList<>();
 
+    public Artist(){}
+
+    public Artist(String name){
+        this.name = name;
+    }
 
     public Artist(String name, String nickname, String birthDate){
         

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir cuadro</title>
+</head>
+<body>
+<h1>Añadir cuadro</h1>
+<form action="/picture/{{picture.id}}/edit" method="post" enctype="multipart/form-data">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" name="name" value="{{picture.name}}" required><br><br>
+
+    <label for="date">Fecha: </label>
+    <input type="text" id="date" name="date" value="{{picture.date}}" required><br><br>
+
+    <p>Artista:
+        <select name="artistID" multiple required>
+            {{#availableArtists}}
+            <option value="{{ id }}">{{ nickname }}</option>
+            {{/availableArtists}}
+        </select>
+    </p>
+
+    <label for="imageFile">Imagen: </label>
+    <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg"> <br> <br>
+
+    <input type="submit" value="Guardar"/>
+</form>
+</body>
+</html>
+
+
+        

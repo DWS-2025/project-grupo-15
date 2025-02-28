@@ -1,0 +1,30 @@
+<html>
+    <body>
+        <h1>Users and their data</h1>
+
+        {{#users}}
+        <h2>{{name}}</h2>
+        <p>Comments of <b>{{ name }}</b></p>
+        <ul>
+            {{#comments}}
+            <li>{{ message }}</li>
+            {{/comments}}
+            {{^comments}}
+            <li>No comments yet by {{name}}</li>
+            {{/comments}}
+        </ul>
+        <p>Posts liked by <b>{{ name }}</b></p>
+        <ul>
+            {{#likedPosts}}
+            <li><a href="/picture/{{id}}">{{ title }}</a></li>
+            {{/likedPosts}}
+            {{^likedPosts}}
+            <li>No liked posts by {{name}}</li>
+            {{/likedPosts}}
+        </ul>
+        <br>
+        {{/users}}
+    
+        <a href="/">Back</a>
+    </body>
+</html>

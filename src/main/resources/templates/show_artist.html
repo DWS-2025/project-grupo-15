@@ -10,7 +10,7 @@
         <h2>Cuadros pintados por {{artist.nickname}}</h2>
         <p>
             {{#artist.paintedPictures}}
-                <p><a href="/picture/{{id}}"> {{name}}</a></p>
+                <a href="/picture/{{id}}"> {{name}}</a>
             {{/artist.paintedPictures}}
 
             {{^artist.paintedPictures}}

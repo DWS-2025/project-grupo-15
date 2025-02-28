@@ -12,6 +12,7 @@ public class User {
     private List<Comment> comments = new ArrayList<>();
     private List<Picture> likedPicture = new ArrayList<>();
 
+    public User(){}
 
     public User(String name, String email) {
         this.name = name;
@@ -50,11 +51,11 @@ public class User {
         this.comments = comments;
     }
 
-    public List<Picture> getLikedPosts() {
-        return this.likedPicture;
+    public List<Picture> getLikedPictures() {
+        return likedPicture;
     }
 
-    public void setLikedPosts(List<Picture> likedPicture) {
+    public void setLikedPictures(List<Picture> likedPicture) {
         this.likedPicture = likedPicture;
     }
 

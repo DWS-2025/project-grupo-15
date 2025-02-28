@@ -3,7 +3,6 @@ package es.museotrapo.trapo.repository;
 import es.museotrapo.trapo.model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,11 +10,11 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class UserRepository {
 
-    private AtomicLong nextId = new AtomicLong(0);
+    private AtomicLong nextId = new AtomicLong(1L);
     private ConcurrentHashMap<Long, User> userMap = new ConcurrentHashMap<>();
 
-    public List<User> getUsers() {
-        return new ArrayList<>(userMap.values());
+    public List<User> findAll() {
+        return userMap.values().stream().toList();
     }
 
     public void save(User user) {

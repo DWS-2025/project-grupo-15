@@ -49,7 +49,7 @@ public class PictureService {
 
     public void delete(Picture picture) {
         for(User user: picture.getUserLikes()){
-            user.getLikedPosts().remove(picture);
+            user.getLikedPictures().remove(picture);
         }
         picture.getUserLikes().clear();
 
