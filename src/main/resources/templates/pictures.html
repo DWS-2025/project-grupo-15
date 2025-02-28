@@ -8,14 +8,11 @@
       <h1>Cuadros</h1>
 
       {{#pictures}}
-        <h2>{{name}}</h2>
-        <p>Fecha: {{date}}</p>
-        <p>Autor: {{author}}</p>
-        <img src="/picture/{{imageFilename}}" alt="{{name}}" width="200"/>
+        <p><a href="/picture/{{id}}">{{name}}</a></p>
       {{/pictures}}
 
       {{^pictures}}
-        <p>No hay cuadors disponibles, somos unos tristes</p>
+        <p>No hay cuadros disponibles, somos unos tristes</p>
       {{/pictures}}
       <div>
           <a href="/picture/new">

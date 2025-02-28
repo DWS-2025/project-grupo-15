@@ -51,6 +51,7 @@ public class PictureController {
 
     @GetMapping("/new")
     public String newPicture(Model model) {
+        model.addAttribute("availableArtists", artistService.findAll());
         return "new_picture";
     }
 

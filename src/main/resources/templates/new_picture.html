@@ -13,8 +13,13 @@
             <label for="date">Fecha: </label>
             <input type="text" id="date" name="date" required><br><br>
 
-            <label for="date">Autor: </label>
-            <input type="text" id="author" name="author" required><br><br>
+            <p>Artista: 
+                <select name="selectedArtists" multiple>
+                    {{#availableArtists}}
+                        <option value="{{ id }}">{{ nickname }}</option>
+                    {{/availableArtists}}
+                </select>
+            </p>
 
             <label for="imageFile">Imagen: </label>
             <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg" required> <br> <br>

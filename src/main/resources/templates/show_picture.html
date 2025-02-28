@@ -6,11 +6,6 @@
 
         <img src="{{picture.imageFilename}}"></img>
         
-        <p>
-        <form action="/picture/{{numPicture}}/like" method="post">
-            <input type='submit' value='Dar like a {{picture.name}}'/>
-        </form>
-        </p>
 
         <p><b>Artista: </b>
             {{#picture.author}}  
@@ -24,21 +19,7 @@
         
         <h2>Descripcion</h2>
         <p>{{picture.description}}.</p>
-        
-
-
-        
-
-        
-
-        <!-- Otro metodo que cuando se da like, apareza quitar like en vez de dar like-->
-
-        <form action="/picture/{{numPicture}}/delete" method="post">
-            <input type='submit' value='Delete Picture'/>
-        </form>
-
-        <br>
-	
+    
 	    <a href="/">Back</a>
     </body>
 </html>
