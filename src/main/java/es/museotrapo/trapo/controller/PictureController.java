@@ -65,6 +65,7 @@ public class PictureController {
             throw new IllegalArgumentException("NO pueden haber campos vacios");
         }
 
+        picture.setImageFilename(imageService.createImage(imageFile));
         pictureService.save(picture, artistID);
         model.addAttribute("picture", picture);
 

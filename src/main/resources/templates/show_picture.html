@@ -3,12 +3,12 @@
         <p>Nombre: {{picture.name}}</p>
         <p>Fecha: {{picture.date}}</p>
 
-        <img src="{{picture.imageFilename}}"></img>
+        <img src="/picture/image/{{picture.imageFilename}}"></img>
         
 
         <p><b>Artista: </b>
             {{#picture.author}}  
-                <a href="/artists/{{picture.author.nickname}}"> {{picture.author.nickname}}</a> 
+                <a href="/artist/{{picture.author.id}}"> {{picture.author.nickname}}</a>
             {{/picture.author}} 
             
             {{^picture.author}}

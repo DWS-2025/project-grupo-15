@@ -32,8 +32,8 @@ public class SampleDataService {
         User Alex = new User("Alex", "ponisalvaje@gmail.com");
         User Samu = new User("Samu", "sosacaustica@hotmail.com");
 
-        Artist DaVinci = new Artist("Leonardo", "DaPichi", "1400");
-        Artist DaVinchi = new Artist("Webonardo", "Depincho", "1500");
+        Artist daVinci = new Artist("Leonardo", "DaPichi", "1400");
+        Artist daVinchi = new Artist("Webonardo", "DePincho", "1500");
 
         Picture MonaLisa = new Picture("Mona Picha", "1900");
         MonaLisa.setImageFilename("monapicha.jpeg");
@@ -53,8 +53,8 @@ public class SampleDataService {
         pictureRepository.save(MonaLisa);
         userRepository.save(Samu);
         userRepository.save(Alex);
-        artistRepository.save(DaVinci);
-        artistRepository.save(DaVinchi);
+        artistRepository.save(daVinci);
+        artistRepository.save(daVinchi);
     }
 
 }
