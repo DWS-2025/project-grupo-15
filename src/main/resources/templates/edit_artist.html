@@ -2,9 +2,9 @@
     <body>
         <h1>Editar cuadro</h1>
         <form action="/artist/{{artist.id}}/edit" method="post">
-            <p>Nombre: <input type='text' name='name' value="{{artist.name}}"></p>
-            <p>Apodo: <input type='text' name='nickname' value="{{artist.nickname}}"></p>
-            <p>Fecha de nacimiento: <input type='text' name='birthDate' value="{{artist.birthDate}}"></p>
+            <p>Nombre: <input type='text' name='name' value="{{artist.name}}" required></p>
+            <p>Apodo: <input type='text' name='nickname' value="{{artist.nickname}}" required></p>
+            <p>Fecha de nacimiento: <input type='text' name='birthDate' value="{{artist.birthDate}}" required></p>
             <br><br>
             <input type='submit' value='Save'/>
         </form>

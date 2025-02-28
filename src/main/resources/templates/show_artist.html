@@ -3,14 +3,14 @@
         <h1>{{artist.nickname}}</h1>
         <p>Nombre: {{artist.name}}</p>
         <p>Apodo: {{artist.nickname}}</p>
-        <p>Fecha de nacimiento: {{artist.birthDate}}.</p>
+        <p>Fecha de nacimiento: {{artist.birthDate}}</p>
 
         <p><img src="https://th.bing.com/th/id/OIP.kfBzCCE-1ix8HguUazkGfwAAAA?w=156&h=180&c=7&r=0&o=5&pid=1.7"></img></p>
 
         <h2>Cuadros pintados por {{artist.nickname}}</h2>
         <p>
             {{#artist.paintedPictures}}
-                <p>{{name}}</p>
+                <p><a href="/picture/{{id}}"> {{name}}</a></p>
             {{/artist.paintedPictures}}
 
             {{^artist.paintedPictures}}

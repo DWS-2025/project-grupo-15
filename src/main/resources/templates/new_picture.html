@@ -9,13 +9,13 @@
 <h1>Añadir cuadro</h1>
 <form action="/picture/new" method="post" enctype="multipart/form-data">
     <label for="name">Nombre:</label>
-    <input type="text" id="name" name="name"><br><br>
+    <input type="text" id="name" name="name" required><br><br>
 
     <label for="date">Fecha: </label>
-    <input type="text" id="date" name="date"><br><br>
+    <input type="text" id="date" name="date" required><br><br>
 
     <p>Artista:
-        <select name="artistID" multiple>
+        <select name="artistID" multiple required>
             {{#availableArtists}}
             <option value="{{ id }}">{{ nickname }}</option>
             {{/availableArtists}}
@@ -23,7 +23,7 @@
     </p>
 
     <label for="imageFile">Imagen: </label>
-    <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg"> <br> <br>
+    <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg" required> <br> <br>
 
     <input type="submit" value="Enviar"/>
 </form>
