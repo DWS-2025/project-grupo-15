@@ -3,17 +3,18 @@ package es.museotrapo.trapo.model;
 public class Comment {
 
     private long id;
-
     private String message;
-
     private User author;
 
-    protected Comment(){}
+    // Constructors
+    protected Comment() {
+    }
 
     public Comment(String message) {
         this.message = message;
     }
 
+    // Getters & Setters
     public long getId() {
         return id;
     }

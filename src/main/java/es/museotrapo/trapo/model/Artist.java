@@ -11,27 +11,28 @@ public class Artist {
     private String birthDate;
     private List<Picture> paintedPictures = new ArrayList<>();
 
-    public Artist(){}
+    // Constructors
+    public Artist() {
+    }
 
-    public Artist(String name){
+    public Artist(String name) {
         this.name = name;
     }
 
-    public Artist(String name, String nickname, String birthDate){
-        
+    public Artist(String name, String nickname, String birthDate) {
         this.name = name;
         this.nickname = nickname;
         this.birthDate = birthDate;
     }
 
-    public long getId(){
+    // Getters & Setters
+    public long getId() {
         return id;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -41,7 +42,6 @@ public class Artist {
         this.name = name;
     }
 
-
     public String getNickname() {
         return nickname;
     }
@@ -50,7 +50,6 @@ public class Artist {
         this.nickname = nickname;
     }
 
-
     public String getBirthDate() {
         return birthDate;
     }
@@ -58,7 +57,6 @@ public class Artist {
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
-
 
     public List<Picture> getPaintedPictures() {
         return paintedPictures;
