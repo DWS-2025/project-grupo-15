@@ -47,7 +47,9 @@ public class ArtistRepository {
     }
 
     public void deletePicture(Picture picture, Long id){
-        picture.getAuthor().getPaintedPictures().remove(picture);
+        if(picture.getAuthor() != null){
+            picture.getAuthor().getPaintedPictures().remove(picture);
+        }
     }
 }
 

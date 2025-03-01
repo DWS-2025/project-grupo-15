@@ -37,8 +37,7 @@ public class PictureRepository {
    }
 
    public void deleteArtistInPicture(Artist artist){
-        List<Picture> pictures = artist.getPaintedPictures();
-        for (Picture picture : pictures) {
+        for (Picture picture : artist.getPaintedPictures()) {
             picture.setAuthor(null); 
         }
    }
