@@ -23,8 +23,6 @@ public class PictureService {
     @Autowired
     private ArtistService artistService;
 
-    @Autowired
-    private ImageService imageService;
 
     public List<Picture> findAll() {
         return pictureRepository.findAll();
@@ -58,8 +56,14 @@ public class PictureService {
 			commentService.delete(list.get(i).getId(), picture);
 		}
 
+        //Delete the picture in the paintedPictures of the artist
+        artistService.deletePicture(picture.getId(), picture);
+
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());
     }
 
+    public void deleteArtistInPicture(Artist artist) {
+        pictureRepository.deleteArtistInPicture(artist);
+    }
 }

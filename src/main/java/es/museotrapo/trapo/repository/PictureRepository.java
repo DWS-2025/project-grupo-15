@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.repository;
 
+import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Picture;
 import org.springframework.stereotype.Component;
 
@@ -33,5 +34,12 @@ public class PictureRepository {
 
    public void deleteById(long id) {
         pictureMap.remove(id);
+   }
+
+   public void deleteArtistInPicture(Artist artist){
+        List<Picture> pictures = artist.getPaintedPictures();
+        for (Picture picture : pictures) {
+            picture.setAuthor(null); 
+        }
    }
 }

@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import es.museotrapo.trapo.repository.PictureRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -19,9 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class ImageService {
 
     private static final Path IMAGES_FOLDER = Paths.get(System.getProperty("user.dir"), "pictures");
-
-    @Autowired
-    private PictureRepository pictureRepository;
 
     public String createImage(MultipartFile multiPartFile) throws IOException {
 

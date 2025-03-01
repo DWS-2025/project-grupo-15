@@ -11,29 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.service.ArtistService;
-import es.museotrapo.trapo.service.CommentService;
-import es.museotrapo.trapo.service.PictureService;
-import es.museotrapo.trapo.service.UserService;
+
 
 
 
 @Controller
 public class ArtistController {
 
-      @Autowired
-    private PictureService pictureService;
-
     @Autowired
     private ArtistService artistService;
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private CommentService commentService;
-
-
-     @GetMapping("/artists")
+    @GetMapping("/artists")
     public String getArtists(Model model){
         model.addAttribute("artists", artistService.findAll());
         return "artists";

@@ -3,6 +3,8 @@ package es.museotrapo.trapo.service;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.repository.ArtistRepository;
+import es.museotrapo.trapo.repository.PictureRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class ArtistService {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private PictureRepository pictureRepository;
 
     public List<Artist> findAll() {
         return artistRepository.findAll();
@@ -35,10 +40,15 @@ public class ArtistService {
 	}
 
     public void delete(Artist artist) {
+        pictureRepository.deleteArtistInPicture(artist);
         artistRepository.deleteById(artist.getId());
     }
 
     public void addPicture(Long id, Picture picture) {
         artistRepository.addPicture(picture, id);
+    }
+
+    public void deletePicture(Long id, Picture picture){
+        artistRepository.deletePicture(picture, id);
     }
 }

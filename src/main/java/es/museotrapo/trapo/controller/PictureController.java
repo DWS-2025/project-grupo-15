@@ -1,6 +1,5 @@
 package es.museotrapo.trapo.controller;
 
-import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 

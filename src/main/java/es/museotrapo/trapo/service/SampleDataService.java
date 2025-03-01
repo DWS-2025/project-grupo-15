@@ -39,6 +39,8 @@ public class SampleDataService {
         Picture MonaLisa = new Picture("Mona Picha", "1900");
         MonaLisa.setImageFilename("monapicha.jpeg");
         MonaLisa.setAuthor(unknown);
+        MonaLisa.getUserLikes().add(Alex);
+        Alex.getLikedPictures().add(MonaLisa);
         unknown.getPaintedPictures().add(MonaLisa);
 
         Comment commentSample1 = new Comment("Amazing");
@@ -53,9 +55,6 @@ public class SampleDataService {
         Samu.getComments().add(commentSample2);
         commentRepository.save(commentSample2);
 
-        
-        
-        
         pictureRepository.save(MonaLisa);
         userRepository.save(Samu);
         userRepository.save(Alex);
