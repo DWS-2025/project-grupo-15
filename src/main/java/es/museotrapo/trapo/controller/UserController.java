@@ -11,11 +11,17 @@ import es.museotrapo.trapo.service.UserService;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserService userService; // Service to handle user-related functionality
 
+    /**
+     * Handles the GET request to retrieve and display all users
+     * 
+     * @param model Model object to add attributes for the view
+     * @return "users" view to display the list of users
+     */
     @GetMapping("/users")
-    public String getUsers(Model model){
-        model.addAttribute("users", userService.findAll());
-        return "users";
+    public String getUsers(Model model) {
+        model.addAttribute("users", userService.findAll()); // Add all users to the model
+        return "users"; // Return the "users" view to render the list of users
     }
 }

@@ -9,16 +9,20 @@ public class User {
     private String name;
     private String email;
 
-    private List<Comment> comments = new ArrayList<>();
-    private List<Picture> likedPicture = new ArrayList<>();
+    // Lists inside a User
+    private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
+    private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
 
-    public User(){}
+    // Constructors
+    public User() {
+    }
 
     public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -58,5 +62,4 @@ public class User {
     public void setLikedPictures(List<Picture> likedPicture) {
         this.likedPicture = likedPicture;
     }
-
 }

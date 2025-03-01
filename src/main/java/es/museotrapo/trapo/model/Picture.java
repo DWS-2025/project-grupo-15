@@ -5,28 +5,27 @@ import java.util.List;
 
 public class Picture {
 
-
     long id;
     private String name;
     private String imageFilename;
     private String date;
     private Artist author;
 
-    //Lists inside a picture
-    private List<User> userLikes = new ArrayList<>();       //Users wich give like to the picture
-    private List<Comment> comments = new ArrayList<>();     //Comments in the picture
+    // Lists inside of a picture
+    private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
+    private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
+    // Constructors
+    public Picture() {
+    }
 
-    public Picture(){}
-
-    public Picture(String name, String date){
+    public Picture(String name, String date) {
         super();
         this.name = name;
         this.date = date;
     }
 
-    public Picture(String name, String date, String imageFilename, Artist author){
-
+    public Picture(String name, String date, String imageFilename, Artist author) {
         this.name = name;
         this.imageFilename = imageFilename;
         this.date = date;
@@ -42,7 +41,6 @@ public class Picture {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -50,7 +48,6 @@ public class Picture {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getImageFilename() {
         return imageFilename;
@@ -68,7 +65,6 @@ public class Picture {
         this.date = date;
     }
 
-
     public Artist getAuthor() {
         return author;
     }
@@ -77,17 +73,16 @@ public class Picture {
         this.author = author;
     }
 
-
     public List<User> getUserLikes() {
         return userLikes;
     }
 
-    public long getNumLikes(){
-        return userLikes.size();
-    }
-
     public void setUserLikes(List<User> userLikes) {
         this.userLikes = userLikes;
+    }
+
+    public long getNumLikes() {
+        return userLikes.size(); // Number of likes of the picture
     }
 
     public List<Comment> getComments() {
@@ -99,7 +94,7 @@ public class Picture {
     }
 
     @Override
-	public String toString() {
-		return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", author=" + author + "]";
-	}
+    public String toString() {
+        return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", author=" + author + "]";
+    }
 }
