@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gran Museo del Trapo</title>
-        <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
-    <body>
-        <h1>Gran Museo del Trapo</h1>
-        <div class="btn-container">
-            <a href="/picture" class="btn">Ver Cuadros</a>
-            <a href="/artists" class="btn">Ver Artistas</a>
-            <a href="/users" class="btn">Ver Usuarios</a>
-        </div>
-    </body>
+<body>
+
+<header>
+    <img src="/static/img/logo.png" alt="Logo del Museo" class="logo">
+    <h1 class="title">Gran Museo del Trapo</h1>
+</header>
+
+<main class="content">
+    <p class="gold-title" style="font-style: italic; text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);">
+        Un recorrido por la historia del arte en su máxima expresión.
+    </p>
+
+    <div class="btn-row"> <!-- Usamos la clase "btn-row" que ya existe -->
+        <a href="/picture" class="btn">Ver Cuadros</a>
+        <a href="/artists" class="btn">Ver Artistas</a>
+        <a href="/users" class="btn">Ver Usuarios</a>
+    </div>
+</main>
+
+</body>
 </html>

@@ -1,31 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistas</title>
-    <link rel="stylesheet" href="/static/styles.css">
-  </head>
-  <body>
-    <h1>Artistas</h1>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
 
-    {{#artists}}
-      <p><a href="/artist/{{id}}">{{nickname}}</a></p>
-    {{/artists}} 
-    
+<header>
+    <img src="/static/img/logo.png" alt="Logo del Museo" class="logo">
+    <h1 class="title">Gran Museo del Trapo</h1>
+</header>
+
+<div class="content">
+    <h1 class="gold-title">Artistas</h1>
+
+    <div class="artist-list">
+        {{#artists}}
+        <div class="artist-card">
+            <a href="/artist/{{id}}" class="btn-wine">{{nickname}}</a>
+        </div>
+        {{/artists}}
+    </div>
+
     {{^artists}}
-    <p>No hay artistas disponibles, somos unos tristes</p>
+    <p class="no-comments">No hay artistas disponibles, somos unos tristes.</p>
     {{/artists}}
 
-    <div>
-      <a href="/artist/new">
-        <button>Añadir un nuevo artista</button><br /><br />
-      </a>
+    <div class="btn-row">
+        <a href="/artist/new" class="btn">Añadir un nuevo artista</a>
+        <a href="/" class="btn">Volver al inicio</a>
     </div>
+</div>
 
-    <div>
-      <a href="/">
-        <button>Volver al inicio</button>
-      </a>
-    </div>
-  </body>
+</body>
 </html>

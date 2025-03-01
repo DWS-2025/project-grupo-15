@@ -1,19 +1,27 @@
-<html>
-    <body>
-        <h1>Users and their data</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Users and their data</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="content">
+    <h1 class="gold-title">Users and their data</h1>
 
-        {{#users}}
+    {{#users}}
+    <div class="user-card">
         <h2>{{name}}</h2>
-        <p>Comments of <b>{{ name }}</b></p>
+        <p><strong>Comments of {{name}}:</strong></p>
         <ul>
             {{#comments}}
-            <li>{{ message }}</li>
+            <li>{{message}}</li>
             {{/comments}}
             {{^comments}}
             <li>No comments yet by {{name}}</li>
             {{/comments}}
         </ul>
-        <p>Posts liked by <b>{{ name }}</b></p>
+        <p><strong>Posts liked by {{name}}:</strong></p>
         <ul>
             {{#likedPicture}}
             <li><a href="/picture/{{id}}">{{name}}</a></li>
@@ -22,9 +30,10 @@
             <li>No liked posts by {{name}}</li>
             {{/likedPicture}}
         </ul>
-        <br>
-        {{/users}}
-    
-        <a href="/">Back</a>
-    </body>
+    </div>
+    {{/users}}
+
+    <a href="/" class="btn">Back</a>
+</div>
+</body>
 </html>

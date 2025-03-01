@@ -77,7 +77,7 @@ public class PictureController {
         Optional<Picture> picture = pictureService.findById(id);
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get());
-            String likedPicture = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
+            String likedPicture = userService.isPictureLiked(picture.get()) ? "Dislike" : "Like";
             model.addAttribute("likedPicture", likedPicture);
             model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename());
             //model.addAttribute("numLikes", picture.get().getNumLikes());

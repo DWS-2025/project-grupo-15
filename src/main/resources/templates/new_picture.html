@@ -4,29 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir cuadro</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<h1>Añadir cuadro</h1>
-<form action="/picture/new" method="post" enctype="multipart/form-data">
-    <label for="name">Nombre:</label>
-    <input type="text" id="name" name="name" required><br><br>
+<div class="content">
+    <h1 class="gold-title">Añadir cuadro</h1>
+    <form action="/picture/new" method="post" enctype="multipart/form-data" class="form">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
 
-    <label for="date">Fecha: </label>
-    <input type="text" id="date" name="date" required><br><br>
+        <div class="form-group">
+            <label for="date">Fecha:</label>
+            <input type="text" id="date" name="date" required>
+        </div>
 
-    <p>Artista:
-        <select name="artistID" multiple required>
-            {{#availableArtists}}
-            <option value="{{ id }}">{{ nickname }}</option>
-            {{/availableArtists}}
-        </select>
-    </p>
+        <div class="form-group">
+            <label for="artistID">Artista:</label>
+            <select name="artistID" id="artistID" class="custom-select" multiple required>
+                {{#availableArtists}}
+                <option value="{{ id }}">{{ nickname }}</option>
+                {{/availableArtists}}
+            </select>
+        </div>
 
-    <label for="imageFile">Imagen: </label>
-    <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg" required> <br> <br>
+        <div class="form-group">
+            <label for="imageFile">Imagen:</label>
+            <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg" required>
+        </div>
 
-    <input type="submit" value="Enviar"/>
-</form>
+        <div class="btn-row">
+            <input type="submit" value="Enviar" class="btn">
+        </div>
+    </form>
+</div>
 </body>
 </html>

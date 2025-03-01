@@ -1,52 +1,67 @@
-<html> 
-    <body>
-        <h1>{{picture.name}}</h1>
-    
-        <img src="/picture/image/{{picture.imageFilename}}"></img>
-        
-        <p>Fecha: {{picture.date}}</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Museo del Trapo</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
 
-        <p><b>Artista: </b>
-            {{#picture.author}}  
-                <a href="/artist/{{picture.author.id}}"> {{picture.author.nickname}}</a>
-            {{/picture.author}} 
-            
-            {{^picture.author}}
-                No hay artista asociado.
-            {{/picture.author}}
+<header>
+    <img src="/img/logo.png" alt="Logo del Gran Museo del Trapo" class="logo">
+    <h1 class="title">Gran Museo del Trapo</h1>
+</header>
+
+<div class="content">
+    <h1 class="gold-title">{{picture.name}}</h1>
+
+    <div class="image-container">
+        <img src="/picture/image/{{picture.imageFilename}}" alt="{{picture.name}} - {{picture.author.nickname}}">
+    </div>
+
+    <div class="picture-details">
+        <p class="artist">
+            <a href="/artist/{{picture.author.id}}" class="artist-link">{{picture.author.nickname}}</a>
         </p>
-        <p>Numero de Likes: {{picture.numLikes}}</p>
-        <form action="/picture/{{picture.id}}/likeToggle" method="post">
-            <input type='submit' value='{{likedPicture}}'/>
-        </form>
+        <p class="date">Fecha: {{picture.date}}</p>
+        <p class="likes">&#x2764;&#xfe0f; {{picture.numLikes}}</p>
+    </div>
 
-        <h2>Comments</h2>
+    <form action="/picture/{{picture.id}}/likeToggle" method="post">
+        <button type="submit" class="btn">{{likedPicture}}</button>
+    </form>
+
+    <h2 class="comments-title">Comentarios</h2>
+
+    <div class="comments-section">
         {{#picture.comments}}
-		    <div>
-			    <b>{{author.name}}</b>: {{message}}
-			    <form action="/picture/{{picture.id}}/comments/{{id}}/delete" method="post" style="display: inline;">
-				    <input type='submit' value='Eliminar comentario'/>
-			    </form>
-		    </div>
-		    <br>
-		
-	    {{/picture.comments}}  
+        <div class="comment">
+            <b>{{author.name}}</b>: {{message}}
+            <form action="/picture/{{picture.id}}/comments/{{id}}/delete" method="post">
+                <button type="submit" class="btn btn-delete">Eliminar</button>
+            </form>
+        </div>
+        {{/picture.comments}}
 
         {{^picture.comments}}
-	        <p>No comments yet.</p>
-	    {{/picture.comments}}
+        <p class="no-comments">No hay comentarios aún.</p>
+        {{/picture.comments}}
 
-        <form action="/picture/{{picture.id}}/comments/new" method="post" style="background-color: #c2c2c2; width: 200px; padding: 10px;">
-            <p>Message: <input type='text' name='message' required/></p>
-            <input type='submit' value='Agregar comentario'/>
+        <form action="/picture/{{picture.id}}/comments/new" method="post" class="add-comment-form">
+            <label for="comment-message">Escribe un comentario:</label>
+            <input type="text" id="comment-message" name="message" placeholder="Escribe un comentario..." required>
+            <button type="submit" class="btn">Agregar comentario</button>
         </form>
+    </div>
 
-        <form action="/picture/{{picture.id}}/delete" method="post">
-            <input type='submit' value='Eliminar cuadro'/>
+    <div class="btn-row">
+        <a href="/picture" class="btn">Volver</a>
+        <form action="/picture/{{picture.id}}/delete" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
+            <button type="submit" class="btn btn-delete">Eliminar cuadro</button>
         </form>
-    
-        <p><a href="/picture/{{picture.id}}/edit">Edit post</a></p>
-    
-	    <p><a href="/picture">Back</a></p>
-    </body>
+    </div>
+</div>
+
+</body>
 </html>
