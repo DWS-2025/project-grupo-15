@@ -60,7 +60,7 @@ public class PictureController {
                              @RequestParam MultipartFile imageFile,
                              @RequestParam Long artistID) throws IOException {
 
-        if(picture.getDate() == null || picture.getName() == null) {
+        if(picture.getDate() == null || picture.getName() == null || artistID == null) {
             throw new IllegalArgumentException("NO pueden haber campos vacios");
         }
         picture.setImageFilename(imageService.createImage(imageFile));
@@ -80,7 +80,7 @@ public class PictureController {
             String likedPicture = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like";
             model.addAttribute("likedPicture", likedPicture);
             model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename());
-
+            //model.addAttribute("numLikes", picture.get().getNumLikes());
             return "show_picture";
         } else {
             return "picture_not_found";
@@ -101,33 +101,6 @@ public class PictureController {
         }
     }
 
-    @GetMapping("/{id}/edit")
-    public String editPost(Model model, @PathVariable long id) {
-        Optional<Picture> picture = pictureService.findById(id);
-        if (picture.isPresent()) {
-            model.addAttribute("availableArtists", artistService.findAll());
-            model.addAttribute("picture", picture.get());
-            return "edit_picture";
-        } else {
-            return "picture_not_found";
-        }
-    }
-
-    @PostMapping("/{id}/edit")
-    public String updatePost(Model model, 
-                             @PathVariable long id, 
-                             Picture updatedPost, 
-                             @RequestParam MultipartFile imageFile,
-                             @RequestParam Long artistID) {
-        Optional<Picture> picture = pictureService.findById(id);
-        if (picture.isPresent()) {
-            Picture oldPicture = picture.get();
-            pictureService.update(oldPicture, updatedPost);
-            return "redirect:/picture/" + id;
-        } else {
-            return "post_not_found";
-        }
-    }
 
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable long id) {

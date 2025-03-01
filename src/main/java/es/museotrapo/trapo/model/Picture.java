@@ -60,7 +60,6 @@ public class Picture {
         this.imageFilename = imageFilename;
     }
 
-
     public String getDate() {
         return date;
     }
@@ -83,10 +82,13 @@ public class Picture {
         return userLikes;
     }
 
+    public long getNumLikes(){
+        return userLikes.size();
+    }
+
     public void setUserLikes(List<User> userLikes) {
         this.userLikes = userLikes;
     }
-
 
     public List<Comment> getComments() {
         return this.comments;
@@ -95,7 +97,6 @@ public class Picture {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-
 
     @Override
 	public String toString() {

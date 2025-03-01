@@ -15,7 +15,7 @@
                 No hay artista asociado.
             {{/picture.author}}
         </p>
-
+        <p>Numero de Likes: {{picture.numLikes}}</p>
         <form action="/picture/{{picture.id}}/likeToggle" method="post">
             <input type='submit' value='{{likedPicture}}'/>
         </form>
