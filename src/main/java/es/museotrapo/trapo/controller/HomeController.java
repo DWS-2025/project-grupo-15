@@ -8,7 +8,7 @@ public class HomeController {
 
     /**
      * Maps the root URL ("/") to the "index" view.
-     * 
+     *
      * @return The name of the view (index.html)
      */
     @GetMapping("/")

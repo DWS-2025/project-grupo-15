@@ -20,7 +20,7 @@ public class ArtistController {
 
     /**
      * Handles the request to display all artists.
-     * 
+     *
      * @param model The model to add attributes to
      * @return The view name "artists"
      */
@@ -33,7 +33,7 @@ public class ArtistController {
 
     /**
      * Displays the form to create a new artist.
-     * 
+     *
      * @param model The model to add attributes to
      * @return The view name "new_artist"
      */
@@ -44,20 +44,23 @@ public class ArtistController {
 
     /**
      * Handles the submission of the form to create a new artist.
-     * 
+     *
      * @param model  The model to add attributes to
      * @param artist The artist object to be saved
      * @return The view name "saved_artist"
      */
     @PostMapping("/artist/new")
     public String newArtist(Model model, Artist artist) {
+        if (artist.getBirthDate() == null || artist.getName() == null || artist.getNickname() == null) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios");
+        }
         artistService.save(artist); // Save the new artist using the artistService
         return "saved_artist"; // Return the view after saving the artist
     }
 
     /**
      * Displays a specific artist based on the provided ID.
-     * 
+     *
      * @param model The model to add attributes to
      * @param id    The ID of the artist to fetch
      * @return The view name depending on whether the artist is found
@@ -75,7 +78,7 @@ public class ArtistController {
 
     /**
      * Handles the deletion of an artist by ID.
-     * 
+     *
      * @param id The ID of the artist to delete
      * @return The view name depending on whether the artist is found
      */
@@ -92,7 +95,7 @@ public class ArtistController {
 
     /**
      * Displays the form to edit an artist based on the provided ID.
-     * 
+     *
      * @param model The model to add attributes to
      * @param id    The ID of the artist to edit
      * @return The view name depending on whether the artist is found
@@ -110,7 +113,7 @@ public class ArtistController {
 
     /**
      * Handles the submission of the form to update an artist.
-     * 
+     *
      * @param model         The model to add attributes to
      * @param id            The ID of the artist to update
      * @param updatedArtist The updated artist data

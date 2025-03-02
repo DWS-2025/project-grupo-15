@@ -90,7 +90,7 @@ public class PictureService {
         }
 
         artistService.deletePicture(picture.getId(), picture);// Remove the picture from the artist's painted pictures
-                                                              // list
+        // list
 
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());

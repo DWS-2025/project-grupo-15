@@ -49,7 +49,7 @@ public class PictureController {
      * @return "pictures" view to render all pictures
      */
     @GetMapping("")
-    public String getPosts(Model model) {
+    public String getPictures(Model model) {
         model.addAttribute("pictures", pictureService.findAll()); // Add all pictures to the model
         return "pictures"; // Return the "pictures" view to render the pictures
     }
@@ -105,11 +105,11 @@ public class PictureController {
      *         "picture_not_found" if not found
      */
     @GetMapping("/{id}")
-    public String getPost(Model model, @PathVariable long id) {
+    public String getPicture(Model model, @PathVariable long id) {
         Optional<Picture> picture = pictureService.findById(id); // Fetch the picture by ID
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get()); // Add the picture to the model
-            String likedPicture = userService.isPictureLiked(picture.get()) ? "Unlike" : "Like"; // Check if the picture
+            String likedPicture = userService.isPictureLiked(picture.get()) ? "Dislike" : "Like"; // Check if the picture
                                                                                                  // is liked by the user
             model.addAttribute("likedPicture", likedPicture); // Add like status to the model
             model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename()); // Add image path to the
@@ -150,7 +150,7 @@ public class PictureController {
      *         "picture_not_found" if not found
      */
     @PostMapping("/{id}/delete")
-    public String deletePost(@PathVariable long id) {
+    public String deletePicture(@PathVariable long id) {
         Optional<Picture> picture = pictureService.findById(id); // Retrieve the picture by ID
         if (picture.isPresent()) {
             pictureService.delete(picture.get()); // Delete the picture from the database

@@ -15,7 +15,7 @@ public class UserController {
 
     /**
      * Handles the GET request to retrieve and display all users
-     * 
+     *
      * @param model Model object to add attributes for the view
      * @return "users" view to display the list of users
      */

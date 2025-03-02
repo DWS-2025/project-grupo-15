@@ -17,12 +17,18 @@
     <h1 class="gold-title">{{picture.name}}</h1>
 
     <div class="image-container">
-        <img src="/picture/image/{{picture.imageFilename}}" alt="{{picture.name}} - {{picture.author.nickname}}">
+        <img src="/picture/image/{{picture.imageFilename}}">
     </div>
 
     <div class="picture-details">
         <p class="artist">
+            {{#picture.author}}
             <a href="/artist/{{picture.author.id}}" class="artist-link">{{picture.author.nickname}}</a>
+            {{/picture.author}}
+
+            {{^picture.author}}
+            No hay artista asiociado
+            {{/picture.author}}
         </p>
         <p class="date">Fecha: {{picture.date}}</p>
         <p class="likes">&#x2764;&#xfe0f; {{picture.numLikes}}</p>
@@ -57,7 +63,8 @@
 
     <div class="btn-row">
         <a href="/picture" class="btn">Volver</a>
-        <form action="/picture/{{picture.id}}/delete" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
+        <form action="/picture/{{picture.id}}/delete" method="post"
+              onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
             <button type="submit" class="btn btn-delete">Eliminar cuadro</button>
         </form>
     </div>

@@ -18,7 +18,7 @@ public class UserService {
      * Returns the logged-in user for simplicity. This is a placeholder method.
      * In a real application, it should be replaced with actual authentication
      * logic.
-     * 
+     *
      * @return User - The logged-in user
      */
     public User getLoggedUser() {
@@ -28,7 +28,7 @@ public class UserService {
 
     /**
      * Retrieves all users from the repository.
-     * 
+     *
      * @return List<User> - A list of all users
      */
     public List<User> findAll() {
@@ -39,7 +39,7 @@ public class UserService {
      * Allows a user to like or remove a like on a picture.
      * If the picture is already liked, it removes the like. If not, it adds the
      * like.
-     * 
+     *
      * @param userId  The ID of the user performing the action (though unused here)
      * @param picture The picture to like or remove the like from
      */
@@ -63,7 +63,7 @@ public class UserService {
 
     /**
      * Checks if a picture is liked by the currently logged-in user.
-     * 
+     *
      * @param picture The picture to check for a like
      * @return boolean - Returns true if the picture is liked, false otherwise
      */
