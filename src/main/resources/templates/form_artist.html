@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{#isEdit}}
+    <title>Editar Artista</title>
+    {{/isEdit}}
+
+    {{^isEdit}}
+    <title>Crear Artista</title>
+    {{/isEdit}}
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="content">
+    <form action="{{#isEdit}}/artist/{{artist.id}}/edit{{/isEdit}}{{^isEdit}}/artist/new{{/isEdit}}" method="post"
+          class="form">
+        <input type="hidden" name="_method" value="{{#isEdit}}PUT{{/isEdit}}{{^isEdit}}POST{{/isEdit}}">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" name="name" id="name" value="{{#isEdit}}{{artist.name}}{{/isEdit}}" required>
+        </div>
+        <div class="form-group">
+            <label for="nickname">Apodo:</label>
+            <input type="text" name="nickname" id="nickname" value="{{#isEdit}}{{artist.nickname}}{{/isEdit}}" required>
+        </div>
+        <div class="form-group">
+            <label for="birthDate">Fecha de nacimiento:</label>
+            <input type="text" name="birthDate" id="birthDate" value="{{#isEdit}}{{artist.birthDate}}{{/isEdit}}" required>
+        </div>
+        <div class="btn-row">
+            <button type="submit" class="btn"> {{#isEdit}}Actualizar{{/isEdit}}{{^isEdit}}Crear{{/isEdit}}</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

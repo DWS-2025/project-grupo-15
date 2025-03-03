@@ -39,8 +39,8 @@ public class SampleDataService {
     @PostConstruct
     public void init() {
         // Create sample users
-        User Alex = new User("Alex", "ponisalvaje@gmail.com");
-        User Samu = new User("Samu", "sosacaustica@hotmail.com");
+        User alex = new User("Alex", "ponisalvaje@gmail.com");
+        User samu = new User("Samu", "sosacaustica@hotmail.com");
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
@@ -48,32 +48,53 @@ public class SampleDataService {
         Artist daVinchi = new Artist("Webonardo", "DePincho", "1500");
 
         // Create a sample picture
-        Picture MonaLisa = new Picture("Mona Picha", "1900");
-        MonaLisa.setImageFilename("monapicha.jpeg");
-        MonaLisa.setAuthor(unknown); // Set the artist for the picture
-        MonaLisa.getUserLikes().add(Alex); // Alex likes the picture
-        Alex.getLikedPictures().add(MonaLisa); // Add the picture to Alex's liked pictures
-        unknown.getPaintedPictures().add(MonaLisa); // Add the picture to the artist's paintings
+        Picture monaLisa = new Picture("Mona Picha", "1900");
+        monaLisa.setImageFilename("monapicha.jpeg");
+        monaLisa.setAuthor(unknown); // Set the artist for the picture
+        monaLisa.getUserLikes().add(alex); // Alex likes the picture
+        alex.getLikedPictures().add(monaLisa); // Add the picture to Alex's liked pictures
+        unknown.getPaintedPictures().add(monaLisa); // Add the picture to the artist's paintings
+
+        Picture marioConda = new Picture("MarioConda", "2000");
+        marioConda.setImageFilename("MarioConda.jpg");
+        marioConda.setAuthor(daVinci); // Set the artist for the picture
+        marioConda.getUserLikes().add(alex); // Alex likes the picture
+        alex.getLikedPictures().add(marioConda); // Add the picture to Alex's liked pictures
+        unknown.getPaintedPictures().add(marioConda); // Add the picture to the artist's paintings
 
         // Create sample comments
         Comment commentSample1 = new Comment("Amazing");
-        commentSample1.setAuthor(Alex); // Set the author of the comment
-        MonaLisa.getComments().add(commentSample1); // Add the comment to the picture
-        Alex.getComments().add(commentSample1); // Add the comment to Alex's list of comments
+        commentSample1.setAuthor(alex); // Set the author of the comment
+        monaLisa.getComments().add(commentSample1); // Add the comment to the picture
+        alex.getComments().add(commentSample1); // Add the comment to Alex's list of comments
         commentRepository.save(commentSample1); // Save the comment to the repository
 
         Comment commentSample2 = new Comment("Disgusting");
-        commentSample2.setAuthor(Samu); // Set the author of the second comment
-        MonaLisa.getComments().add(commentSample2); // Add the second comment to the picture
-        Samu.getComments().add(commentSample2); // Add the second comment to Samu's list of comments
+        commentSample2.setAuthor(samu); // Set the author of the second comment
+        monaLisa.getComments().add(commentSample2); // Add the second comment to the picture
+        samu.getComments().add(commentSample2); // Add the second comment to Samu's list of comments
         commentRepository.save(commentSample2); // Save the second comment to the repository
 
+        Comment commentSample3 = new Comment("Pretty");
+        commentSample3.setAuthor(alex);
+        marioConda.getComments().add(commentSample3);
+        alex.getComments().add(commentSample3);
+        commentRepository.save(commentSample3);
+
+        Comment commentSample4 = new Comment("Beautiful");
+        commentSample4.setAuthor(samu);
+        marioConda.getComments().add(commentSample4);
+        samu.getComments().add(commentSample4);
+        commentRepository.save(commentSample4);
+
         // Save all entities to the respective repositories
-        pictureRepository.save(MonaLisa);
-        userRepository.save(Samu);
-        userRepository.save(Alex);
+        pictureRepository.save(monaLisa);
+        pictureRepository.save(marioConda);
+        userRepository.save(samu);
+        userRepository.save(alex);
         artistRepository.save(unknown);
         artistRepository.save(daVinci);
         artistRepository.save(daVinchi);
+
     }
 }

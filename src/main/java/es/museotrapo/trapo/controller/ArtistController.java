@@ -39,7 +39,9 @@ public class ArtistController {
      */
     @GetMapping("/artist/new")
     public String newArtist(Model model) {
-        return "new_artist"; // Return the view for creating a new artist
+        model.addAttribute("artist", new Artist());
+        model.addAttribute("isEdit", false);
+        return "form_artist"; // Return the view for creating a new artist
     }
 
     /**
@@ -105,7 +107,8 @@ public class ArtistController {
         Optional<Artist> artist = artistService.findById(id);
         if (artist.isPresent()) {
             model.addAttribute("artist", artist.get());
-            return "edit_artist"; // If artist is found, show the edit form
+            model.addAttribute("isEdit",true);
+            return "form_artist"; // If artist is found, show the edit form
         } else {
             return "artist_not_found"; // If not found, show the not found page
         }

@@ -1,4 +1,3 @@
-/* Reset básico */
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +15,6 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
 header {
     width: 100%;
     padding: 20px 0;
@@ -34,7 +32,6 @@ header {
     text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.3);
 }
 
-/* Contenido principal */
 .content {
     width: 90%;
     max-width: 800px;
@@ -85,7 +82,6 @@ header {
     color: red;
 }
 
-/* Lista de artistas */
 .artist-list {
     display: flex;
     flex-wrap: wrap;
@@ -96,7 +92,6 @@ header {
     max-width: 900px;
 }
 
-/* Tarjetas de artistas */
 .artist-card {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -109,7 +104,6 @@ header {
     align-items: center;
 }
 
-/* Botón estilo vino para artistas */
 .btn-wine {
     background-color: #800020;
     color: white;
@@ -128,7 +122,6 @@ header {
     transform: scale(1.05);
 }
 
-/* Botones generales */
 .btn {
     padding: 14px 40px;
     background: rgba(255, 255, 255, 0.15);
@@ -157,7 +150,6 @@ header {
     background: red;
 }
 
-/* Asegura que los botones queden alineados en la misma línea */
 .btn-row {
     display: flex;
     gap: 20px;
@@ -166,7 +158,6 @@ header {
     margin-top: 20px;
 }
 
-/* Sección de comentarios */
 .comments-title {
     font-size: 30px;
     margin-top: 30px;
@@ -183,7 +174,6 @@ header {
     overflow: hidden;
 }
 
-/* Comentarios individuales */
 .comment {
     background: rgba(255, 255, 255, 0.15);
     padding: 10px;
@@ -206,14 +196,12 @@ header {
     flex-shrink: 0;
 }
 
-/* No hay comentarios */
 .no-comments {
     font-size: 18px;
     color: gray;
     font-style: italic;
 }
 
-/* Formulario para agregar comentarios */
 .add-comment-form {
     display: flex;
     flex-direction: column;
@@ -233,7 +221,6 @@ header {
     padding: 10px 30px;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
     .title {
         font-size: 40px;
@@ -263,7 +250,7 @@ header {
     max-width: 600px;
     width: 100%;
     margin: 40px auto;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .form-group label {
@@ -287,6 +274,7 @@ header {
     border-color: #e0c48c;
     outline: none;
 }
+
 .container {
     background: rgba(255, 255, 255, 0.1);
     padding: 40px;
@@ -309,7 +297,6 @@ header {
     margin-bottom: 30px;
 }
 
-/* Estilos personalizados para el select de artistas */
 .custom-select {
     width: 100%;
     padding: 10px 15px;
@@ -338,12 +325,12 @@ header {
     background-color: #000;
     color: white;
 }
-/* Estilos para la descripción del artista */
+
 .artist-description p {
     font-size: 1.2em;
     margin-bottom: 10px;
 }
-/* Estilos para la lista de cuadros */
+
 .picture-list {
     display: flex;
     flex-wrap: wrap;
@@ -351,14 +338,13 @@ header {
     justify-content: center;
 }
 
-/* Cada item de cuadro con botón centrado y altura fija */
 .picture-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 150px; /* Ajusta la altura según necesites */
+    height: 150px;
 }
-/* Estilos para las tarjetas de usuario en "Users and their data" */
+
 .user-card {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
