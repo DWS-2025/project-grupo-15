@@ -15,7 +15,7 @@
         <p><strong>Fecha de nacimiento:</strong> {{artist.birthDate}}</p>
     </div>
 
-    <h2>Cuadros pintados por {{artist.nickname}}</h2>
+    <h2 class="error-message">Cuadros pintados por {{artist.nickname}}</h2>
     <div class="picture-list">
         {{#artist.paintedPictures}}
         <p><a href="/picture/{{id}}" class="btn">{{name}}</a></p>
