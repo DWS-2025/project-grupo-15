@@ -58,9 +58,9 @@ public class SampleDataService {
         Picture marioConda = new Picture("MarioConda", "2000");
         marioConda.setImageFilename("MarioConda.jpg");
         marioConda.setAuthor(daVinci); // Set the artist for the picture
-        marioConda.getUserLikes().add(alex); // Alex likes the picture
-        alex.getLikedPictures().add(marioConda); // Add the picture to Alex's liked pictures
-        unknown.getPaintedPictures().add(marioConda); // Add the picture to the artist's paintings
+        marioConda.getUserLikes().add(samu); // Alex likes the picture
+        samu.getLikedPictures().add(marioConda); // Add the picture to Alex's liked pictures
+        daVinci.getPaintedPictures().add(marioConda); // Add the picture to the artist's paintings
 
         // Create sample comments
         Comment commentSample1 = new Comment("Amazing");
