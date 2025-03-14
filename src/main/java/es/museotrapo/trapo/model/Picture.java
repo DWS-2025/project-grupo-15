@@ -3,8 +3,16 @@ package es.museotrapo.trapo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Picture {
 
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     long id;
     private String name;
     private String imageFilename;
