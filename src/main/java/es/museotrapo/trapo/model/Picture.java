@@ -76,11 +76,11 @@ public class Picture {
         this.date = date;
     }
 
-    public Artist getartist() {
+    public Artist getArtist() {
         return artist;
     }
 
-    public void setartist(Artist artist) {
+    public void setArtist(Artist artist) {
         this.artist = artist;
     }
 

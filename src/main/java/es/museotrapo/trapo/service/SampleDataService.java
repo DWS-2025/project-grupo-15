@@ -50,14 +50,14 @@ public class SampleDataService {
         // Create a sample picture
         Picture monaLisa = new Picture("Mona Picha", "1900");
         monaLisa.setImageFilename("monapicha.jpeg");
-        monaLisa.setAuthor(unknown); // Set the artist for the picture
+        monaLisa.setArtist(unknown); // Set the artist for the picture
         monaLisa.getUserLikes().add(alex); // Alex likes the picture
         alex.getLikedPictures().add(monaLisa); // Add the picture to Alex's liked pictures
         unknown.getPaintedPictures().add(monaLisa); // Add the picture to the artist's paintings
 
         Picture marioConda = new Picture("MarioConda", "2000");
         marioConda.setImageFilename("MarioConda.jpg");
-        marioConda.setAuthor(daVinci); // Set the artist for the picture
+        marioConda.setArtist(daVinci); // Set the artist for the picture
         marioConda.getUserLikes().add(samu); // Alex likes the picture
         samu.getLikedPictures().add(marioConda); // Add the picture to Alex's liked pictures
         daVinci.getPaintedPictures().add(marioConda); // Add the picture to the artist's paintings
