@@ -51,6 +51,9 @@ public class ArtistService {
      * @param artist The artist to save.
      */
     public void save(Artist artist) {
+        if (artist.getBirthDate() == null || artist.getName() == null || artist.getNickname() == null) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios");
+        }
         artistRepository.save(artist);
     }
 
@@ -75,7 +78,6 @@ public class ArtistService {
      * @param artist The artist to delete.
      */
     public void delete(Artist artist) {
-        pictureRepository.deleteArtistInPicture(artist);
         artistRepository.deleteById(artist.getId());
     }
 

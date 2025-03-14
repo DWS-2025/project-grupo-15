@@ -53,9 +53,6 @@ public class ArtistController {
      */
     @PostMapping("/artist/new")
     public String newArtist(Model model, Artist artist) {
-        if (artist.getBirthDate() == null || artist.getName() == null || artist.getNickname() == null) {
-            throw new IllegalArgumentException("NO pueden haber campos vacios");
-        }
         artistService.save(artist); // Save the new artist using the artistService
         return "saved_artist"; // Return the view after saving the artist
     }
