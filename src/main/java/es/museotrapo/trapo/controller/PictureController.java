@@ -82,14 +82,7 @@ public class PictureController {
             @RequestParam MultipartFile imageFile, // Image file associated with the picture
             @RequestParam Long artistID) throws IOException { // ID of the artist
 
-        // Validate if all required fields are filled
-        if (picture.getDate() == null || picture.getName() == null || artistID == null) {
-            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
-        }
-
-        // Create and save the image, then associate it with the picture
-        picture.setImageFilename(imageService.createImage(imageFile)); // Save the image and set the filename
-        pictureService.save(picture, artistID); // Save the picture in the database
+        pictureService.save(picture, artistID, imageFile); // Save the picture in the database
         artistService.addPicture(artistID, picture); // Associate the picture with the artist
 
         model.addAttribute("picture", picture); // Add the saved picture to the model

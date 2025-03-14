@@ -7,7 +7,9 @@ import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,9 @@ public class PictureService {
 
     @Autowired
     private ArtistService artistService;
+
+    @Autowired
+    private ImageService imageService;
 
     /**
      * Retrieves all pictures stored in the repository.
@@ -51,9 +56,16 @@ public class PictureService {
      * @param picture  The picture to be saved.
      * @param artistId The ID of the artist who created the picture.
      */
-    public void save(Picture picture, Long artistId) {
-        picture.setAuthor(
-                artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
+    public void save(Picture picture, Long artistId, MultipartFile imageFile) throws IOException {
+        // Validate if all required fields are filled
+        if (picture.getDate() == null || picture.getName() == null || artistId == null) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
+        }
+
+        // Create and save the image, then associate it with the picture
+        picture.setImageFilename(imageService.createImage(imageFile)); // Save the image and set the filename
+
+        picture.setAuthor(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
         pictureRepository.save(picture);
     }
 
