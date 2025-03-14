@@ -15,14 +15,14 @@ public class UserService {
     private UserRepository userRepository;
 
     /**
-     * Returns the logged-in user for simplicity. This is a placeholder method.
+     * Returns the logged-in username for simplicity. This is a placeholder method.
      * In a real application, it should be replaced with actual authentication
      * logic.
      *
-     * @return User - The logged-in user
+     * @return User - The logged-in username
      */
     public User getLoggedUser() {
-        // For now, return the first user in the repository as the logged-in user
+        // For now, return the first username in the repository as the logged-in username
         return userRepository.findAll().get(0);
     }
 
@@ -36,40 +36,40 @@ public class UserService {
     }
 
     /**
-     * Allows a user to like or remove a like on a picture.
+     * Allows a username to like or remove a like on a picture.
      * If the picture is already liked, it removes the like. If not, it adds the
      * like.
      *
-     * @param userId  The ID of the user performing the action (though unused here)
+     * @param userId  The ID of the username performing the action (though unused here)
      * @param picture The picture to like or remove the like from
      */
     public void likeOrRemovePicture(Long userId, Picture picture) {
 
-        User user = getLoggedUser();// Get the logged-in user
+        User username = getLoggedUser();// Get the logged-in username
 
-        // Check if the user already likes the picture
-        if (user.getLikedPictures().contains(picture)) {
+        // Check if the username already likes the picture
+        if (username.getLikedPictures().contains(picture)) {
             // If liked, remove the like
-            user.getLikedPictures().remove(picture);
-            picture.getUserLikes().remove(user);
+            username.getLikedPictures().remove(picture);
+            picture.getUserLikes().remove(username);
         } else {
             // If not liked, add the like
-            user.getLikedPictures().add(picture);
-            picture.getUserLikes().add(user);
+            username.getLikedPictures().add(picture);
+            picture.getUserLikes().add(username);
         }
 
-        userRepository.save(user);// Save the updated user back to the repository
+        userRepository.save(username);// Save the updated username back to the repository
     }
 
     /**
-     * Checks if a picture is liked by the currently logged-in user.
+     * Checks if a picture is liked by the currently logged-in username.
      *
      * @param picture The picture to check for a like
      * @return boolean - Returns true if the picture is liked, false otherwise
      */
     public boolean isPictureLiked(Picture picture) {
 
-        User user = getLoggedUser();// Get the logged-in user
-        return user.getLikedPictures().contains(picture);// Return whether the picture is in the user's liked list
+        User username = getLoggedUser();// Get the logged-in username
+        return username.getLikedPictures().contains(picture);// Return whether the picture is in the username's liked list
     }
 }

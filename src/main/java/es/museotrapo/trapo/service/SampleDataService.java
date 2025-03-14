@@ -39,12 +39,13 @@ public class SampleDataService {
     @PostConstruct
     public void init() {
 
-        /*
+        
         // Create sample users
         User alex = new User("Alex", "ponisalvaje@gmail.com");
         User samu = new User("Samu", "sosacaustica@hotmail.com");
 
-        
+
+        /*
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
         Artist daVinci = new Artist("Leonardo", "DaPichi", "1400");

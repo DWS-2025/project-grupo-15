@@ -15,11 +15,11 @@ public class User {
     private String email;
 
     // Lists inside a User
-    @OneToMany(mappedBy = "message")
-    private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
-
     @ManyToMany (mappedBy = "userLikes")
     private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
+    
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     // Constructors
     public User() {
