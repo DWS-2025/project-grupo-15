@@ -3,11 +3,7 @@ package es.museotrapo.trapo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -19,7 +15,7 @@ public class User {
     private String email;
 
     // Lists inside a User
-    @ManyToMany (mappedBy = "comments")
+    @OneToMany(mappedBy = "message")
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     @ManyToMany (mappedBy = "userLikes")

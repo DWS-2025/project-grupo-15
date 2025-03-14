@@ -3,12 +3,7 @@ package es.museotrapo.trapo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Picture {
@@ -27,7 +22,7 @@ public class Picture {
     @ManyToMany
     private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
 
-    @ManyToMany
+    @OneToMany
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
     // Constructors
