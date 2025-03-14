@@ -12,7 +12,7 @@ public class Comment {
 
     private String message;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private User author;
 
     // Constructors

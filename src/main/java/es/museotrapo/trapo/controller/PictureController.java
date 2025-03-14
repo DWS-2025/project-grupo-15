@@ -36,15 +36,9 @@ public class PictureController {
     @Autowired
     private UserService userService; // Service to handle user-related functionality
 
-    @Autowired
-    private CommentService commentService; // Service to handle comment-related functionality
-
-    @Autowired
-    private ImageService imageService; // Service to handle image upload functionality
-
     /**
      * Handles the GET request to display all pictures
-     * 
+     *
      * @param model Model object to add attributes for the view
      * @return "pictures" view to render all pictures
      */
@@ -56,7 +50,7 @@ public class PictureController {
 
     /**
      * Handles the GET request to display the form to add a new picture
-     * 
+     *
      * @param model Model object to add available artists to the view
      * @return "new_picture" view to display the form
      */
@@ -68,7 +62,7 @@ public class PictureController {
 
     /**
      * Handles the POST request to submit a new picture
-     * 
+     *
      * @param model     Model object to add attributes for the view
      * @param picture   The picture object to be saved
      * @param imageFile The image file to be uploaded
@@ -89,7 +83,7 @@ public class PictureController {
 
     /**
      * Handles the GET request to display a single picture by its ID
-     * 
+     *
      * @param model Model object to add attributes for the view
      * @param id    The ID of the picture to be displayed
      * @return "show_picture" view to display the picture details, or
@@ -113,7 +107,7 @@ public class PictureController {
 
     /**
      * Handles the GET request to retrieve an image by its filename and display it
-     * 
+     *
      * @param ImageFilename The filename of the image to be retrieved
      * @return ResponseEntity with the image, or 404 if the image is not found
      * @throws MalformedURLException If the URL of the image is malformed
@@ -135,7 +129,7 @@ public class PictureController {
 
     /**
      * Handles the POST request to delete a picture by its ID
-     * 
+     *
      * @param id The ID of the picture to be deleted
      * @return "deleted_picture" view after the picture is deleted, or
      *         "picture_not_found" if not found
@@ -153,7 +147,7 @@ public class PictureController {
 
     /**
      * Handles the POST request to add a new comment to a picture
-     * 
+     *
      * @param picId   The ID of the picture to which the comment will be added
      * @param comment The comment to be added to the picture
      * @return Redirect to the picture's page after the comment is saved
@@ -162,8 +156,7 @@ public class PictureController {
     public String newComment(@PathVariable long picId, Comment comment) {
         Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
         if (picture.isPresent()) {
-            Picture picture1 = picture.get(); // Get the picture object
-            commentService.save(picture1, comment); // Save the new comment for the picture
+            pictureService.addComment(comment, picture.get());
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist
@@ -172,7 +165,7 @@ public class PictureController {
 
     /**
      * Handles the POST request to delete a comment from a picture
-     * 
+     *
      * @param picId     The ID of the picture from which the comment will be deleted
      * @param commentId The ID of the comment to be deleted
      * @return Redirect to the picture's page after the comment is deleted
@@ -181,8 +174,7 @@ public class PictureController {
     public String deleteComment(@PathVariable long picId, @PathVariable long commentId) {
         Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
         if (picture.isPresent()) {
-            Picture picture1 = picture.get(); // Get the picture object
-            commentService.delete(commentId, picture1); // Delete the comment from the picture
+            pictureService.removeComment(commentId, picture.get());
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist
@@ -191,17 +183,15 @@ public class PictureController {
 
     /**
      * Handles the POST request to toggle like/unlike for a picture
-     * 
+     *
      * @param picId  The ID of the picture to toggle like status
-     * @param userId The ID of the user performing the like/unlike action
      * @return Redirect to the picture's page after the like status is toggled
      */
     @PostMapping("/{picId}/likeToggle")
-    public String likePicture(@PathVariable Long picId, Long userId) {
+    public String likePicture(@PathVariable Long picId) {
         Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
         if (picture.isPresent()) {
-            Picture picture1 = picture.get(); // Get the picture object
-            userService.likeOrRemovePicture(userId, picture1); // Toggle the like status for the picture
+            pictureService.addUserLike(picture.get());
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture

@@ -18,7 +18,7 @@ public class User {
     @ManyToMany (mappedBy = "userLikes")
     private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
     
-    @OneToMany(mappedBy = "author")
+    @OneToMany (mappedBy = "author")
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     // Constructors

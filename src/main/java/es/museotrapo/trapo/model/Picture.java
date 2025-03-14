@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 public class Picture {
@@ -11,7 +12,9 @@ public class Picture {
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     long id;
+
     private String name;
+    @Lob
     private String imageFilename;
     private String date;
     
@@ -22,7 +25,7 @@ public class Picture {
     @ManyToMany
     private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
     // Constructors
@@ -106,5 +109,21 @@ public class Picture {
     @Override
     public String toString() {
         return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", artist=" + artist + "]";
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+    }
+
+    public void addLike(User like) {
+        this.userLikes.add(like);
+    }
+
+    public void removeLike(User like) {
+        this.userLikes.remove(like);
     }
 }

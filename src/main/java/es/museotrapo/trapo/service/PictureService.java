@@ -30,6 +30,8 @@ public class PictureService {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private UserService userService;
 
     /**
      * Retrieves all pictures stored in the repository.
@@ -91,4 +93,21 @@ public class PictureService {
         pictureRepository.deleteById(picture.getId());
     }
 
+    public void addComment(Comment comment, Picture picture) {
+        picture.getComments().add(comment);
+    }
+
+    public void removeComment(Long commentId, Picture picture) {
+        Optional<Comment> comment = commentService.findById(commentId);
+        if(comment.isPresent()) {
+            picture.getComments().remove(comment.get());
+        }
+    }
+
+    public void addUserLike(Picture picture) {
+        picture.getUserLikes().add(userService.getLoggedUser());
+    }
+    public void removeUserLike(Picture picture) {
+        picture.getUserLikes().remove(userService.getLoggedUser());
+    }
 }
