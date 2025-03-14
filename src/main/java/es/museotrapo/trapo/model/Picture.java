@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Picture {
@@ -17,10 +18,11 @@ public class Picture {
     private String name;
     private String imageFilename;
     private String date;
-    private Artist author;
+    
+    @ManyToOne
+    private Artist artist;
 
     // Lists inside of a picture
-    
     private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
@@ -34,11 +36,11 @@ public class Picture {
         this.date = date;
     }
 
-    public Picture(String name, String date, String imageFilename, Artist author) {
+    public Picture(String name, String date, String imageFilename, Artist artist) {
         this.name = name;
         this.imageFilename = imageFilename;
         this.date = date;
-        this.author = author;
+        this.artist = artist;
     }
 
     // Getters & Setters
@@ -74,12 +76,12 @@ public class Picture {
         this.date = date;
     }
 
-    public Artist getAuthor() {
-        return author;
+    public Artist getartist() {
+        return artist;
     }
 
-    public void setAuthor(Artist author) {
-        this.author = author;
+    public void setartist(Artist artist) {
+        this.artist = artist;
     }
 
     public List<User> getUserLikes() {
@@ -104,6 +106,6 @@ public class Picture {
 
     @Override
     public String toString() {
-        return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", author=" + author + "]";
+        return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", artist=" + artist + "]";
     }
 }

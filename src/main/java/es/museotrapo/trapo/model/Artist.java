@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -19,6 +20,8 @@ public class Artist {
     private String name;
     private String nickname;
     private String birthDate;
+    
+    @OneToMany (mappedBy = "artist")
     private List<Picture> paintedPictures = new ArrayList<>();
 
     // Constructors
