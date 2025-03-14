@@ -20,6 +20,7 @@ public class Picture {
     private Artist author;
 
     // Lists inside of a picture
+    
     private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
