@@ -65,22 +65,8 @@ public class PictureService {
         // Create and save the image, then associate it with the picture
         picture.setImageFilename(imageService.createImage(imageFile)); // Save the image and set the filename
 
-        picture.setAuthor(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
+        picture.setArtist(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
         pictureRepository.save(picture);
-    }
-
-    /**
-     * Updates an existing picture's metadata.
-     *
-     * @param oldPicture The existing picture to be updated.
-     * @param picture    The updated picture details.
-     */
-    public void update(Picture oldPicture, Picture picture) {
-        oldPicture.setId(picture.getId());
-        oldPicture.setDate(picture.getDate());
-        oldPicture.setAuthor(oldPicture.getAuthor()); // No change in author
-        oldPicture.setImageFilename(oldPicture.getImageFilename()); // No change in image filename
-        pictureRepository.save(oldPicture);
     }
 
     /**
@@ -101,20 +87,8 @@ public class PictureService {
             commentService.delete(list.get(i).getId(), picture);
         }
 
-        artistService.deletePicture(picture.getId(), picture);// Remove the picture from the artist's painted pictures
-        // list
-
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());
     }
 
-    /**
-     * Removes the reference to an artist from all pictures they were associated
-     * with.
-     *
-     * @param artist The artist whose reference should be removed from pictures.
-     */
-    public void deleteArtistInPicture(Artist artist) {
-        pictureRepository.deleteArtistInPicture(artist);
-    }
 }

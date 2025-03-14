@@ -22,9 +22,6 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
-    // Injecting PictureRepository to manage pictures related to artists.
-    @Autowired
-    private PictureRepository pictureRepository;
 
     /**
      * Retrieves all artists stored in the repository.
@@ -79,25 +76,5 @@ public class ArtistService {
      */
     public void delete(Artist artist) {
         artistRepository.deleteById(artist.getId());
-    }
-
-    /**
-     * Adds a picture to an artist's collection.
-     *
-     * @param id      The ID of the artist.
-     * @param picture The picture to add.
-     */
-    public void addPicture(Long id, Picture picture) {
-        artistRepository.addPicture(picture, id);
-    }
-
-    /**
-     * Removes a picture from an artist's collection.
-     *
-     * @param id      The ID of the artist.
-     * @param picture The picture to remove.
-     */
-    public void deletePicture(Long id, Picture picture) {
-        artistRepository.deletePicture(picture, id);
     }
 }

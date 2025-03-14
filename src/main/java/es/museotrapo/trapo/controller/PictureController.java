@@ -83,8 +83,6 @@ public class PictureController {
             @RequestParam Long artistID) throws IOException { // ID of the artist
 
         pictureService.save(picture, artistID, imageFile); // Save the picture in the database
-        artistService.addPicture(artistID, picture); // Associate the picture with the artist
-
         model.addAttribute("picture", picture); // Add the saved picture to the model
         return "saved_picture"; // Redirect to "saved_picture" view after saving
     }
