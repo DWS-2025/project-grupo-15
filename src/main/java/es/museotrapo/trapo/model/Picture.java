@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -23,7 +24,10 @@ public class Picture {
     private Artist artist;
 
     // Lists inside of a picture
+    @ManyToMany
     private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
+
+    @ManyToMany
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
 
     // Constructors
@@ -76,11 +80,11 @@ public class Picture {
         this.date = date;
     }
 
-    public Artist getartist() {
+    public Artist getArtist() {
         return artist;
     }
 
-    public void setartist(Artist artist) {
+    public void setArtist(Artist artist) {
         this.artist = artist;
     }
 

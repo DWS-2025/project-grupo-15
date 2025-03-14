@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -18,7 +19,10 @@ public class User {
     private String email;
 
     // Lists inside a User
+    @ManyToMany (mappedBy = "comments")
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
+
+    @ManyToMany (mappedBy = "userLikes")
     private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
 
     // Constructors
