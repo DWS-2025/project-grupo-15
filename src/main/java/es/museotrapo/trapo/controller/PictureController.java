@@ -4,10 +4,9 @@ import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.service.*;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Controller
@@ -34,7 +34,7 @@ public class PictureController {
     private ArtistService artistService; // Service to handle artist-related functionality
 
     @Autowired
-    private UserService userService; // Service to handle user-related functionality
+    private UsernameService usernameService; // Service to handle user-related functionality
 
     /**
      * Handles the GET request to display all pictures
@@ -94,10 +94,10 @@ public class PictureController {
         Optional<Picture> picture = pictureService.findById(id); // Fetch the picture by ID
         if (picture.isPresent()) {
             model.addAttribute("picture", picture.get()); // Add the picture to the model
-            String likedPicture = userService.isPictureLiked(picture.get()) ? "Dislike" : "Like"; // Check if the picture
+            String likedPicture = usernameService.isPictureLiked(picture.get()) ? "Dislike" : "Like"; // Check if the picture
                                                                                                  // is liked by the user
             model.addAttribute("likedPicture", likedPicture); // Add like status to the model
-            model.addAttribute("imagePath", "/picture/" + picture.get().getImageFilename()); // Add image path to the
+            model.addAttribute("picture", picture.get()); // Add image path to the
                                                                                              // model
             return "show_picture"; // Return the "show_picture" view to display the picture details
         } else {
@@ -108,22 +108,23 @@ public class PictureController {
     /**
      * Handles the GET request to retrieve an image by its filename and display it
      *
-     * @param ImageFilename The filename of the image to be retrieved
      * @return ResponseEntity with the image, or 404 if the image is not found
-     * @throws MalformedURLException If the URL of the image is malformed
      */
-    @GetMapping("/image/{ImageFilename}")
-    public ResponseEntity<Resource> getImage(@PathVariable String ImageFilename) throws MalformedURLException {
-        Path imagePath = PICTURE_PATH.resolve(ImageFilename); // Resolve the path of the image file
-        Resource image = new UrlResource(imagePath.toUri()); // Load the image resource from the path
+    @GetMapping("/{id}/{ImageFile}")
+    public ResponseEntity<Resource> getImage(@PathVariable long id) throws SQLException {
+
+        Optional<Picture> picture = pictureService.findById(id);
 
         // Check if the image exists and is readable
-        if (image.exists() && image.isReadable()) {
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
-                    .body(image); // Return the image in the response
+        if (picture.isPresent() && picture.get().getImageFile() != null) {
+
+            Blob image = picture.get().getImageFile();
+            Resource file = new InputStreamResource(image.getBinaryStream());
+
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
+                    .contentLength(image.length()).body(file); // Return the image in the response
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 if image is not found
+            return ResponseEntity.notFound().build(); // Return 404 if image is not found
         }
     }
 

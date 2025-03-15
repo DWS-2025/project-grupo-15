@@ -6,26 +6,27 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
-public class User {
+public class Username {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = 0L;
+
     private String name;
     private String email;
 
     // Lists inside a User
-    @ManyToMany (mappedBy = "userLikes")
+    @ManyToMany (mappedBy = "usernameLikes")
     private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
     
-    @OneToMany (mappedBy = "author")
+    @OneToMany (mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     // Constructors
-    public User() {
+    public Username() {
     }
 
-    public User(String name, String email) {
+    public Username(String name, String email) {
         this.name = name;
         this.email = email;
     }

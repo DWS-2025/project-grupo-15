@@ -3,12 +3,13 @@ package es.museotrapo.trapo.service;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.User;
+import es.museotrapo.trapo.model.Username;
 import es.museotrapo.trapo.repository.ArtistRepository;
 import es.museotrapo.trapo.repository.CommentRepository;
 import es.museotrapo.trapo.repository.PictureRepository;
-import es.museotrapo.trapo.repository.UserRepository;
+import es.museotrapo.trapo.repository.UsernameRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class SampleDataService {
     private PictureRepository pictureRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsernameRepository usernameRepository;
 
     @Autowired
     private ArtistRepository artistRepository;
@@ -39,16 +40,10 @@ public class SampleDataService {
     @PostConstruct
     public void init() {
 
-/*
+
         // Create sample users
-        User alex = new User("Alex", "ponisalvaje@gmail.com");
-        User samu = new User("Samu", "sosacaustica@hotmail.com");
-
-        userRepository.save(alex);
-        userRepository.save(samu);
-
-
- */
+        Username alex = usernameRepository.save(new Username("Alex", "ponisalvaje@gmail.com"));
+        Username samu = usernameRepository.save(new Username("Samu", "sosacaustica@hotmail.com"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
@@ -63,8 +58,16 @@ public class SampleDataService {
         Picture monaLisa = new Picture("Mona Picha", "1900");
         Picture marioConda = new Picture("MarioConda", "2000");
 
+        /*
+        monaLisa.setImageFilename("monapicha.jpeg");
+        marioConda.setImageFilename("MarioConda.jpg");
+         */
+
         monaLisa.setArtist(daVinci);
         marioConda.setArtist(daVinchi);
+
+        monaLisa.getUserLikes().add(alex);
+        marioConda.getUserLikes().add(samu);
 
         // Create sample comments
         Comment commentSample1 = new Comment("Amazing");
@@ -72,10 +75,15 @@ public class SampleDataService {
         Comment commentSample3 = new Comment("Pretty");
         Comment commentSample4 = new Comment("Beautiful");
 
-        monaLisa.addComment(commentSample1);
-        monaLisa.addComment(commentSample2);
-        marioConda.addComment(commentSample3);
-        marioConda.addComment(commentSample4);
+        commentSample1.setAuthor(samu);
+        commentSample2.setAuthor(alex);
+        commentSample3.setAuthor(alex);
+        commentSample4.setAuthor(samu);
+
+        monaLisa.getComments().add(commentSample1);
+        monaLisa.getComments().add(commentSample2);
+        marioConda.getComments().add(commentSample3);
+        marioConda.getComments().add(commentSample4);
 
         pictureRepository.save(monaLisa);
         pictureRepository.save(marioConda);

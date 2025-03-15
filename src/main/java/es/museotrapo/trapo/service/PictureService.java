@@ -1,10 +1,10 @@
 package es.museotrapo.trapo.service;
 
-import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.User;
+import es.museotrapo.trapo.model.Username;
 import es.museotrapo.trapo.repository.PictureRepository;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +31,7 @@ public class PictureService {
     @Autowired
     private ImageService imageService;
     @Autowired
-    private UserService userService;
+    private UsernameService usernameService;
 
     /**
      * Retrieves all pictures stored in the repository.
@@ -60,12 +60,12 @@ public class PictureService {
      */
     public void save(Picture picture, Long artistId, MultipartFile imageFile) throws IOException {
         // Validate if all required fields are filled
-        if (picture.getDate() == null || picture.getName() == null || artistId == null) {
+        if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
         }
 
         // Create and save the image, then associate it with the picture
-        picture.setImageFilename(imageService.createImage(imageFile)); // Save the image and set the filename
+        picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
 
         picture.setArtist(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
         pictureRepository.save(picture);
@@ -78,8 +78,8 @@ public class PictureService {
      */
     public void delete(Picture picture) {
         // Remove the picture from all users' liked lists
-        for (User user : picture.getUserLikes()) {
-            user.getLikedPictures().remove(picture);
+        for (Username username : picture.getUserLikes()) {
+            username.getLikedPictures().remove(picture);
         }
         picture.getUserLikes().clear();
 
@@ -105,9 +105,9 @@ public class PictureService {
     }
 
     public void addUserLike(Picture picture) {
-        picture.getUserLikes().add(userService.getLoggedUser());
+        picture.getUserLikes().add(usernameService.getLoggedUser());
     }
     public void removeUserLike(Picture picture) {
-        picture.getUserLikes().remove(userService.getLoggedUser());
+        picture.getUserLikes().remove(usernameService.getLoggedUser());
     }
 }

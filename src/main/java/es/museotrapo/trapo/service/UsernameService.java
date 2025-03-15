@@ -1,18 +1,18 @@
 package es.museotrapo.trapo.service;
 
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.User;
-import es.museotrapo.trapo.repository.UserRepository;
+import es.museotrapo.trapo.model.Username;
+import es.museotrapo.trapo.repository.UsernameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UsernameService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UsernameRepository usernameRepository;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -21,9 +21,9 @@ public class UserService {
      *
      * @return User - The logged-in username
      */
-    public User getLoggedUser() {
+    public Username getLoggedUser() {
         // For now, return the first username in the repository as the logged-in username
-        return userRepository.findAll().get(0);
+        return usernameRepository.findAll().get(0);
     }
 
     /**
@@ -31,8 +31,8 @@ public class UserService {
      *
      * @return List<User> - A list of all users
      */
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<Username> findAll() {
+        return usernameRepository.findAll();
     }
 
     /**
@@ -45,7 +45,7 @@ public class UserService {
      */
     public void likeOrRemovePicture(Long userId, Picture picture) {
 
-        User username = getLoggedUser();// Get the logged-in username
+        Username username = getLoggedUser();// Get the logged-in username
 
         // Check if the username already likes the picture
         if (username.getLikedPictures().contains(picture)) {
@@ -58,7 +58,7 @@ public class UserService {
             picture.getUserLikes().add(username);
         }
 
-        userRepository.save(username);// Save the updated username back to the repository
+        usernameRepository.save(username);// Save the updated username back to the repository
     }
 
     /**
@@ -69,7 +69,8 @@ public class UserService {
      */
     public boolean isPictureLiked(Picture picture) {
 
-        User username = getLoggedUser();// Get the logged-in username
+        Username username = getLoggedUser();// Get the logged-in username
         return username.getLikedPictures().contains(picture);// Return whether the picture is in the username's liked list
     }
+
 }

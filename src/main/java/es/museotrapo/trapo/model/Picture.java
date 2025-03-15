@@ -1,10 +1,11 @@
 package es.museotrapo.trapo.model;
 
+import java.lang.reflect.Member;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-import org.hibernate.engine.internal.Cascade;
 
 @Entity
 public class Picture {
@@ -14,16 +15,17 @@ public class Picture {
     long id;
 
     private String name;
-    @Lob
-    private String imageFilename;
     private String date;
+
+    @Lob
+    private Blob imageFile;
     
     @ManyToOne
     private Artist artist;
 
     // Lists inside of a picture
-    @ManyToMany
-    private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private List<Username> usernameLikes = new ArrayList<>(); // Users wich give like to the picture
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
@@ -38,9 +40,9 @@ public class Picture {
         this.date = date;
     }
 
-    public Picture(String name, String date, String imageFilename, Artist artist) {
+    public Picture(String name, String date, Blob imageFile, Artist artist) {
         this.name = name;
-        this.imageFilename = imageFilename;
+        this.imageFile = imageFile;
         this.date = date;
         this.artist = artist;
     }
@@ -62,12 +64,12 @@ public class Picture {
         this.name = name;
     }
 
-    public String getImageFilename() {
-        return imageFilename;
+    public Blob getImageFile() {
+        return imageFile;
     }
 
-    public void setImageFilename(String imageFilename) {
-        this.imageFilename = imageFilename;
+    public void setImageFile(Blob imageFile) {
+        this.imageFile = imageFile;
     }
 
     public String getDate() {
@@ -86,16 +88,16 @@ public class Picture {
         this.artist = artist;
     }
 
-    public List<User> getUserLikes() {
-        return userLikes;
+    public List<Username> getUserLikes() {
+        return usernameLikes;
     }
 
-    public void setUserLikes(List<User> userLikes) {
-        this.userLikes = userLikes;
+    public void setUserLikes(List<Username> usernameLikes) {
+        this.usernameLikes = usernameLikes;
     }
 
     public long getNumLikes() {
-        return userLikes.size(); // Number of likes of the picture
+        return usernameLikes.size(); // Number of likes of the picture
     }
 
     public List<Comment> getComments() {
@@ -109,21 +111,5 @@ public class Picture {
     @Override
     public String toString() {
         return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", artist=" + artist + "]";
-    }
-
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
-    public void removeComment(Comment comment) {
-        this.comments.remove(comment);
-    }
-
-    public void addLike(User like) {
-        this.userLikes.add(like);
-    }
-
-    public void removeLike(User like) {
-        this.userLikes.remove(like);
     }
 }
