@@ -23,11 +23,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/picture") // Maps the controller to "/picture" endpoint
 public class PictureController {
-
+/*
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("imageFile");
     }
+
+ */
 
     @Autowired
     private PictureService pictureService; // Service to handle picture-related functionality
@@ -67,7 +69,7 @@ public class PictureController {
      *
      * @param model     Model object to add attributes for the view
      * @param picture   The picture object to be saved
-     * @param imageFile The image file to be uploaded
+     * @param imageFileFull The image file to be uploaded
      * @param artistID  The ID of the artist associated with the picture
      * @return "saved_picture" view to show the saved picture
      * @throws IOException If an error occurs while handling the image file
@@ -75,11 +77,9 @@ public class PictureController {
     @PostMapping("/new")
     public String newPicture(Model model,
             Picture picture, // The picture object to be saved
-            @RequestParam MultipartFile imageFile, // Image file associated with the picture
+            @RequestParam MultipartFile imageFileFull, // Image file associated with the picture
             @RequestParam Long artistID) throws IOException { // ID of the artist
-        System.out.println("BIEN ANTES DE GUARDAR");
-        pictureService.save(picture, artistID, imageFile); // Save the picture in the database
-        System.out.println("BIEN DESPUES DE GUARDAR");
+        pictureService.save(picture, artistID, imageFileFull); // Save the picture in the database
         model.addAttribute("picture", picture); // Add the saved picture to the model
         return "saved_picture"; // Redirect to "saved_picture" view after saving
     }

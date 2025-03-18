@@ -27,9 +27,6 @@ public class PictureService {
 
     @Autowired
     private ArtistService artistService;
-
-    @Autowired
-    private ImageService imageService;
     @Autowired
     private UsernameService usernameService;
 
@@ -63,10 +60,8 @@ public class PictureService {
         if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
         }
-        System.out.println("BIEN ANTES DE ESTABLECER LA IMAGEN");
         // Create and save the image, then associate it with the picture
         picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        System.out.println("BIEN DESPUES DE ESTABLECER LA IMAGEN");
         picture.setArtist(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
         pictureRepository.save(picture);
     }
@@ -94,14 +89,16 @@ public class PictureService {
     }
 
     public void addComment(Comment comment, Picture picture) {
+        comment.setAuthor(usernameService.getLoggedUser());
         picture.getComments().add(comment);
+        pictureRepository.save(picture);
     }
 
     public void removeComment(Long commentId, Picture picture) {
         Optional<Comment> comment = commentService.findById(commentId);
         if(comment.isPresent()) {
             picture.getComments().remove(comment.get());
-            //commentService.delete(commentId, picture);
+            commentService.delete(commentId, picture);
         }
     }
 }
