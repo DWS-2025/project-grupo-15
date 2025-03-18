@@ -1,6 +1,5 @@
 package es.museotrapo.trapo.model;
 
-import java.lang.reflect.Member;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class Picture {
 
     // Lists inside of a picture
     @ManyToMany(cascade = CascadeType.MERGE)
-    private List<Username> usernameLikes = new ArrayList<>(); // Users wich give like to the picture
+    private List<User> userLikes = new ArrayList<>(); // Users wich give like to the picture
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>(); // Comments in the picture
@@ -88,16 +87,16 @@ public class Picture {
         this.artist = artist;
     }
 
-    public List<Username> getUserLikes() {
-        return usernameLikes;
+    public List<User> getUserLikes() {
+        return userLikes;
     }
 
-    public void setUserLikes(List<Username> usernameLikes) {
-        this.usernameLikes = usernameLikes;
+    public void setUserLikes(List<User> userLikes) {
+        this.userLikes = userLikes;
     }
 
     public long getNumLikes() {
-        return usernameLikes.size(); // Number of likes of the picture
+        return userLikes.size(); // Number of likes of the picture
     }
 
     public List<Comment> getComments() {

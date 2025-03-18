@@ -6,7 +6,8 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
-public class Username {
+@Table(name = "USERTABLE")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,17 +17,17 @@ public class Username {
     private String email;
 
     // Lists inside a User
-    @ManyToMany (mappedBy = "usernameLikes")
+    @ManyToMany (mappedBy = "userLikes")
     private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
     
     @OneToMany (mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     // Constructors
-    public Username() {
+    public User() {
     }
 
-    public Username(String name, String email) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }

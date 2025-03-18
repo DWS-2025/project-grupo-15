@@ -1,6 +1,5 @@
 package es.museotrapo.trapo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -14,7 +13,7 @@ public class Comment {
     private String message;
 
     @ManyToOne
-    private Username author;
+    private User author;
 
     // Constructors
     protected Comment() {
@@ -41,11 +40,11 @@ public class Comment {
         this.message = message;
     }
 
-    public Username getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(Username author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

@@ -2,7 +2,7 @@ package es.museotrapo.trapo.service;
 
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.Username;
+import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,9 +45,9 @@ public class CommentService {
      */
     public void save(Picture picture, Comment comment) {
         picture.getComments().add(comment);// Add the comment to the picture's comment list
-        Username currentUsername = usernameService.getLoggedUser(); // Retrieve the currently logged-in user
-        comment.setAuthor(currentUsername);// Set the comment's author as the logged-in user
-        currentUsername.getComments().add(comment);// Add the comment to the user's list of comments
+        User currentUser = usernameService.getLoggedUser(); // Retrieve the currently logged-in user
+        comment.setAuthor(currentUser);// Set the comment's author as the logged-in user
+        currentUser.getComments().add(comment);// Add the comment to the user's list of comments
         commentRepository.save(comment);// Save the comment in the repository
     }
 
@@ -63,7 +63,7 @@ public class CommentService {
         if (commentRepository.findById(commentId).isPresent()) {
             Comment comment = this.findById(commentId).get();// Retrieve the comment from the repository
             picture.getComments().remove(comment);// Remove the comment from the picture's comment list
-            Username author = comment.getAuthor();// Remove the comment from the author's list of comments
+            User author = comment.getAuthor();// Remove the comment from the author's list of comments
             author.getComments().remove(comment);
             commentRepository.delete(comment);// Delete the comment from the repository
         }

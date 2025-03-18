@@ -3,13 +3,11 @@ package es.museotrapo.trapo.service;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
-import es.museotrapo.trapo.model.Username;
+import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.ArtistRepository;
-import es.museotrapo.trapo.repository.CommentRepository;
 import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UsernameRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class SampleDataService {
 
     @Autowired
-    private CommentRepository commentRepository;
+    private ImageService imageService;
 
     @Autowired
     private PictureRepository pictureRepository;
@@ -40,10 +38,9 @@ public class SampleDataService {
     @PostConstruct
     public void init() {
 
-
         // Create sample users
-        Username alex = usernameRepository.save(new Username("Alex", "ponisalvaje@gmail.com"));
-        Username samu = usernameRepository.save(new Username("Samu", "sosacaustica@hotmail.com"));
+        User alex = usernameRepository.save(new User("Alex", "ponisalvaje@gmail.com"));
+        User samu = usernameRepository.save(new User("Samu", "sosacaustica@hotmail.com"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
@@ -58,10 +55,8 @@ public class SampleDataService {
         Picture monaLisa = new Picture("Mona Picha", "1900");
         Picture marioConda = new Picture("MarioConda", "2000");
 
-        /*
-        monaLisa.setImageFilename("monapicha.jpeg");
-        marioConda.setImageFilename("MarioConda.jpg");
-         */
+        monaLisa.setImageFile(imageService.localImageToBlob("pictures/monapicha.jpeg"));
+        marioConda.setImageFile(imageService.localImageToBlob("pictures/MarioConda.jpg"));
 
         monaLisa.setArtist(daVinci);
         marioConda.setArtist(daVinchi);

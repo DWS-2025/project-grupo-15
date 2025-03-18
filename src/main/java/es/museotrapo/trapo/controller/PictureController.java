@@ -11,12 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -25,7 +24,10 @@ import java.util.Optional;
 @RequestMapping("/picture") // Maps the controller to "/picture" endpoint
 public class PictureController {
 
-    private static final Path PICTURE_PATH = Paths.get(System.getProperty("user.dir"), "pictures");
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setDisallowedFields("imageFile");
+    }
 
     @Autowired
     private PictureService pictureService; // Service to handle picture-related functionality
@@ -75,8 +77,9 @@ public class PictureController {
             Picture picture, // The picture object to be saved
             @RequestParam MultipartFile imageFile, // Image file associated with the picture
             @RequestParam Long artistID) throws IOException { // ID of the artist
-
+        System.out.println("BIEN ANTES DE GUARDAR");
         pictureService.save(picture, artistID, imageFile); // Save the picture in the database
+        System.out.println("BIEN DESPUES DE GUARDAR");
         model.addAttribute("picture", picture); // Add the saved picture to the model
         return "saved_picture"; // Redirect to "saved_picture" view after saving
     }
@@ -192,7 +195,7 @@ public class PictureController {
     public String likePicture(@PathVariable Long picId) {
         Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
         if (picture.isPresent()) {
-            pictureService.addUserLike(picture.get());
+            usernameService.likeOrRemovePicture(picture.get());
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture
