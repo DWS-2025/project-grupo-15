@@ -1,5 +1,7 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.dto.PictureDTO;
+import es.museotrapo.trapo.dto.PictureMapper;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +30,20 @@ public class PictureService {
 
     @Autowired
     private ArtistService artistService;
+
     @Autowired
     private UsernameService usernameService;
+
+    @Autowired
+    private PictureMapper pictureMapper;
 
     /**
      * Retrieves all pictures stored in the repository.
      *
      * @return List of all pictures.
      */
-    public List<Picture> findAll() {
-        return pictureRepository.findAll();
+    public Collection<PictureDTO> findAll() {
+        return pictureMapper.toPictureDTOs(pictureRepository.findAll());
     }
 
     /**
@@ -45,8 +52,8 @@ public class PictureService {
      * @param id The ID of the picture.
      * @return An Optional containing the picture if found.
      */
-    public Optional<Picture> findById(long id) {
-        return pictureRepository.findById(id);
+    public Optional<PictureDTO> findById(long id) {
+        pictureMapper.toPictureDTO(pictureRepository.findById(id));
     }
 
     /**

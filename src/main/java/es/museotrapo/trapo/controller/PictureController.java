@@ -23,13 +23,6 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/picture") // Maps the controller to "/picture" endpoint
 public class PictureController {
-/*
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("imageFile");
-    }
-
- */
 
     @Autowired
     private PictureService pictureService; // Service to handle picture-related functionality
