@@ -16,6 +16,8 @@ public class Picture {
     private String name;
     private String date;
 
+    private String image;
+
     @Lob
     private Blob imageFile;
     
@@ -53,6 +55,14 @@ public class Picture {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
