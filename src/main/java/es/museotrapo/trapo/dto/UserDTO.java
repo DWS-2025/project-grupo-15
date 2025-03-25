@@ -1,4 +1,7 @@
 package es.museotrapo.trapo.dto;
 
-public class UserDTO {
+public record UserDTO (
+        Long id,
+        String name,
+        String email) {
 }

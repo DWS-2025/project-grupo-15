@@ -1,4 +1,9 @@
 package es.museotrapo.trapo.dto;
 
-public class ArtistDTO {
+public record ArtistDTO (
+        Long id,
+        String name, 
+        String nickname, 
+        String birthDate) {
 }
+   
