@@ -1,7 +1,6 @@
 package es.museotrapo.trapo.dto;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import es.museotrapo.trapo.model.Comment;
 
 import java.util.Collection;
@@ -12,4 +11,6 @@ public interface CommentMapper {
     CommentDTO toDTO(Comment comment);
 
     List<CommentDTO> toDTOs(Collection<Comment> comments);
+
+    Comment toDomain(CommentDTO commentDTO);
 }
