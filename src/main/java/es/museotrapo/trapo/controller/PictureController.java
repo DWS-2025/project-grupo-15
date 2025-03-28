@@ -1,5 +1,7 @@
 package es.museotrapo.trapo.controller;
 
+import es.museotrapo.trapo.dto.CommentDTO;
+import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.service.*;
@@ -41,7 +43,7 @@ public class PictureController {
      */
     @GetMapping("")
     public String getPictures(Model model) {
-        model.addAttribute("pictures", pictureService.findAll()); // Add all pictures to the model
+        model.addAttribute("pictures", pictureService.getPictures()); // Add all pictures to the model
         return "pictures"; // Return the "pictures" view to render the pictures
     }
 
@@ -53,27 +55,17 @@ public class PictureController {
      */
     @GetMapping("/new")
     public String newPicture(Model model) {
-        model.addAttribute("availableArtists", artistService.findAll()); // Add available artists to the model
+        model.addAttribute("availableArtists", artistService.getArtists()); // Add available artists to the model
         return "new_picture"; // Return the "new_picture" view to display the form
     }
 
-    /**
-     * Handles the POST request to submit a new picture
-     *
-     * @param model     Model object to add attributes for the view
-     * @param picture   The picture object to be saved
-     * @param imageFileFull The image file to be uploaded
-     * @param artistID  The ID of the artist associated with the picture
-     * @return "saved_picture" view to show the saved picture
-     * @throws IOException If an error occurs while handling the image file
-     */
     @PostMapping("/new")
     public String newPicture(Model model,
-            Picture picture, // The picture object to be saved
-            @RequestParam MultipartFile imageFileFull, // Image file associated with the picture
-            @RequestParam Long artistID) throws IOException { // ID of the artist
-        pictureService.save(picture, artistID, imageFileFull); // Save the picture in the database
-        model.addAttribute("picture", picture); // Add the saved picture to the model
+                             PictureDTO pictureDTO, // The picture object to be saved
+                             @RequestParam MultipartFile imageFileFull, // Image file associated with the picture
+                             @RequestParam Long artistID) throws IOException { // ID of the artist
+        pictureService.createPicture(pictureDTO, artistID, imageFileFull); // Save the picture in the database
+        model.addAttribute("picture", pictureDTO); // Add the saved picture to the model
         return "saved_picture"; // Redirect to "saved_picture" view after saving
     }
 
@@ -87,13 +79,13 @@ public class PictureController {
      */
     @GetMapping("/{id}")
     public String getPicture(Model model, @PathVariable long id) {
-        Optional<Picture> picture = pictureService.findById(id); // Fetch the picture by ID
-        if (picture.isPresent()) {
-            model.addAttribute("picture", picture.get()); // Add the picture to the model
-            String likedPicture = usernameService.isPictureLiked(picture.get()) ? "Dislike" : "Like"; // Check if the picture
+        PictureDTO picture = pictureService.getPicture(id); // Fetch the picture by ID
+        if (picture != null) {
+            model.addAttribute("picture", picture); // Add the picture to the model
+            String likedPicture = usernameService.isPictureLiked(picture) ? "Dislike" : "Like"; // Check if the picture
                                                                                                  // is liked by the user
             model.addAttribute("likedPicture", likedPicture); // Add like status to the model
-            model.addAttribute("picture", picture.get()); // Add image path to the
+            model.addAttribute("picture", picture); // Add image path to the
                                                                                              // model
             return "show_picture"; // Return the "show_picture" view to display the picture details
         } else {
@@ -109,19 +101,11 @@ public class PictureController {
     @GetMapping("/{id}/{ImageFile}")
     public ResponseEntity<Resource> getImage(@PathVariable long id) throws SQLException {
 
-        Optional<Picture> picture = pictureService.findById(id);
-
+        Resource image = pictureService.getPictureImage(id);
         // Check if the image exists and is readable
-        if (picture.isPresent() && picture.get().getImageFile() != null) {
-
-            Blob image = picture.get().getImageFile();
-            Resource file = new InputStreamResource(image.getBinaryStream());
-
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
-                    .contentLength(image.length()).body(file); // Return the image in the response
-        } else {
-            return ResponseEntity.notFound().build(); // Return 404 if image is not found
-        }
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
+                    .body(image); // Return the image in the response
     }
 
     /**
@@ -133,9 +117,9 @@ public class PictureController {
      */
     @PostMapping("/{id}/delete")
     public String deletePicture(@PathVariable long id) {
-        Optional<Picture> picture = pictureService.findById(id); // Retrieve the picture by ID
-        if (picture.isPresent()) {
-            pictureService.delete(picture.get()); // Delete the picture from the database
+        PictureDTO picture = pictureService.getPicture(id); // Retrieve the picture by ID
+        if (picture != null) {
+            pictureService.deletePicture(picture); // Delete the picture from the database
             return "deleted_picture"; // Redirect to the "deleted_picture" view after deletion
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if picture does not exist
@@ -146,14 +130,13 @@ public class PictureController {
      * Handles the POST request to add a new comment to a picture
      *
      * @param picId   The ID of the picture to which the comment will be added
-     * @param comment The comment to be added to the picture
      * @return Redirect to the picture's page after the comment is saved
      */
     @PostMapping("/{picId}/comments/new")
-    public String newComment(@PathVariable long picId, Comment comment) {
-        Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
-        if (picture.isPresent()) {
-            pictureService.addComment(comment, picture.get());
+    public String newComment(@PathVariable long picId, CommentDTO commentDTO) {
+        PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
+        if (picture != null) {
+            pictureService.addComment(commentDTO, picture);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist
@@ -169,9 +152,9 @@ public class PictureController {
      */
     @PostMapping("/{picId}/comments/{commentId}/delete")
     public String deleteComment(@PathVariable long picId, @PathVariable long commentId) {
-        Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
-        if (picture.isPresent()) {
-            pictureService.removeComment(commentId, picture.get());
+        PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
+        if (picture != null) {
+            pictureService.removeComment(commentId, picture);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist
@@ -186,9 +169,9 @@ public class PictureController {
      */
     @PostMapping("/{picId}/likeToggle")
     public String likePicture(@PathVariable Long picId) {
-        Optional<Picture> picture = pictureService.findById(picId); // Retrieve the picture by ID
-        if (picture.isPresent()) {
-            usernameService.likeOrRemovePicture(picture.get());
+        PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
+        if (picture != null) {
+            usernameService.likeOrRemovePicture(picture);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture

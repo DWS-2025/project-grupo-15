@@ -9,12 +9,16 @@ import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -70,7 +74,7 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         // Remove all comments associated with the picture
         List<Comment> list = picture.getComments();
         for (int i = list.size() - 1; i >= 0; --i) {
-            commentService.delete(list.get(i).getId(), picture);
+            commentService.deleteComment(list.get(i).getId(), pictureDTO);
         }
 
         picture.getComments().clear();
@@ -90,9 +94,20 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
     public PictureDTO removeComment(Long commentId, PictureDTO pictureDTO) {
         Picture picture = toDomain(pictureDTO);
         Comment comment = commentService.toDomain(commentService.getComment(commentId));
-        picture.getComments().remove(comment.get());
-        commentService.delete(commentId, picture);
+        picture.getComments().remove(comment);
+        commentService.deleteComment(commentId, pictureDTO);
         return toDTO(picture);
+    }
+
+    public Resource getPictureImage(long id) throws SQLException {
+
+        Picture picture = pictureRepository.findById(id).orElseThrow();
+
+        if(picture.getImageFile() != null) {
+            return new InputStreamResource(picture.getImageFile().getBinaryStream());
+        }else {
+            throw new NoSuchElementException();
+        }
     }
     private PictureDTO toDTO(Picture picture) {
         return mapper.toDTO(picture);

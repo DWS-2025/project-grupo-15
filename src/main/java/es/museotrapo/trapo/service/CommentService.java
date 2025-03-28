@@ -47,14 +47,6 @@ public class CommentService {
         return toDTO(commentRepository.findById(id).orElseThrow(null));
     }
 
-    /**
-     * Saves a new comment associated with a picture and the currently logged-in
-     * user.
-     * The comment is added to both the picture's and the user's comment list.
-     *
-     * @param picture The picture to which the comment is added.
-     * @param comment The comment to save.
-     */
     public CommentDTO createComment(PictureDTO pictureDTO, CommentDTO commentDTO) {
         Picture picture = pictureService.toDomain(pictureDTO);
         Comment comment = toDomain(commentDTO);
@@ -66,13 +58,6 @@ public class CommentService {
         return toDTO(comment);
     }
 
-    /**
-     * Deletes a comment by its ID, removing it from both the picture and the
-     * author's comment list.
-     *
-     * @param commentId The ID of the comment to delete.
-     * @param picture   The picture from which the comment is removed.
-     */
     public CommentDTO deleteComment(long commentId, PictureDTO pictureDTO) {
 
         Picture picture = pictureService.toDomain(pictureDTO);
@@ -85,6 +70,7 @@ public class CommentService {
             commentRepository.delete(comment);// Delete the comment from the repository
             return toDTO(comment);
         }
+        return null;
     }
 
     private CommentDTO toDTO(Comment comment){

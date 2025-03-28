@@ -1,7 +1,9 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
+import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UsernameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,10 @@ public class UsernameService {
 
     @Autowired
     private UsernameRepository usernameRepository;
+    @Autowired
+    private PictureRepository pictureRepository;
+    @Autowired
+    private PictureService pictureService;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -35,15 +41,9 @@ public class UsernameService {
         return usernameRepository.findAll();
     }
 
-    /**
-     * Allows a username to like or remove a like on a picture.
-     * If the picture is already liked, it removes the like. If not, it adds the
-     * like.
-     *
-     * @param picture The picture to like or remove the like from
-     */
-    public void likeOrRemovePicture(Picture picture) {
+    public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
+        Picture picture = pictureService.toDomain(pictureDTO);
         User user = getLoggedUser();// Get the logged-in username
 
         // Check if the username already likes the picture
@@ -66,7 +66,8 @@ public class UsernameService {
      * @param picture The picture to check for a like
      * @return boolean - Returns true if the picture is liked, false otherwise
      */
-    public boolean isPictureLiked(Picture picture) {
+    public boolean isPictureLiked(PictureDTO pictureDTO) {
+
 
         User user = getLoggedUser();// Get the logged-in username
         return user.getLikedPictures().contains(picture);// Return whether the picture is in the username's liked list
