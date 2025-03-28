@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.PictureMapper;
 import es.museotrapo.trapo.model.Comment;
@@ -35,50 +36,31 @@ public class PictureService {
     private UsernameService usernameService;
 
     @Autowired
-    private PictureMapper pictureMapper;
+    private PictureMapper mapper;
 
-    /**
-     * Retrieves all pictures stored in the repository.
-     *
-     * @return List of all pictures.
-     */
-    public Collection<PictureDTO> findAll() {
-        return pictureMapper.toPictureDTOs(pictureRepository.findAll());
+    public Collection<PictureDTO> getPictures() {
+        return toDTOs(pictureRepository.findAll());
     }
 
-    /**
-     * Finds a picture by its unique ID.
-     *
-     * @param id The ID of the picture.
-     * @return An Optional containing the picture if found.
-     */
-    public Optional<PictureDTO> findById(long id) {
-        pictureMapper.toPictureDTO(pictureRepository.findById(id));
+    public PictureDTO getPicture(long id) {
+        return toDTO(pictureRepository.findById(id).orElseThrow());
     }
 
-    /**
-     * Saves a new picture and associates it with an artist.
-     *
-     * @param picture  The picture to be saved.
-     * @param artistId The ID of the artist who created the picture.
-     */
-    public void save(Picture picture, Long artistId, MultipartFile imageFile) throws IOException {
+public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartFile imageFile) throws IOException {
         // Validate if all required fields are filled
+        Picture picture = toDomain(pictureDTO);
         if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
         }
         // Create and save the image, then associate it with the picture
         picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        picture.setArtist(artistService.findById(artistId).orElseThrow(() -> new IllegalArgumentException("Artist not found")));
+        picture.setArtist(artistService.toDomain(artistService.getArtist(artistId)));
         pictureRepository.save(picture);
+        return toDTO(picture);
     }
 
-    /**
-     * Deletes a picture and removes all its associations.
-     *
-     * @param picture The picture to be deleted.
-     */
-    public void delete(Picture picture) {
+    public PictureDTO deletePicture(PictureDTO pictureDTO) {
+        Picture picture = toDomain(pictureDTO);
         // Remove the picture from all users' liked lists
         for (User user : picture.getUserLikes()) {
             user.getLikedPictures().remove(picture);
@@ -93,19 +75,34 @@ public class PictureService {
 
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());
+        return toDTO(picture);
     }
 
-    public void addComment(Comment comment, Picture picture) {
+    public PictureDTO addComment(CommentDTO commentDTO, PictureDTO pictureDTO) {
+        Picture picture = toDomain(pictureDTO);
+        Comment comment = commentService.toDomain(commentDTO);
         comment.setAuthor(usernameService.getLoggedUser());
         picture.getComments().add(comment);
         pictureRepository.save(picture);
+        return toDTO(picture);
     }
 
-    public void removeComment(Long commentId, Picture picture) {
-        Optional<Comment> comment = commentService.findById(commentId);
-        if(comment.isPresent()) {
-            picture.getComments().remove(comment.get());
-            commentService.delete(commentId, picture);
-        }
+    public PictureDTO removeComment(Long commentId, PictureDTO pictureDTO) {
+        Picture picture = toDomain(pictureDTO);
+        Comment comment = commentService.toDomain(commentService.getComment(commentId));
+        picture.getComments().remove(comment.get());
+        commentService.delete(commentId, picture);
+        return toDTO(picture);
+    }
+    private PictureDTO toDTO(Picture picture) {
+        return mapper.toDTO(picture);
+    }
+
+    protected Picture toDomain(PictureDTO pictureDTO){
+        return mapper.toDomain(pictureDTO);
+    }
+
+    private Collection<PictureDTO> toDTOs(Collection<Picture> pictures){
+        return mapper.toDTOs(pictures);
     }
 }
