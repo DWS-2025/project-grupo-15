@@ -12,9 +12,9 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface PictureMapper {
 
-    PictureDTO toPictureDTO(Optional<Picture> picture);
+    PictureDTO toDTO(Picture picture);
 
-    Collection<PictureDTO> toPictureDTOs(Collection<Picture> pictures);
+    Collection<PictureDTO> toDTOs(Collection<Picture> pictures);
 
     @Mapping(target = "imageFile", ignore = true)
     Picture toDomain(PictureDTO pictureDTO);

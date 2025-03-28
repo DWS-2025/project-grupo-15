@@ -74,7 +74,7 @@ public class ArtistService {
 		return mapper.toDTO(artist);
 	}
 
-	private Artist toDomain(ArtistDTO artistDTO){
+	protected Artist toDomain(ArtistDTO artistDTO){
 		return mapper.toDomain(artistDTO);
 	}
 
