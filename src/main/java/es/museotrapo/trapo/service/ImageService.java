@@ -25,7 +25,6 @@ public class ImageService {
     public Blob localImageToBlob(String localFilePath){
         File imageFile = new File(localFilePath);
         if (imageFile.exists()) {
-            System.out.println("image file found");
             try {
                 return BlobProxy.generateProxy(imageFile.toURI().toURL().openStream(), imageFile.length());
             } catch (IOException e) {

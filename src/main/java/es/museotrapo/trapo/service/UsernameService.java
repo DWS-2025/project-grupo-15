@@ -60,17 +60,11 @@ public class UsernameService {
         usernameRepository.save(user);// Save the updated username back to the repository
     }
 
-    /**
-     * Checks if a picture is liked by the currently logged-in username.
-     *
-     * @param picture The picture to check for a like
-     * @return boolean - Returns true if the picture is liked, false otherwise
-     */
     public boolean isPictureLiked(PictureDTO pictureDTO) {
 
 
         User user = getLoggedUser();// Get the logged-in username
-        return user.getLikedPictures().contains(picture);// Return whether the picture is in the username's liked list
+        return user.getLikedPictures().contains(pictureService.toDomain(pictureDTO));// Return whether the picture is in the username's liked list
     }
 
 }

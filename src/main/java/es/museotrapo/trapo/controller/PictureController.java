@@ -101,11 +101,16 @@ public class PictureController {
     @GetMapping("/{id}/{ImageFile}")
     public ResponseEntity<Resource> getImage(@PathVariable long id) throws SQLException {
 
-        Resource image = pictureService.getPictureImage(id);
+        PictureDTO picture = pictureService.getPicture(id);
+
         // Check if the image exists and is readable
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
-                    .body(image); // Return the image in the response
+        if (picture.image() != null) {
+            Resource file = pictureService.getPictureImage(id);
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg") // Set MIME type for the image
+                    .body(file); // Return the image in the response
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if image is not found
+        }
     }
 
     /**
