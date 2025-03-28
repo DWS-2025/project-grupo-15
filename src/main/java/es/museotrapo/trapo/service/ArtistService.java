@@ -1,15 +1,15 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.dto.ArtistMapper;
 import es.museotrapo.trapo.model.Artist;
-import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.repository.ArtistRepository;
-import es.museotrapo.trapo.repository.PictureRepository;
+import es.museotrapo.trapo.dto.ArtistDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.Collection;
 
 /**
  * Service class for managing Artist entities.
@@ -22,59 +22,63 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
+    @Autowired
+    private ArtistMapper mapper;
 
-    /**
-     * Retrieves all artists stored in the repository.
-     *
-     * @return A list of all artists.
-     */
-    public List<Artist> findAll() {
-        return artistRepository.findAll();
+
+    public Collection<ArtistDTO> getArtists() {
+
+		return toDTOs(artistRepository.findAll());
+	}
+
+    public ArtistDTO getArtist(long id) {
+
+		return toDTO(artistRepository.findById(id).orElseThrow());
+	}
+
+    public ArtistDTO createArtist(ArtistDTO artistDTO) {
+
+		Artist artist = toDomain(artistDTO);
+		artistRepository.save(artist);
+		return toDTO(artist);
+	}
+
+    public ArtistDTO replaceArtist(long id, ArtistDTO updatedArtistDTO) {
+
+		if (artistRepository.existsById(id)) {
+
+			Artist updatedArtist = toDomain(updatedArtistDTO);
+			updatedArtist.setId(id);
+
+			artistRepository.save(updatedArtist);
+			return toDTO(updatedArtist);
+
+		} else {
+			throw new NoSuchElementException();
+		}
+	}
+
+    public ArtistDTO deleteArtist(long id) {
+
+		Artist artist = artistRepository.findById(id).orElseThrow();
+		artistRepository.deleteById(id);
+		return toDTO(artist);
+	}
+
+
+    public boolean existsById(long id){
+        return artistRepository.existsById(id);
     }
 
-    /**
-     * Finds an artist by their ID.
-     *
-     * @param id The ID of the artist to retrieve.
-     * @return An Optional containing the artist if found, or empty if not found.
-     */
-    public Optional<Artist> findById(long id) {
-        return artistRepository.findById(id);
-    }
+    private ArtistDTO toDTO(Artist artist){
+		return mapper.toDTO(artist);
+	}
 
-    /**
-     * Saves a new artist or updates an existing one.
-     *
-     * @param artist The artist to save.
-     */
-    public void save(Artist artist) {
-        if (artist.getBirthDate() == null || artist.getName() == null || artist.getNickname() == null) {
-            throw new IllegalArgumentException("NO pueden haber campos vacios");
-        }
-        artistRepository.save(artist);
-    }
+	private Artist toDomain(ArtistDTO artistDTO){
+		return mapper.toDomain(artistDTO);
+	}
 
-    /**
-     * Updates an existing artist's details.
-     *
-     * @param oldArtist     The existing artist to update.
-     * @param updatedArtist The artist containing updated details.
-     */
-    public void update(Artist oldArtist, Artist updatedArtist) {
-        oldArtist.setName(updatedArtist.getName());
-        oldArtist.setNickname(updatedArtist.getNickname());
-        oldArtist.setBirthDate(updatedArtist.getBirthDate());
-        artistRepository.save(oldArtist);
-    }
-
-    /**
-     * Deletes an artist from the repository.
-     * Before deleting, it removes the association between the artist and their
-     * pictures.
-     *
-     * @param artist The artist to delete.
-     */
-    public void delete(Artist artist) {
-        artistRepository.deleteById(artist.getId());
-    }
+	private Collection<ArtistDTO> toDTOs(Collection<Artist> artists){
+		return mapper.toDTOs(artists);
+	}
 }
