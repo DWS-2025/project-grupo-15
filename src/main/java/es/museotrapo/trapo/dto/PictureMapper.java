@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import es.museotrapo.trapo.model.Picture;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface PictureMapper {

@@ -70,7 +70,7 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         // Remove all comments associated with the picture
         List<Comment> list = picture.getComments();
         for (int i = list.size() - 1; i >= 0; --i) {
-            commentService.delete(list.get(i).getId(), picture);
+            commentService.deleteComment(list.get(i).getId(), pictureDTO);
         }
 
         picture.getComments().clear();
@@ -90,8 +90,8 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
     public PictureDTO removeComment(Long commentId, PictureDTO pictureDTO) {
         Picture picture = toDomain(pictureDTO);
         Comment comment = commentService.toDomain(commentService.getComment(commentId));
-        picture.getComments().remove(comment.get());
-        commentService.delete(commentId, picture);
+        picture.getComments().remove(comment);
+        commentService.deleteComment(commentId, pictureDTO);
         return toDTO(picture);
     }
     private PictureDTO toDTO(Picture picture) {
