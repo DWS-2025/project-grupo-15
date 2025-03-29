@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsernameService {
@@ -17,8 +18,6 @@ public class UsernameService {
     private UsernameRepository usernameRepository;
     @Autowired
     private PictureRepository pictureRepository;
-    @Autowired
-    private PictureService pictureService;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -43,7 +42,7 @@ public class UsernameService {
 
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
-        Picture picture = pictureService.toDomain(pictureDTO);
+        Picture picture = pictureRepository.findById(pictureDTO.id()).get();
         User user = getLoggedUser();// Get the logged-in username
 
         // Check if the username already likes the picture
@@ -64,7 +63,7 @@ public class UsernameService {
 
 
         User user = getLoggedUser();// Get the logged-in username
-        return user.getLikedPictures().contains(pictureService.toDomain(pictureDTO));// Return whether the picture is in the username's liked list
+        return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
 }

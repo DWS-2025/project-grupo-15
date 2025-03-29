@@ -7,7 +7,9 @@ import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.CommentRepository;
+import es.museotrapo.trapo.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,19 +22,15 @@ import java.util.Collection;
 @Service
 public class CommentService {
 
-    // Injecting UserService to retrieve the currently logged-in user.
-    @Autowired
-    private UsernameService usernameService;
-
     // Injecting CommentRepository to manage comment data.
     @Autowired
     private CommentRepository commentRepository;
 
     @Autowired
-    private PictureService pictureService;
+    private CommentMapper mapper;
 
     @Autowired
-    private CommentMapper mapper;
+    private PictureRepository pictureRepository;
 
     /**
      * Finds a comment by its ID.
@@ -44,20 +42,9 @@ public class CommentService {
         return toDTO(commentRepository.findById(id).orElseThrow(null));
     }
 
-    public CommentDTO createComment(PictureDTO pictureDTO, CommentDTO commentDTO) {
-        Picture picture = pictureService.toDomain(pictureDTO);
-        Comment comment = toDomain(commentDTO);
-        picture.getComments().add(comment);// Add the comment to the picture's comment list
-        User currentUser = usernameService.getLoggedUser(); // Retrieve the currently logged-in user
-        comment.setAuthor(currentUser);// Set the comment's author as the logged-in user
-        currentUser.getComments().add(comment);// Add the comment to the user's list of comments
-        commentRepository.save(comment);// Save the comment in the repository
-        return toDTO(comment);
-    }
+    public CommentDTO deleteComment(long commentId, Long picId) {
 
-    public CommentDTO deleteComment(long commentId, PictureDTO pictureDTO) {
-
-        Picture picture = pictureService.toDomain(pictureDTO);
+        Picture picture = pictureRepository.findById(picId).orElseThrow(null);
         // Check if the comment exists in the repository
         if (commentRepository.findById(commentId).isPresent()) {
             Comment comment = toDomain(this.getComment(commentId));// Retrieve the comment from the repository
