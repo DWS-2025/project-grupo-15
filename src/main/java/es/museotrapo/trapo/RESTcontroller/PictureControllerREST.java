@@ -9,7 +9,7 @@ import java.util.Collection;
 
 
 @RestController
-@RequestMapping("/picture")
+@RequestMapping("/api/pictures")
 public class PictureControllerREST {
 
     @Autowired

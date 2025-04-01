@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
-@RequestMapping("/artists")
+@RequestMapping("/api/artists")
 public class ArtistControllerREST {
 
     @Autowired 
