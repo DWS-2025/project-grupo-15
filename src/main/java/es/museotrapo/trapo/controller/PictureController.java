@@ -60,6 +60,7 @@ public class PictureController {
                              @RequestParam Long artistID) throws IOException { // ID of the artist
         pictureService.createPicture(pictureDTO, artistID, imageFileFull); // Save the picture in the database
         model.addAttribute("picture", pictureDTO); // Add the saved picture to the model
+
         return "saved_picture"; // Redirect to "saved_picture" view after saving
     }
 
@@ -135,7 +136,7 @@ public class PictureController {
     public String newComment(@PathVariable long picId, CommentDTO commentDTO) {
         PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
         if (picture != null) {
-            pictureService.addComment(commentDTO, picture);
+            pictureService.addComment(commentDTO, picId);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist
@@ -153,7 +154,7 @@ public class PictureController {
     public String deleteComment(@PathVariable long picId, @PathVariable long commentId) {
         PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
         if (picture != null) {
-            pictureService.removeComment(commentId, picture);
+            pictureService.removeComment(commentId, picId);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist

@@ -2,6 +2,8 @@ package es.museotrapo.trapo.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 
 @Entity
 public class Comment {
@@ -50,6 +52,18 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment [id=" + id + ", author=" + author.getName() + ", message=" + message + "]";
+        return "Comment [id=" + id + ", author=" + (author != null ? author.getName() : "null") + ", message=" + message + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id == comment.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

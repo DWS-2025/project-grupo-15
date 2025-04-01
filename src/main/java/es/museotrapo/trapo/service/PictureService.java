@@ -81,20 +81,21 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         return toDTO(picture);
     }
 
-    public PictureDTO addComment(CommentDTO commentDTO, PictureDTO pictureDTO) {
-        Picture picture = toDomain(pictureDTO);
+    public PictureDTO addComment(CommentDTO commentDTO, long picId) {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(userService.toDomain(userService.getLoggedUser()));
+        comment.setAuthor(userService.getLoggedUser());
         picture.getComments().add(comment);
         pictureRepository.save(picture);
         return toDTO(picture);
     }
 
-    public PictureDTO removeComment(Long commentId, PictureDTO pictureDTO) {
-        Picture picture = toDomain(pictureDTO);
+    public PictureDTO removeComment(Long commentId, long picId) {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentService.getComment(commentId));
         picture.getComments().remove(comment);
-        commentService.deleteComment(commentId, pictureDTO.id());
+        pictureRepository.save(picture);
+        commentService.deleteComment(commentId, picId);
         return toDTO(picture);
     }
 
