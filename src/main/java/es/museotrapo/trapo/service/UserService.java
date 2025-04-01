@@ -1,23 +1,27 @@
 package es.museotrapo.trapo.service;
 
 import es.museotrapo.trapo.dto.PictureDTO;
+import es.museotrapo.trapo.dto.UserDTO;
+import es.museotrapo.trapo.dto.UserMapper;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
-import es.museotrapo.trapo.repository.UsernameRepository;
+import es.museotrapo.trapo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class UsernameService {
+public class UserService {
 
     @Autowired
-    private UsernameRepository usernameRepository;
+    private UserRepository userRepository;
     @Autowired
     private PictureRepository pictureRepository;
+    @Autowired
+    private UserMapper mapper;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -26,9 +30,9 @@ public class UsernameService {
      *
      * @return User - The logged-in username
      */
-    public User getLoggedUser() {
+    public UserDTO getLoggedUser() {
         // For now, return the first username in the repository as the logged-in username
-        return usernameRepository.findAll().get(0);
+         return toDTO(userRepository.findAll().get(0));
     }
 
     /**
@@ -37,13 +41,13 @@ public class UsernameService {
      * @return List<User> - A list of all users
      */
     public List<User> findAll() {
-        return usernameRepository.findAll();
+        return userRepository.findAll();
     }
 
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
         Picture picture = pictureRepository.findById(pictureDTO.id()).get();
-        User user = getLoggedUser();// Get the logged-in username
+        User user = toDomain(this.getLoggedUser());// Get the logged-in username
 
         // Check if the username already likes the picture
         if (user.getLikedPictures().contains(picture)) {
@@ -55,15 +59,23 @@ public class UsernameService {
             user.getLikedPictures().add(picture);
             picture.getUserLikes().add(user);
         }
-
-        usernameRepository.save(user);// Save the updated username back to the repository
+        userRepository.save(user);// Save the updated username back to the repository
     }
 
     public boolean isPictureLiked(PictureDTO pictureDTO) {
-
-
-        User user = getLoggedUser();// Get the logged-in username
+        User user = toDomain(getLoggedUser());// Get the logged-in username
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
+    private UserDTO toDTO(User user) {
+        return mapper.toDTO(user);
+    }
+
+    protected User toDomain(UserDTO userDTO){
+        return mapper.toDomain(userDTO);
+    }
+
+    private Collection<UserDTO> toDTOs(Collection<User> users){
+        return mapper.toDTOs(users);
+    }
 }
