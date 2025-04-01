@@ -2,25 +2,19 @@ package es.museotrapo.trapo.controller;
 
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
-import es.museotrapo.trapo.model.Comment;
-import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.service.*;
 
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/picture") // Maps the controller to "/picture" endpoint
@@ -33,7 +27,7 @@ public class PictureController {
     private ArtistService artistService; // Service to handle artist-related functionality
 
     @Autowired
-    private UsernameService usernameService; // Service to handle user-related functionality
+    private UserService userService; // Service to handle user-related functionality
 
     /**
      * Handles the GET request to display all pictures
@@ -82,7 +76,7 @@ public class PictureController {
         PictureDTO picture = pictureService.getPicture(id); // Fetch the picture by ID
         if (picture != null) {
             model.addAttribute("picture", picture); // Add the picture to the model
-            String likedPicture = usernameService.isPictureLiked(picture) ? "Dislike" : "Like"; // Check if the picture
+            String likedPicture = userService.isPictureLiked(picture) ? "Dislike" : "Like"; // Check if the picture
                                                                                                  // is liked by the user
             model.addAttribute("likedPicture", likedPicture); // Add like status to the model
             model.addAttribute("picture", picture); // Add image path to the
@@ -176,7 +170,7 @@ public class PictureController {
     public String likePicture(@PathVariable Long picId) {
         PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
         if (picture != null) {
-            usernameService.likeOrRemovePicture(picture);
+            userService.likeOrRemovePicture(picture);
             return "redirect:/picture/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture

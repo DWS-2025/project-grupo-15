@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 /**
  * Service class that manages picture-related operations.
@@ -37,7 +36,7 @@ public class PictureService {
     private ArtistService artistService;
 
     @Autowired
-    private UsernameService usernameService;
+    private UserService userService;
 
     @Autowired
     private PictureMapper mapper;
@@ -85,7 +84,7 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
     public PictureDTO addComment(CommentDTO commentDTO, PictureDTO pictureDTO) {
         Picture picture = toDomain(pictureDTO);
         Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(usernameService.getLoggedUser());
+        comment.setAuthor(userService.toDomain(userService.getLoggedUser()));
         picture.getComments().add(comment);
         pictureRepository.save(picture);
         return toDTO(picture);

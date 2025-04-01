@@ -5,13 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import es.museotrapo.trapo.service.UsernameService;
+import es.museotrapo.trapo.service.UserService;
 
 @Controller
 public class UserController {
 
     @Autowired
-    private UsernameService usernameService; // Service to handle user-related functionality
+    private UserService userService; // Service to handle user-related functionality
 
     /**
      * Handles the GET request to retrieve and display all users
@@ -21,7 +21,7 @@ public class UserController {
      */
     @GetMapping("/users")
     public String getUsers(Model model) {
-        model.addAttribute("users", usernameService.findAll()); // Add all users to the model
+        model.addAttribute("users", userService.findAll()); // Add all users to the model
         return "users"; // Return the "users" view to render the list of users
     }
 }

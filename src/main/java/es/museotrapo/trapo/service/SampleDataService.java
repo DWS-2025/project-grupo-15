@@ -6,7 +6,7 @@ import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.ArtistRepository;
 import es.museotrapo.trapo.repository.PictureRepository;
-import es.museotrapo.trapo.repository.UsernameRepository;
+import es.museotrapo.trapo.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class SampleDataService {
     private PictureRepository pictureRepository;
 
     @Autowired
-    private UsernameRepository usernameRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private ArtistRepository artistRepository;
@@ -39,8 +39,8 @@ public class SampleDataService {
     public void init() {
 
         // Create sample users
-        User alex = usernameRepository.save(new User("Alex", "ponisalvaje@gmail.com"));
-        User samu = usernameRepository.save(new User("Samu", "sosacaustica@hotmail.com"));
+        User alex = userRepository.save(new User("Alex", "ponisalvaje@gmail.com"));
+        User samu = userRepository.save(new User("Samu", "sosacaustica@hotmail.com"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");

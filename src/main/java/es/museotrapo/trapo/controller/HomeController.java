@@ -1,16 +1,16 @@
 package es.museotrapo.trapo.controller;
 
-import es.museotrapo.trapo.service.UsernameService;
+import es.museotrapo.trapo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
 
-    private final UsernameService usernameService;
+    private final UserService userService;
 
-    public HomeController(UsernameService usernameService) {
-        this.usernameService = usernameService;
+    public HomeController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
