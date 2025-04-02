@@ -18,7 +18,7 @@
     <h2 class="error-message">Cuadros pintados por {{artist.nickname}}</h2>
     <div class="picture-list">
         {{#artist.paintedPictures}}
-        <p><a href="/picture/{{id}}" class="btn">{{name}}</a></p>
+        <p><a href="/pictures/{{id}}" class="btn">{{name}}</a></p>
         {{/artist.paintedPictures}}
         {{^artist.paintedPictures}}
         <p>Todavía no tiene cuadros el pringao</p>
@@ -26,10 +26,10 @@
     </div>
 
     <div class="btn-row">
-        <form action="/artist/{{artist.id}}/delete" method="post">
+        <form action="/artists/{{artist.id}}/delete" method="post">
             <input type="submit" value="Eliminar artista" class="btn btn-delete">
         </form>
-        <a href="/artist/{{artist.id}}/edit" class="btn">Editar artista</a>
+        <a href="/artists/{{artist.id}}/edit" class="btn">Editar artista</a>
         <a href="/artists" class="btn">Volver</a>
     </div>
 </div>

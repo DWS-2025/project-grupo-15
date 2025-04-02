@@ -2,12 +2,9 @@ package es.museotrapo.trapo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -21,7 +18,7 @@ public class Artist {
     private String nickname;
     private String birthDate;
     
-    @OneToMany (mappedBy = "artist")
+    @OneToMany (mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Picture> paintedPictures = new ArrayList<>();
 
     // Constructors
@@ -72,10 +69,22 @@ public class Artist {
     }
 
     public List<Picture> getPaintedPictures() {
-        return paintedPictures;
+        return this.paintedPictures;
     }
 
     public void setPaintedPictures(List<Picture> paintedPictures) {
         this.paintedPictures = paintedPictures;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Artist artist = (Artist) o;
+        return id == artist.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

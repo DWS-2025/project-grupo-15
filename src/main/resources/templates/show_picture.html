@@ -17,24 +17,24 @@
     <h1 class="gold-title">{{picture.name}}</h1>
 
     <div class="image-container">
-        <img src="/picture/{{picture.id}}/picture.imageFile">
+        <img src="/pictures/{{picture.id}}/picture.image">
     </div>
 
     <div class="picture-details">
         <p class="artist">
-            {{#picture.author}}
-            <a href="/artist/{{picture.author.id}}" class="artist-link">{{picture.author.nickname}}</a>
-            {{/picture.author}}
+            {{#picture.artist}}
+            <a href="/artists/{{picture.artist.id}}" class="artist-link">{{picture.artist.nickname}}</a>
+            {{/picture.artist}}
 
-            {{^picture.author}}
+            {{^picture.artist}}
             No hay artista asiociado
-            {{/picture.author}}
+            {{/picture.artist}}
         </p>
         <p class="date">Fecha: {{picture.date}}</p>
         <p class="likes">&#x2764;&#xfe0f; {{picture.numLikes}}</p>
     </div>
 
-    <form action="/picture/{{picture.id}}/likeToggle" method="post">
+    <form action="/pictures/{{picture.id}}/likeToggle" method="post">
         <button type="submit" class="btn">{{likedPicture}}</button>
     </form>
 
@@ -44,7 +44,7 @@
         {{#picture.comments}}
         <div class="comment">
             <b>{{author.name}}</b>: {{message}}
-            <form action="/picture/{{picture.id}}/comments/{{id}}/delete" method="post">
+            <form action="/pictures/{{picture.id}}/comments/{{id}}/delete" method="post">
                 <button type="submit" class="btn btn-delete">Eliminar</button>
             </form>
         </div>
@@ -54,7 +54,7 @@
         <p class="no-comments">No hay comentarios aún.</p>
         {{/picture.comments}}
 
-        <form action="/picture/{{picture.id}}/comments/new" method="post" class="add-comment-form">
+        <form action="/pictures/{{picture.id}}/comments/new" method="post" class="add-comment-form">
             <label for="comment-message">Escribe un comentario:</label>
             <input type="text" id="comment-message" name="message" placeholder="Escribe un comentario..." required>
             <button type="submit" class="btn">Agregar comentario</button>
@@ -62,8 +62,8 @@
     </div>
 
     <div class="btn-row">
-        <a href="/picture" class="btn">Volver</a>
-        <form action="/picture/{{picture.id}}/delete" method="post"
+        <a href="/pictures" class="btn">Volver</a>
+        <form action="/pictures/{{picture.id}}/delete" method="post"
               onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
             <button type="submit" class="btn btn-delete">Eliminar cuadro</button>
         </form>

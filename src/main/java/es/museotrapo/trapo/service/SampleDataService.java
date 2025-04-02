@@ -58,6 +58,9 @@ public class SampleDataService {
         monaLisa.setImageFile(imageService.localImageToBlob("pictures/monapicha.jpeg"));
         marioConda.setImageFile(imageService.localImageToBlob("pictures/MarioConda.jpg"));
 
+        monaLisa.setImage("true");
+        marioConda.setImage("true");
+
         monaLisa.setArtist(daVinci);
         marioConda.setArtist(daVinchi);
 

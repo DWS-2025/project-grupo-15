@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="content">
-    <form action="{{#isEdit}}/artist/{{artist.id}}/edit{{/isEdit}}{{^isEdit}}/artist/new{{/isEdit}}" method="post"
+    <form action="{{#isEdit}}/artists/{{artist.id}}/edit{{/isEdit}}{{^isEdit}}/artists/new{{/isEdit}}" method="post"
           class="form">
         <input type="hidden" name="_method" value="{{#isEdit}}PUT{{/isEdit}}{{^isEdit}}POST{{/isEdit}}">
         <div class="form-group">
