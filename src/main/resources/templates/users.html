@@ -23,12 +23,12 @@
         </ul>
         <p><strong>Posts liked by {{name}}:</strong></p>
         <ul>
-            {{#likedPicture}}
-            <li><a href="/picture/{{id}}">{{name}}</a></li>
-            {{/likedPicture}}
-            {{^likedPicture}}
+            {{#likedPictures}}
+            <li><a href="/pictures/{{id}}">{{name}}</a></li>
+            {{/likedPictures}}
+            {{^likedPictures}}
             <li>No liked posts by {{name}}</li>
-            {{/likedPicture}}
+            {{/likedPictures}}
         </ul>
     </div>
     {{/users}}

@@ -18,7 +18,7 @@ public class User {
     private String email;
 
     // Lists inside a User
-    @ManyToMany (mappedBy = "userLikes")
+    @ManyToMany (mappedBy = "userLikes", cascade = CascadeType.PERSIST)
     private List<Picture> likedPictures = new ArrayList<>();// List of all his liked pictures
     
     @OneToMany (mappedBy = "author", cascade = CascadeType.ALL)
@@ -67,7 +67,7 @@ public class User {
     }
 
     public List<Picture> getLikedPictures() {
-        return likedPictures;
+        return this.likedPictures;
     }
 
     public void setLikedPictures(List<Picture> likedPictures) {

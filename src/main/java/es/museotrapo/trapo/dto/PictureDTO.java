@@ -2,6 +2,7 @@ package es.museotrapo.trapo.dto;
 
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
+import es.museotrapo.trapo.model.User;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ public record PictureDTO(
     String date,
     String image,
     Artist artist,
-    long numLikes,
+    List<User> userLikes,
     List<Comment> comments){
 }

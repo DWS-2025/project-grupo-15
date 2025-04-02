@@ -31,7 +31,7 @@
             {{/picture.artist}}
         </p>
         <p class="date">Fecha: {{picture.date}}</p>
-        <p class="likes">&#x2764;&#xfe0f; {{picture.numLikes}}</p>
+        <p class="likes">&#x2764;&#xfe0f; {{picture.userLikes.size}}</p>
     </div>
 
     <form action="/pictures/{{picture.id}}/likeToggle" method="post">

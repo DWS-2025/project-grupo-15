@@ -3,10 +3,9 @@ package es.museotrapo.trapo.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Picture {
@@ -107,10 +106,6 @@ public class Picture {
         this.userLikes = userLikes;
     }
 
-    public long getNumLikes() {
-        return userLikes.size(); // Number of likes of the picture
-    }
-
     public List<Comment> getComments() {
         return this.comments;
     }
@@ -120,7 +115,14 @@ public class Picture {
     }
 
     @Override
-    public String toString() {
-        return "Picture [id=" + id + ", name=" + name + ", date=" + date + ", artist=" + artist + "]";
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Picture picture = (Picture) o;
+        return id == picture.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
