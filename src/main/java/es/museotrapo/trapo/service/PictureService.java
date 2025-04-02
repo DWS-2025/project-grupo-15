@@ -84,7 +84,7 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
     public PictureDTO addComment(CommentDTO commentDTO, long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(userService.getLoggedUser());
+        comment.setAuthor(userService.toDomain(userService.getLoggedUser()));
         picture.getComments().add(comment);
         pictureRepository.save(picture);
         return toDTO(picture);

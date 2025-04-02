@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -30,9 +29,9 @@ public class UserService {
      *
      * @return User - The logged-in username
      */
-    public User getLoggedUser() {
+    public UserDTO getLoggedUser() {
         // For now, return the first username in the repository as the logged-in username
-         return userRepository.findAll().get(0);
+         return toDTO(userRepository.findAll().get(0));
     }
 
     /**
@@ -40,14 +39,14 @@ public class UserService {
      *
      * @return List<User> - A list of all users
      */
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Collection<UserDTO> findAll() {
+        return toDTOs(userRepository.findAll());
     }
 
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
         Picture picture = pictureRepository.findById(pictureDTO.id()).get();
-        User user = this.getLoggedUser();// Get the logged-in username
+        User user = toDomain(this.getLoggedUser());// Get the logged-in username
 
         // Check if the username already likes the picture
         if (user.getLikedPictures().contains(picture)) {
@@ -63,7 +62,7 @@ public class UserService {
     }
 
     public boolean isPictureLiked(PictureDTO pictureDTO) {
-        User user = getLoggedUser();// Get the logged-in username
+        User user = toDomain(getLoggedUser());// Get the logged-in username
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 

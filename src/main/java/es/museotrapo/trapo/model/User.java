@@ -2,6 +2,7 @@ package es.museotrapo.trapo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.*;
 
@@ -18,7 +19,7 @@ public class User {
 
     // Lists inside a User
     @ManyToMany (mappedBy = "userLikes")
-    private List<Picture> likedPicture = new ArrayList<>();// List of all his liked pictures
+    private List<Picture> likedPictures = new ArrayList<>();// List of all his liked pictures
     
     @OneToMany (mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
@@ -66,10 +67,22 @@ public class User {
     }
 
     public List<Picture> getLikedPictures() {
-        return likedPicture;
+        return likedPictures;
     }
 
-    public void setLikedPictures(List<Picture> likedPicture) {
-        this.likedPicture = likedPicture;
+    public void setLikedPictures(List<Picture> likedPictures) {
+        this.likedPictures = likedPictures;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
