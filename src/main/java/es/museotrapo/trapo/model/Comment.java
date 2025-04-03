@@ -42,6 +42,10 @@ public class Comment {
         this.message = message;
     }
 
+    public String getNameAuthor(){
+        return this.author.getName();
+    }
+
     public User getAuthor() {
         return author;
     }

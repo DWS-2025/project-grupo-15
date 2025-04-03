@@ -22,16 +22,16 @@
 
     <div class="picture-details">
         <p class="artist">
-            {{#picture.artist}}
-            <a href="/artists/{{picture.artist.id}}" class="artist-link">{{picture.artist.nickname}}</a>
-            {{/picture.artist}}
+            {{#picture.artistNickname}}
+            <a href="/artists/{{picture.artistId}}" class="artist-link">{{picture.artistNickname}}</a>
+            {{/picture.artistNickname}}
 
-            {{^picture.artist}}
+            {{^picture.artistNickname}}
             No hay artista asiociado
-            {{/picture.artist}}
+            {{/picture.artistNickname}}
         </p>
         <p class="date">Fecha: {{picture.date}}</p>
-        <p class="likes">&#x2764;&#xfe0f; {{picture.userLikes.size}}</p>
+        <p class="likes">&#x2764;&#xfe0f; {{picture.nameUserLikes.size}}</p>
     </div>
 
     <form action="/pictures/{{picture.id}}/likeToggle" method="post">
@@ -43,7 +43,7 @@
     <div class="comments-section">
         {{#picture.comments}}
         <div class="comment">
-            <b>{{author.name}}</b>: {{message}}
+            <b>{{nameAuthor}}</b>: {{message}}
             <form action="/pictures/{{picture.id}}/comments/{{id}}/delete" method="post">
                 <button type="submit" class="btn btn-delete">Eliminar</button>
             </form>

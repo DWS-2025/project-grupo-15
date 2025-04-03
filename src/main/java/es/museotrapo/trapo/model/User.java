@@ -3,6 +3,7 @@ package es.museotrapo.trapo.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 
@@ -72,6 +73,10 @@ public class User {
 
     public void setLikedPictures(List<Picture> likedPictures) {
         this.likedPictures = likedPictures;
+    }
+
+    public List<String> getNameLikedPictures() {
+        return this.likedPictures.stream().map(Picture::getName).collect(Collectors.toList());
     }
 
     @Override

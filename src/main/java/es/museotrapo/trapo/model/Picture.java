@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +21,7 @@ public class Picture {
     private String image;
 
     @Lob
+    @JsonIgnore
     private Blob imageFile;
     
     @ManyToOne
@@ -113,6 +115,23 @@ public class Picture {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public String getArtistNickname() {
+        return this.artist.getNickname();
+    }
+
+    public Long getArtistId() {
+        return this.artist.getId();
+    }
+
+    public List<String> getNameUserLikes() {
+        List<String> nameUserLikes = new ArrayList<>();
+        for(User user: this.userLikes){
+            nameUserLikes.add(user.getName());
+        }
+        return nameUserLikes;
+    }
+
 
     @Override
     public boolean equals(Object o) {

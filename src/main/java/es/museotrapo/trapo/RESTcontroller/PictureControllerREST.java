@@ -2,7 +2,9 @@ package es.museotrapo.trapo.RESTcontroller;
 
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.service.PictureService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +13,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.Collection;
 
 
@@ -21,10 +24,8 @@ public class PictureControllerREST {
     @Autowired
     private PictureService pictureService; // Service to handle picture-related functionality
 
-
     @GetMapping("/")
     public Collection <PictureDTO> getPictures() {
-
         return pictureService.getPictures();
     }
 
@@ -49,5 +50,17 @@ public class PictureControllerREST {
 
         return pictureService.deletePicture(getPicture(id));
 	}
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Object> getPostImage(@PathVariable long id) throws SQLException, IOException {
+
+        Resource postImage = (Resource) pictureService.getPictureImage(id);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .body(postImage);
+
+    }
 
 }
