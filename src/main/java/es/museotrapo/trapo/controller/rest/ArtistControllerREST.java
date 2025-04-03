@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.RESTcontroller;
+package es.museotrapo.trapo.controller.rest;
 
 import java.net.URI;
 import java.util.Collection;
@@ -51,7 +51,6 @@ public class ArtistControllerREST {
     
     @DeleteMapping("/{id}")
 	public ArtistDTO deleteArtist(@PathVariable long id) {
-
         return artistService.deleteArtist(id);
 	}
 

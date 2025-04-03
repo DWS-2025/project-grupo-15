@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.RESTcontroller;
+package es.museotrapo.trapo.controller.rest;
 
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.service.PictureService;

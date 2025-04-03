@@ -61,8 +61,9 @@ public class ArtistService {
     public ArtistDTO deleteArtist(long id) {
 
 		Artist artist = artistRepository.findById(id).orElseThrow();
+		ArtistDTO artistDTO = toDTO(artist);
 		artistRepository.deleteById(id);
-		return toDTO(artist);
+		return artistDTO;
 	}
 
 

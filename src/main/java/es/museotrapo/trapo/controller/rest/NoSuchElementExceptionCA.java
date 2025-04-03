@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.RESTcontroller;
+package es.museotrapo.trapo.controller.rest;
 
 import java.util.NoSuchElementException;
 

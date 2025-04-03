@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.controller;
+package es.museotrapo.trapo.controller.web;
 
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;

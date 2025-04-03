@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Service class for managing Comment entities.
@@ -45,16 +46,13 @@ public class CommentService {
     public CommentDTO deleteComment(long commentId, Long picId) {
 
         Picture picture = pictureRepository.findById(picId).orElseThrow(null);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(null);
         // Check if the comment exists in the repository
-        if (commentRepository.findById(commentId).isPresent()) {
-            Comment comment = toDomain(this.getComment(commentId));// Retrieve the comment from the repository
             picture.getComments().remove(comment);// Remove the comment from the picture's comment list
             User author = comment.getAuthor();// Remove the comment from the author's list of comments
             author.getComments().remove(comment);
             commentRepository.delete(comment);// Delete the comment from the repository
             return toDTO(comment);
-        }
-        return null;
     }
 
     private CommentDTO toDTO(Comment comment){

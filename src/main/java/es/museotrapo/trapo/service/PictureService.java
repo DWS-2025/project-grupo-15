@@ -71,14 +71,14 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         picture.getUserLikes().clear();
 
         // Remove all comments associated with the picture
-        List<Comment> list = picture.getComments();
-        for (int i = list.size() - 1; i >= 0; --i) {
-            commentService.deleteComment(list.get(i).getId(), pictureDTO.id());
+        List<Comment> comments = picture.getComments();
+        for (int i = comments.size() - 1; i >= 0; --i) {
+            commentService.deleteComment(comments.get(i).getId(), pictureDTO.id());
         }
 
         picture.getComments().clear();
         pictureRepository.deleteById(picture.getId());
-        return toDTO(picture);
+        return pictureDTO;
     }
 
     public PictureDTO addComment(CommentDTO commentDTO, long picId) {

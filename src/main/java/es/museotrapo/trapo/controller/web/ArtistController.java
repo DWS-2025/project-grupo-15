@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.controller;
+package es.museotrapo.trapo.controller.web;
 
 import java.util.NoSuchElementException;
 

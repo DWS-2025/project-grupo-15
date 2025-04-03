@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.controller;
+package es.museotrapo.trapo.controller.web;
 
 import es.museotrapo.trapo.service.UserService;
 import org.springframework.stereotype.Controller;
