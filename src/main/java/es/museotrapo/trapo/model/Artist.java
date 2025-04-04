@@ -76,6 +76,14 @@ public class Artist {
         this.paintedPictures = paintedPictures;
     }
 
+    public List<String> getNamePaintedPictures() {
+        List<String> namePaintedPictures = new ArrayList<>();
+        for (Picture picture : this.paintedPictures) {
+            namePaintedPictures.add(picture.getName());
+        }
+        return namePaintedPictures;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

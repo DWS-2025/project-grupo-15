@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import es.museotrapo.trapo.dto.CommentSimpleDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -76,9 +77,20 @@ public class User {
     }
 
     public List<String> getNameLikedPictures() {
-        return this.likedPictures.stream().map(Picture::getName).collect(Collectors.toList());
+        List<String> nameLikedPictures = new ArrayList<>();
+        for (Picture picture : likedPictures) {
+            nameLikedPictures.add(picture.getName());
+        }
+        return nameLikedPictures;
     }
 
+    public List<String> getCommentsMessage() {
+        List<String> comments = new ArrayList<>();
+        for (Comment comment : this.comments) {
+            comments.add(comment.getMessage());
+        }
+        return comments;
+    }
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -55,6 +55,9 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
         }
+        if(!imageFile.isEmpty()) {
+            picture.setImage("True");
+        }
         // Create and save the image, then associate it with the picture
         picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         picture.setArtist(artistService.toDomain(artistService.getArtist(artistId)));
@@ -84,8 +87,9 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
     public PictureDTO addComment(CommentDTO commentDTO, long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(userService.toDomain(userService.getLoggedUser()));
+        comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO()));
         picture.getComments().add(comment);
+        commentService.toDTO(comment);
         pictureRepository.save(picture);
         return toDTO(picture);
     }

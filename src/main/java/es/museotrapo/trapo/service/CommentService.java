@@ -55,7 +55,7 @@ public class CommentService {
             return toDTO(comment);
     }
 
-    private CommentDTO toDTO(Comment comment){
+    protected CommentDTO toDTO(Comment comment){
 		return mapper.toDTO(comment);
 	}
 

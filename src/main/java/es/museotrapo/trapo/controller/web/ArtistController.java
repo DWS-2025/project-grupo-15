@@ -54,7 +54,6 @@ public class ArtistController {
     /**
      * Handles the submission of the form to create a new artist.
      *
-     * @param model  The model to add attributes to
      * @return The view name "saved_artist"
      */
     @PostMapping("/new")

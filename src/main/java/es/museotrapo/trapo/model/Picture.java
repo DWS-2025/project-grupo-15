@@ -56,10 +56,6 @@ public class Picture {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getImage() {
         return image;
     }
@@ -120,10 +116,6 @@ public class Picture {
         return this.artist.getNickname();
     }
 
-    public Long getArtistId() {
-        return this.artist.getId();
-    }
-
     public List<String> getNameUserLikes() {
         List<String> nameUserLikes = new ArrayList<>();
         for(User user: this.userLikes){
@@ -132,6 +124,13 @@ public class Picture {
         return nameUserLikes;
     }
 
+    public List<String> getCommentsMessage() {
+        List<String> commentsMessage = new ArrayList<>();
+        for(Comment comment: this.comments){
+            commentsMessage.add(comment.getMessage());
+        }
+        return commentsMessage;
+    }
 
     @Override
     public boolean equals(Object o) {
