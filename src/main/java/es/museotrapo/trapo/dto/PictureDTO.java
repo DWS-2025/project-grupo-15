@@ -7,8 +7,7 @@ public record PictureDTO(
     String name,
     String date,
     String image,
-    String artistNickname,
-    Long artistId,
-    List<String> nameUserLikes,
-    List<CommentDTO> comments){
+    ArtistSimpleDTO artist,
+    List<UserSimpleDTO> userLikes,
+    List<CommentSimpleDTO> comments){
 }

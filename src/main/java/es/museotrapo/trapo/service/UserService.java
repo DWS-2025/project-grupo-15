@@ -29,9 +29,13 @@ public class UserService {
      *
      * @return User - The logged-in username
      */
-    public UserDTO getLoggedUser() {
+    public UserDTO getLoggedUserDTO() {
         // For now, return the first username in the repository as the logged-in username
-         return toDTO(userRepository.findAll().get(0));
+         return toDTO(getLoggedUser());
+    }
+
+    User getLoggedUser() {
+        return userRepository.findAll().get(0);
     }
 
     /**
@@ -46,7 +50,7 @@ public class UserService {
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
         Picture picture = pictureRepository.findById(pictureDTO.id()).get();
-        User user = toDomain(this.getLoggedUser());// Get the logged-in username
+        User user = getLoggedUser();// Get the logged-in username
 
         // Check if the username already likes the picture
         if (user.getLikedPictures().contains(picture)) {
@@ -62,7 +66,7 @@ public class UserService {
     }
 
     public boolean isPictureLiked(PictureDTO pictureDTO) {
-        User user = toDomain(getLoggedUser());// Get the logged-in username
+        User user = getLoggedUser();// Get the logged-in username
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 

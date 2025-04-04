@@ -36,7 +36,7 @@ public class PictureControllerREST {
     }
 
     @PostMapping("/")
-    public ResponseEntity<PictureDTO> createArtist(@RequestBody PictureDTO PictureDTO, Long artistId, MultipartFile imageFile) throws IOException{
+    public ResponseEntity<PictureDTO> createPicture(@RequestBody PictureDTO PictureDTO, Long artistId, MultipartFile imageFile) throws IOException{
         
         PictureDTO = pictureService.createPicture(PictureDTO, artistId, imageFile);
 

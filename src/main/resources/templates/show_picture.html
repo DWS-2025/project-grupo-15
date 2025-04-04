@@ -22,16 +22,16 @@
 
     <div class="picture-details">
         <p class="artist">
-            {{#picture.artistNickname}}
-            <a href="/artists/{{picture.artistId}}" class="artist-link">{{picture.artistNickname}}</a>
-            {{/picture.artistNickname}}
+            {{#picture.artist.nickname}}
+            <a href="/artists/{{picture.artist.id}}" class="artist-link">{{picture.artist.nickname}}</a>
+            {{/picture.artist.nickname}}
 
-            {{^picture.artistNickname}}
+            {{^picture.artist.nickname}}
             No hay artista asiociado
-            {{/picture.artistNickname}}
+            {{/picture.artist.nickname}}
         </p>
         <p class="date">Fecha: {{picture.date}}</p>
-        <p class="likes">&#x2764;&#xfe0f; {{picture.nameUserLikes.size}}</p>
+        <p class="likes">&#x2764;&#xfe0f; {{picture.userLikes.size}}</p>
     </div>
 
     <form action="/pictures/{{picture.id}}/likeToggle" method="post">

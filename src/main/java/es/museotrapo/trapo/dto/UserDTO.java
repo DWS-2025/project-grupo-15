@@ -9,6 +9,6 @@ public record UserDTO (
         Long id,
         String name,
         String email,
-        List<String> nameLikedPictures,
-        List<CommentDTO> comments) {
+        List<PictureSimpleDTO> likedPictures,
+        List<CommentSimpleDTO> comments) {
 }
