@@ -1,7 +1,7 @@
 package es.museotrapo.trapo.controller.rest;
 
 import java.net.URI;
-import java.util.Collection;
+//import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.museotrapo.trapo.service.ArtistService;
 import es.museotrapo.trapo.dto.ArtistDTO;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +31,9 @@ public class ArtistControllerREST {
     private ArtistService artistService;
 
     @GetMapping("/")
-    public Collection <ArtistDTO> getArtists() {
+    public Page <ArtistDTO> getArtists(Pageable pageable) {
 
-        return artistService.getArtists();
+        return artistService.getArtists(pageable);
     }
     
     @GetMapping("/{id}")

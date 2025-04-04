@@ -5,6 +5,9 @@ import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.repository.ArtistRepository;
 import es.museotrapo.trapo.dto.ArtistDTO;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +29,9 @@ public class ArtistService {
     private ArtistMapper mapper;
 
 
-    public Collection<ArtistDTO> getArtists() {
+    public Page <ArtistDTO> getArtists(Pageable pageable) {
 
-		return toDTOs(artistRepository.findAll());
+		return artistRepository.findAll(pageable).map(this::toDTO);
 	}
 
     public ArtistDTO getArtist(long id) {
