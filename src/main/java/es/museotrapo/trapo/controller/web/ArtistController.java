@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import es.museotrapo.trapo.dto.ArtistDTO;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.service.ArtistService;
@@ -28,9 +31,10 @@ public class ArtistController {
      * @return The view name "artists"
      */
     @GetMapping("")
-    public String getArtists(Model model) {
+    public String getArtists(Model model, Pageable pageable) {
         // Fetch all artists from the artistService and add them to the model
-        model.addAttribute("artists", artistService.getArtists());
+        Page<ArtistDTO> artists = artistService.getArtists(pageable);
+        model.addAttribute("artists", artists);
         return "artists"; // Return the view name
     }
 
