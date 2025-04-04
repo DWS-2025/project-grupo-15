@@ -34,6 +34,11 @@ public class ArtistService {
 		return artistRepository.findAll(pageable).map(this::toDTO);
 	}
 
+	public Collection <ArtistDTO> getArtists() {
+
+		return toDTOs(artistRepository.findAll());
+	}
+
     public ArtistDTO getArtist(long id) {
 
 		return toDTO(artistRepository.findById(id).orElseThrow());
