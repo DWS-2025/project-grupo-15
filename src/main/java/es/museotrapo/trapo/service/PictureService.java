@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +51,7 @@ public class PictureService {
         return toDTO(pictureRepository.findById(id).orElseThrow());
     }
 
-public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartFile imageFile) throws IOException {
+    public void createPicture(PictureDTO pictureDTO, Long artistId, MultipartFile imageFile) throws IOException {
         // Validate if all required fields are filled
         Picture picture = toDomain(pictureDTO);
         if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
@@ -62,7 +64,29 @@ public PictureDTO createPicture(PictureDTO pictureDTO, Long artistId, MultipartF
         picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         picture.setArtist(artistService.toDomain(artistService.getArtist(artistId)));
         pictureRepository.save(picture);
+    }
+
+    public PictureDTO createPictureREST(PictureDTO pictureDTO) throws IOException {
+        // Validate if all required fields are filled
+        Picture picture = toDomain(pictureDTO);
+        /*if (picture.getDate().isEmpty()|| picture.getName().isEmpty()) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
+        }
+
+         */
+
+        // Create and save the image, then associate it with the picture
+        picture.setArtist(artistService.toDomain(artistService.getArtist(pictureDTO.artistId())));
+        pictureRepository.save(picture);
         return toDTO(picture);
+    }
+
+    public void createPictureImageREST(Long picId, URI location, InputStream inputStream, long size) throws IOException {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
+
+        picture.setImage(location.toString());
+        picture.setImageFile(BlobProxy.generateProxy(inputStream, size));
+        pictureRepository.save(picture);
     }
 
     public PictureDTO deletePicture(PictureDTO pictureDTO) {

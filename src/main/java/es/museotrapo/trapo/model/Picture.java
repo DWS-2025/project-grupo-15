@@ -116,6 +116,10 @@ public class Picture {
         return this.artist.getNickname();
     }
 
+    public Long getArtistId() {
+        return this.artist.getId();
+    }
+
     public List<String> getNameUserLikes() {
         List<String> nameUserLikes = new ArrayList<>();
         for(User user: this.userLikes){

@@ -36,13 +36,25 @@ public class PictureControllerREST {
     }
 
     @PostMapping("/")
-    public ResponseEntity<PictureDTO> createPicture(@RequestBody PictureDTO PictureDTO, Long artistId, MultipartFile imageFile) throws IOException{
-        
-        PictureDTO = pictureService.createPicture(PictureDTO, artistId, imageFile);
+    public ResponseEntity<PictureDTO> createPicture(@RequestBody PictureDTO PictureDTO) throws IOException{
+
+         PictureDTO = pictureService.createPictureREST(PictureDTO);
 
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(PictureDTO.id()).toUri();
-        
+
         return ResponseEntity.created(location).body(PictureDTO);
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<Object> createPostImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+            throws IOException {
+
+        URI location = fromCurrentRequest().build().toUri();
+
+        pictureService.createPictureImageREST(id, location, imageFile.getInputStream(), imageFile.getSize());
+
+        return ResponseEntity.created(location).build();
+
     }
 
     @DeleteMapping("/{id}")
