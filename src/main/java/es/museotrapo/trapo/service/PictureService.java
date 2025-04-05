@@ -1,8 +1,10 @@
 package es.museotrapo.trapo.service;
 
+import es.museotrapo.trapo.dto.ArtistDTO;
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.PictureMapper;
+import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
@@ -14,6 +16,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -21,6 +27,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * Service class that manages picture-related operations.
@@ -45,6 +52,11 @@ public class PictureService {
 
     public Collection<PictureDTO> getPictures() {
         return toDTOs(pictureRepository.findAll());
+    }
+
+    public Page <PictureDTO> getPictures(Pageable pageable) {
+        Page<Picture> picturePage = pictureRepository.findAll(pageable);
+        return convertToDTOPage(picturePage);
     }
 
     public PictureDTO getPicture(long id) {
@@ -137,6 +149,19 @@ public class PictureService {
             throw new NoSuchElementException();
         }
     }
+
+    public long count(){
+		return pictureRepository.count();
+	}
+
+    public Page<PictureDTO> convertToDTOPage(Page<Picture> picturePage) {
+        return new PageImpl<>(
+            picturePage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
+            picturePage.getPageable(),
+            picturePage.getTotalElements()
+        );
+    }
+
     private PictureDTO toDTO(Picture picture) {
         return mapper.toDTO(picture);
     }
