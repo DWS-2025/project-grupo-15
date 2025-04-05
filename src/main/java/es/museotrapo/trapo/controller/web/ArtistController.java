@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.controller.web;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import es.museotrapo.trapo.dto.ArtistDTO;
 import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.service.ArtistService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/artists")
@@ -31,12 +35,43 @@ public class ArtistController {
      * @return The view name "artists"
      */
     @GetMapping("")
-    public String getArtists(Model model, Pageable pageable) {
-        // Fetch all artists from the artistService and add them to the model
-        Page<ArtistDTO> artists = artistService.getArtists(pageable);
-        model.addAttribute("artists", artists);
+    public String getArtists(Model model, 
+                            @RequestParam(required = false) String name, 
+                            @RequestParam(required = false) String nickname,
+                            @RequestParam(required = false) String birthDate,
+                            Pageable artistPage) {
+        int pageSize = 3;
+
+        artistPage = PageRequest.of(artistPage.getPageNumber(), pageSize);
+
+        if (name != null || nickname != null || birthDate != null){
+            Page<ArtistDTO> artists = artistService.searchArtists(name, nickname, birthDate, artistPage);
+            model.addAttribute("artists", artists);
+        } else {
+            Page<ArtistDTO> artists = artistService.getArtists(artistPage);
+            model.addAttribute("artists", artists);
+        }
+
+        boolean hasPrev = artistPage.getPageNumber() >= 1;
+    	boolean hasNext = (artistPage.getPageNumber() * artistPage.getPageSize()) < artistService.count();
+
+		model.addAttribute("hasPrev", hasPrev);
+		model.addAttribute("prev", artistPage.getPageNumber() - 1);
+		model.addAttribute("hasNext", hasNext);
+		model.addAttribute("next", artistPage.getPageNumber() + 1);
+        
         return "artists"; // Return the view name
     }
+
+    /* 
+    @GetMapping("/more")
+    @ResponseBody
+    public List<ArtistDTO> getMoreArtists(@RequestParam(defaultValue = "0") int page) {
+        int pageSize = 10;
+        Page<ArtistDTO> productPage = artistService.getArtists(PageRequest.of(page, pageSize));
+        return productPage.getContent();
+    }
+    */
 
     /**
      * Displays the form to create a new artist.
@@ -141,3 +176,4 @@ public class ArtistController {
 		}
     }
 }
+

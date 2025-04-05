@@ -13,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -36,8 +40,20 @@ public class PictureController {
      * @return "pictures" view to render all pictures
      */
     @GetMapping("")
-    public String getPictures(Model model) {
-        model.addAttribute("pictures", pictureService.getPictures()); // Add all pictures to the model
+    public String getPictures(Model model, Pageable picturePage) {
+        int pageSize = 3;
+        picturePage = PageRequest.of(picturePage.getPageNumber(), pageSize);
+
+        model.addAttribute("pictures", pictureService.getPictures(picturePage)); // Add all pictures to the model
+        
+        boolean hasPrev = picturePage.getPageNumber() >= 1;
+    	boolean hasNext = (picturePage.getPageNumber() * picturePage.getPageSize()) < pictureService.count();
+
+		model.addAttribute("hasPrev", hasPrev);
+		model.addAttribute("prev", picturePage.getPageNumber() - 1);
+		model.addAttribute("hasNext", hasNext);
+		model.addAttribute("next", picturePage.getPageNumber() + 1);
+        
         return "pictures"; // Return the "pictures" view to render the pictures
     }
 

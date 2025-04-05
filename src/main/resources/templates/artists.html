@@ -13,6 +13,21 @@
     <h1 class="title">Gran Museo del Trapo</h1>
 </header>
 
+<h1 class="gold-title">Busca tu artista</h1>
+
+<form action="/artists" method="get">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" name="name" />
+    <div class="clear"></div>
+    <label for="nickname">Apodo:</label>
+    <input type="text" id="nickname" name="nickname" />
+    <div class="clear"></div>
+    <label for="birthDate">Fecha de nacimiento:</label>
+    <input type="text" id="birthDate" name="birthDate" />
+    <div class="clear"></div>
+    <button type="submit" class="button-spacing">Buscar</button>
+</form>
+
 <div class="content">
     <h1 class="gold-title">Artistas</h1>
 
@@ -27,6 +42,22 @@
     {{^artists}}
     <p class="no-comments">No hay artistas disponibles, somos unos tristes.</p>
     {{/artists}}
+
+    <div>
+		<nobr>
+			{{#hasPrev}}<a href="artists?page={{prev}}">Prev</a>&nbsp;&nbsp;&nbsp;{{/hasPrev}}
+			{{#hasNext}}<a href="artists?page={{next}}">Next</a>{{/hasNext}}
+		</nobr>
+	</div>
+
+    <!-- 
+    <div id="load-more-container">
+        <button id="load-more" data-page="1">Más resultados</button>
+        <div id="spinner" style="display: none;">
+          <img src="/spinner.gif" alt="Cargando..." />
+        </div>
+    </div> -->
+    
 
     <div class="btn-row">
         <a href="/artists/new" class="btn">Añadir un nuevo artista</a>

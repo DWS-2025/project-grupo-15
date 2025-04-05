@@ -27,6 +27,13 @@
     <p class="no-comments">No hay cuadros disponibles, somos unos tristes</p>
     {{/pictures}}
 
+    <div>
+		<nobr>
+			{{#hasPrev}}<a href="pictures?page={{prev}}">Prev</a>&nbsp;&nbsp;&nbsp;{{/hasPrev}}
+			{{#hasNext}}<a href="pictures?page={{next}}">Next</a>{{/hasNext}}
+		</nobr>
+	</div>
+
     <div class="btn-row">
         <a href="/pictures/new" class="btn">Añadir un nuevo cuadro</a>
         <a href="/" class="btn">Volver al inicio</a>
