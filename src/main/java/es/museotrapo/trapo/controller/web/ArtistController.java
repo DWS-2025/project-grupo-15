@@ -59,7 +59,7 @@ public class ArtistController {
 		model.addAttribute("prev", artistPage.getPageNumber() - 1);
 		model.addAttribute("hasNext", hasNext);
 		model.addAttribute("next", artistPage.getPageNumber() + 1);
-        
+
         return "artists"; // Return the view name
     }
 
