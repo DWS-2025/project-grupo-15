@@ -45,15 +45,15 @@ public class PictureController {
         picturePage = PageRequest.of(picturePage.getPageNumber(), pageSize);
 
         model.addAttribute("pictures", pictureService.getPictures(picturePage)); // Add all pictures to the model
-        
-        boolean hasPrev = picturePage.getPageNumber() >= 1;
-    	boolean hasNext = (picturePage.getPageNumber() * picturePage.getPageSize()) < pictureService.count();
 
-		model.addAttribute("hasPrev", hasPrev);
-		model.addAttribute("prev", picturePage.getPageNumber() - 1);
-		model.addAttribute("hasNext", hasNext);
-		model.addAttribute("next", picturePage.getPageNumber() + 1);
-        
+        boolean hasPrev = picturePage.getPageNumber() >= 1;
+        boolean hasNext = (picturePage.getPageNumber() * picturePage.getPageSize()) < pictureService.count();
+
+        model.addAttribute("hasPrev", hasPrev);
+        model.addAttribute("prev", picturePage.getPageNumber() - 1);
+        model.addAttribute("hasNext", hasNext);
+        model.addAttribute("next", picturePage.getPageNumber() + 1);
+
         return "pictures"; // Return the "pictures" view to render the pictures
     }
 
@@ -86,7 +86,7 @@ public class PictureController {
      * @param model Model object to add attributes for the view
      * @param id    The ID of the picture to be displayed
      * @return "show_picture" view to display the picture details, or
-     *         "picture_not_found" if not found
+     * "picture_not_found" if not found
      */
     @GetMapping("/{id}")
     public String getPicture(Model model, @PathVariable long id) {
@@ -94,10 +94,10 @@ public class PictureController {
         if (picture != null) {
             model.addAttribute("picture", picture); // Add the picture to the model
             String likedPicture = userService.isPictureLiked(picture) ? "Dislike" : "Like"; // Check if the picture
-                                                                                                 // is liked by the user
+            // is liked by the user
             model.addAttribute("likedPicture", likedPicture); // Add like status to the model
             model.addAttribute("picture", picture); // Add image path to the
-                                                                                             // model
+            // model
             return "show_picture"; // Return the "show_picture" view to display the picture details
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if picture does not exist
@@ -129,7 +129,7 @@ public class PictureController {
      *
      * @param id The ID of the picture to be deleted
      * @return "deleted_picture" view after the picture is deleted, or
-     *         "picture_not_found" if not found
+     * "picture_not_found" if not found
      */
     @PostMapping("/{id}/delete")
     public String deletePicture(@PathVariable long id) {
@@ -145,7 +145,7 @@ public class PictureController {
     /**
      * Handles the POST request to add a new comment to a picture
      *
-     * @param picId   The ID of the picture to which the comment will be added
+     * @param picId The ID of the picture to which the comment will be added
      * @return Redirect to the picture's page after the comment is saved
      */
     @PostMapping("/{picId}/comments/new")
@@ -180,7 +180,7 @@ public class PictureController {
     /**
      * Handles the POST request to toggle like/unlike for a picture
      *
-     * @param picId  The ID of the picture to toggle like status
+     * @param picId The ID of the picture to toggle like status
      * @return Redirect to the picture's page after the like status is toggled
      */
     @PostMapping("/{picId}/likeToggle")

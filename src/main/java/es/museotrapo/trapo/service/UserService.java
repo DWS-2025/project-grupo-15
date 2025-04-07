@@ -31,7 +31,7 @@ public class UserService {
      */
     public UserDTO getLoggedUserDTO() {
         // For now, return the first username in the repository as the logged-in username
-         return toDTO(getLoggedUser());
+        return toDTO(getLoggedUser());
     }
 
     User getLoggedUser() {
@@ -62,7 +62,8 @@ public class UserService {
             user.getLikedPictures().add(picture);
             picture.getUserLikes().add(user);
         }
-        userRepository.save(user);// Save the updated username back to the repository
+        pictureRepository.save(picture);
+        userRepository.save(user);// Save the updated user and picture back to the repository
     }
 
     public boolean isPictureLiked(PictureDTO pictureDTO) {
@@ -74,11 +75,11 @@ public class UserService {
         return mapper.toDTO(user);
     }
 
-    protected User toDomain(UserDTO userDTO){
+    protected User toDomain(UserDTO userDTO) {
         return mapper.toDomain(userDTO);
     }
 
-    private Collection<UserDTO> toDTOs(Collection<User> users){
+    private Collection<UserDTO> toDTOs(Collection<User> users) {
         return mapper.toDTOs(users);
     }
 }

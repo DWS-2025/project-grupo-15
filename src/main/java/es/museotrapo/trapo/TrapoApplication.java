@@ -10,8 +10,8 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 )
 public class TrapoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TrapoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TrapoApplication.class, args);
+    }
 
 }

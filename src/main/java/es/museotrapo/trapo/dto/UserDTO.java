@@ -5,7 +5,7 @@ import es.museotrapo.trapo.model.Picture;
 
 import java.util.List;
 
-public record UserDTO (
+public record UserDTO(
         Long id,
         String name,
         String email,

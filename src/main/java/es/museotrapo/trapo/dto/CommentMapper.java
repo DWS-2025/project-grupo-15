@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * This interface defines a mapper for converting between Comment (domain model) 
- * and CommentDTO (data transfer object). 
+ * This interface defines a mapper for converting between Comment (domain model)
+ * and CommentDTO (data transfer object).
  * It's used to separate internal data representation from what is exposed externally.
  */
 @Mapper(componentModel = "spring") // MapStruct annotation to generate implementation and register as a Spring bean

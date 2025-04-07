@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NoSuchElementExceptionCA {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(NoSuchElementException.class)
-	public void handleNotFound() {
-	} 
+    @ExceptionHandler(NoSuchElementException.class)
+    public void handleNotFound() {
+    }
 }

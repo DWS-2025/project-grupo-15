@@ -20,10 +20,10 @@ public class User {
     private String email;
 
     // Lists inside a User
-    @ManyToMany (mappedBy = "userLikes", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "userLikes", cascade = CascadeType.PERSIST)
     private List<Picture> likedPictures = new ArrayList<>();// List of all his liked pictures
-    
-    @OneToMany (mappedBy = "author", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();// List of comments in all pictures
 
     // Constructors
@@ -91,6 +91,7 @@ public class User {
         }
         return comments;
     }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

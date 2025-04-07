@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 public class Picture {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
     private String name;
@@ -23,7 +23,7 @@ public class Picture {
     @Lob
     @JsonIgnore
     private Blob imageFile;
-    
+
     @ManyToOne
     private Artist artist;
 
@@ -122,7 +122,7 @@ public class Picture {
 
     public List<String> getNameUserLikes() {
         List<String> nameUserLikes = new ArrayList<>();
-        for(User user: this.userLikes){
+        for (User user : this.userLikes) {
             nameUserLikes.add(user.getName());
         }
         return nameUserLikes;
@@ -130,7 +130,7 @@ public class Picture {
 
     public List<String> getCommentsMessage() {
         List<String> commentsMessage = new ArrayList<>();
-        for(Comment comment: this.comments){
+        for (Comment comment : this.comments) {
             commentsMessage.add(comment.getMessage());
         }
         return commentsMessage;

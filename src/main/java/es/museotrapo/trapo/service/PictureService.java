@@ -87,9 +87,9 @@ public class PictureService {
      * Creates a new picture and associates it with an artist and an image file.
      *
      * @param pictureDTO the data transfer object containing picture details.
-     * @param artistId the ID of the artist to associate with the picture.
-     * @param imageFile the image file to associate with the picture.
-     * @throws IOException if there is an error handling the image file.
+     * @param artistId   the ID of the artist to associate with the picture.
+     * @param imageFile  the image file to associate with the picture.
+     * @throws IOException              if there is an error handling the image file.
      * @throws IllegalArgumentException if any required fields are empty.
      */
     public void createPicture(PictureDTO pictureDTO, Long artistId, MultipartFile imageFile) throws IOException {
@@ -127,10 +127,10 @@ public class PictureService {
     /**
      * Creates and associates an image file to an existing picture via a REST endpoint.
      *
-     * @param picId the ID of the picture to update.
-     * @param location the URI location of the image.
+     * @param picId       the ID of the picture to update.
+     * @param location    the URI location of the image.
      * @param inputStream the input stream of the image file.
-     * @param size the size of the image file.
+     * @param size        the size of the image file.
      * @throws IOException if there is an error handling the image file.
      */
     public void createPictureImageREST(Long picId, URI location, InputStream inputStream, long size) throws IOException {
@@ -167,38 +167,6 @@ public class PictureService {
     }
 
     /**
-     * Adds a comment to a picture.
-     *
-     * @param commentDTO the comment to add.
-     * @param picId the ID of the picture to add the comment to.
-     * @return the updated PictureDTO with the new comment.
-     */
-    public PictureDTO addComment(CommentDTO commentDTO, long picId) {
-        Picture picture = pictureRepository.findById(picId).orElseThrow();
-        Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
-        picture.getComments().add(comment); // Add the comment to the picture's list of comments
-        pictureRepository.save(picture); // Save the picture with the new comment
-        return toDTO(picture); // Return the updated picture as a DTO
-    }
-
-    /**
-     * Removes a comment from a picture.
-     *
-     * @param commentId the ID of the comment to remove.
-     * @param picId the ID of the picture to remove the comment from.
-     * @return the updated PictureDTO after removing the comment.
-     */
-    public PictureDTO removeComment(Long commentId, long picId) {
-        Picture picture = pictureRepository.findById(picId).orElseThrow();
-        Comment comment = commentService.toDomain(commentService.getComment(commentId));
-        picture.getComments().remove(comment); // Remove the comment from the picture's list of comments
-        pictureRepository.save(picture); // Save the updated picture
-        commentService.deleteComment(commentId, picId); // Delete the comment from the repository
-        return toDTO(picture); // Return the updated picture as a DTO
-    }
-
-    /**
      * Retrieves the image of a picture.
      *
      * @param id the ID of the picture.
@@ -212,6 +180,44 @@ public class PictureService {
         } else {
             throw new NoSuchElementException(); // Throw an error if the image is not found
         }
+    }
+
+    /**
+     * Adds a comment to a picture.
+     *
+     * @param commentDTO the comment to add.
+     * @param picId      the ID of the picture to add the comment to.
+     * @return the updated PictureDTO with the new comment.
+     */
+    public CommentDTO addComment(CommentDTO commentDTO, long picId) {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
+        Comment comment = commentService.toDomain(commentDTO);
+        comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
+        picture.getComments().add(comment); // Add the comment to the picture's list of comments
+        pictureRepository.save(picture); // Save the picture with the new comment
+        return commentService.toDTO(comment); // Return the updated picture as a DTO
+    }
+
+    /**
+     * Removes a comment from a picture.
+     *
+     * @param commentId the ID of the comment to remove.
+     * @param picId     the ID of the picture to remove the comment from.
+     * @return the updated PictureDTO after removing the comment.
+     */
+    public CommentDTO removeComment(Long commentId, long picId) {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
+        Comment comment = commentService.toDomain(commentService.getComment(commentId));
+        picture.getComments().remove(comment); // Remove the comment from the picture's list of comments
+        pictureRepository.save(picture); // Save the updated picture
+        commentService.deleteComment(commentId, picId); // Delete the comment from the repository
+        return commentService.toDTO(comment); // Return the updated picture as a DTO
+    }
+
+    public Collection<CommentDTO> getComments(long picId) {
+        Picture picture = pictureRepository.findById(picId).orElseThrow();
+        Collection<Comment> comments = picture.getComments();
+        return commentService.toDTOs(comments);
     }
 
     /**
@@ -231,9 +237,9 @@ public class PictureService {
      */
     public Page<PictureDTO> convertToDTOPage(Page<Picture> picturePage) {
         return new PageImpl<>(
-            picturePage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
-            picturePage.getPageable(),
-            picturePage.getTotalElements()
+                picturePage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
+                picturePage.getPageable(),
+                picturePage.getTotalElements()
         );
     }
 

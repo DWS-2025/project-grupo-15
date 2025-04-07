@@ -52,7 +52,7 @@ public class CommentService {
      * Removes the comment from the associated picture and author.
      *
      * @param commentId the ID of the comment to delete
-     * @param picId the ID of the picture associated with the comment
+     * @param picId     the ID of the picture associated with the comment
      * @return the deleted CommentDTO
      * @throws NoSuchElementException if the comment or picture is not found
      */
@@ -86,7 +86,7 @@ public class CommentService {
     }
 
     // Helper method to convert a collection of Comment entities to CommentDTOs
-    private Collection<CommentDTO> toDTOs(Collection<Comment> comments) {
+    protected Collection<CommentDTO> toDTOs(Collection<Comment> comments) {
         return mapper.toDTOs(comments);
     }
 }

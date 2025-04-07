@@ -11,14 +11,14 @@ import jakarta.persistence.*;
 public class Artist {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;
     private String nickname;
     private String birthDate;
-    
-    @OneToMany (mappedBy = "artist", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Picture> paintedPictures = new ArrayList<>();
 
     // Constructors

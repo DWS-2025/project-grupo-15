@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ArtistMapper {
-    
+
     ArtistDTO toDTO(Artist artist);
 
     List<ArtistDTO> toDTOs(Collection<Artist> artists);

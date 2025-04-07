@@ -28,7 +28,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 public class ArtistControllerREST {
 
     // Injecting the ArtistService to manage artist-related functionality
-    @Autowired 
+    @Autowired
     private ArtistService artistService;
 
     /**
@@ -41,7 +41,7 @@ public class ArtistControllerREST {
     public Page<ArtistDTO> getArtists(Pageable pageable) {
         return artistService.getArtists(pageable); // Retrieve artists with pagination
     }
-    
+
     /**
      * Endpoint to retrieve a specific artist by its ID.
      *
@@ -70,7 +70,7 @@ public class ArtistControllerREST {
         // Return the created artist along with the location header
         return ResponseEntity.created(location).body(artistDTO);
     }
-    
+
     /**
      * Endpoint to delete a specific artist by its ID.
      *
@@ -85,7 +85,7 @@ public class ArtistControllerREST {
     /**
      * Endpoint to update an artist with new data.
      *
-     * @param id the ID of the artist to update.
+     * @param id               the ID of the artist to update.
      * @param updatedArtistDTO the new artist data.
      * @return the updated ArtistDTO.
      */

@@ -51,7 +51,7 @@ public class SampleDataService {
         artistRepository.save(daVinchi);
         artistRepository.save(unknown);
 
-      // Create a sample picture
+        // Create a sample picture
         Picture monaLisa = new Picture("Mona Picha", "1900");
         Picture marioConda = new Picture("MarioConda", "2000");
 

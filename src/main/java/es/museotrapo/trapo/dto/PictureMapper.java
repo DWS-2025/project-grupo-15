@@ -37,6 +37,7 @@ public interface PictureMapper {
      * @param pictureDTO the PictureDTO to be converted
      * @return the corresponding Picture domain object
      */
-    @Mapping(target = "imageFile", ignore = true) // Ignore the 'imageFile' field during mapping
+    @Mapping(target = "imageFile", ignore = true)
+    // Ignore the 'imageFile' field during mapping
     Picture toDomain(PictureDTO pictureDTO);
 }

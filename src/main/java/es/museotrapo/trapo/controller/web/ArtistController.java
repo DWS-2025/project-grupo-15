@@ -35,16 +35,16 @@ public class ArtistController {
      * @return The view name "artists"
      */
     @GetMapping("")
-    public String getArtists(Model model, 
-                            @RequestParam(required = false) String name, 
-                            @RequestParam(required = false) String nickname,
-                            @RequestParam(required = false) String birthDate,
-                            Pageable artistPage) {
+    public String getArtists(Model model,
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) String nickname,
+                             @RequestParam(required = false) String birthDate,
+                             Pageable artistPage) {
         int pageSize = 3;
 
         artistPage = PageRequest.of(artistPage.getPageNumber(), pageSize);
 
-        if (name != null || nickname != null || birthDate != null){
+        if (name != null || nickname != null || birthDate != null) {
             Page<ArtistDTO> artists = artistService.searchArtists(name, nickname, birthDate, artistPage);
             model.addAttribute("artists", artists);
         } else {
@@ -53,12 +53,12 @@ public class ArtistController {
         }
 
         boolean hasPrev = artistPage.getPageNumber() >= 1;
-    	boolean hasNext = (artistPage.getPageNumber() * artistPage.getPageSize()) < artistService.count();
+        boolean hasNext = (artistPage.getPageNumber() * artistPage.getPageSize()) < artistService.count();
 
-		model.addAttribute("hasPrev", hasPrev);
-		model.addAttribute("prev", artistPage.getPageNumber() - 1);
-		model.addAttribute("hasNext", hasNext);
-		model.addAttribute("next", artistPage.getPageNumber() + 1);
+        model.addAttribute("hasPrev", hasPrev);
+        model.addAttribute("prev", artistPage.getPageNumber() - 1);
+        model.addAttribute("hasNext", hasNext);
+        model.addAttribute("next", artistPage.getPageNumber() + 1);
 
         return "artists"; // Return the view name
     }
@@ -106,15 +106,15 @@ public class ArtistController {
      */
     @GetMapping("/{id}")
     public String getArtist(Model model, @PathVariable long id) {
-        
-        try {
-			ArtistDTO artist = artistService.getArtist(id);
-			model.addAttribute("artist", artist);
-			return "show_artist";	
 
-		} catch (NoSuchElementException e){
-			return "artist_not_found";
-		}
+        try {
+            ArtistDTO artist = artistService.getArtist(id);
+            model.addAttribute("artist", artist);
+            return "show_artist";
+
+        } catch (NoSuchElementException e) {
+            return "artist_not_found";
+        }
     }
 
     /**
@@ -127,12 +127,12 @@ public class ArtistController {
     public String deleteArtist(@PathVariable long id) {
 
         try {
-			artistService.deleteArtist(id);
-			return "deleted_artist";
+            artistService.deleteArtist(id);
+            return "deleted_artist";
 
-		} catch (NoSuchElementException e){
-			return "artist_not_found";
-		}
+        } catch (NoSuchElementException e) {
+            return "artist_not_found";
+        }
     }
 
     /**
@@ -146,33 +146,33 @@ public class ArtistController {
     public String editArtist(Model model, @PathVariable long id) {
 
         try {
-			ArtistDTO artist = artistService.getArtist(id);
-			model.addAttribute("artist", artist);
+            ArtistDTO artist = artistService.getArtist(id);
+            model.addAttribute("artist", artist);
             model.addAttribute("isEdit", true); // Set isEdit to true to indicate that the form is for edit
             return "form_artist";
 
-		} catch (NoSuchElementException e){
-			return "artist_not_found";
-		}
+        } catch (NoSuchElementException e) {
+            return "artist_not_found";
+        }
     }
 
     /**
      * Handles the submission of the form to update an artist.
      *
-     * @param model         The model to add attributes to
+     * @param model The model to add attributes to
      * @return A redirect to the updated artist's page
      */
     @PostMapping("/{id}/edit")
     public String updateArtist(Model model, ArtistDTO updatedArtistDTO) {
 
         try {
-		
-			artistService.replaceArtist(updatedArtistDTO.id(), updatedArtistDTO);
-			model.addAttribute("artist", updatedArtistDTO);
-			return "redirect:/artists/" + updatedArtistDTO.id();
 
-		} catch (NoSuchElementException e){
-			return "artist_not_found";
-		}
+            artistService.replaceArtist(updatedArtistDTO.id(), updatedArtistDTO);
+            model.addAttribute("artist", updatedArtistDTO);
+            return "redirect:/artists/" + updatedArtistDTO.id();
+
+        } catch (NoSuchElementException e) {
+            return "artist_not_found";
+        }
     }
 }

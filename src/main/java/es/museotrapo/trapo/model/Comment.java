@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Comment {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String message;
@@ -42,7 +42,7 @@ public class Comment {
         this.message = message;
     }
 
-    public String getNameAuthor(){
+    public String getNameAuthor() {
         return this.author.getName();
     }
 

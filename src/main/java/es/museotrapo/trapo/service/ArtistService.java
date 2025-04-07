@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.Collection;
 
 /**
- * Service class for managing Artist entities. 
+ * Service class for managing Artist entities.
  * Provides methods to interact with the ArtistRepository and PictureRepository to perform CRUD operations.
  */
 @Service // Spring annotation indicating this is a service class
@@ -80,7 +80,7 @@ public class ArtistService {
     /**
      * Replaces an existing artist with a new artist, identified by the given ID.
      *
-     * @param id the ID of the artist to replace
+     * @param id               the ID of the artist to replace
      * @param updatedArtistDTO the updated ArtistDTO
      * @return the updated ArtistDTO
      * @throws NoSuchElementException if the artist does not exist
@@ -118,9 +118,9 @@ public class ArtistService {
      */
     public Page<ArtistDTO> convertToDTOPage(Page<Artist> artistPage) {
         return new PageImpl<>(
-            artistPage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
-            artistPage.getPageable(),
-            artistPage.getTotalElements()
+                artistPage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
+                artistPage.getPageable(),
+                artistPage.getTotalElements()
         );
     }
 
@@ -137,10 +137,10 @@ public class ArtistService {
      * Searches for artists based on the provided criteria: name, nickname, and birth date.
      * The search is case-insensitive.
      *
-     * @param name the name of the artist to search for (optional)
-     * @param nickname the nickname of the artist to search for (optional)
+     * @param name      the name of the artist to search for (optional)
+     * @param nickname  the nickname of the artist to search for (optional)
      * @param birthDate the birth date of the artist to search for (optional)
-     * @param pageable the pagination information
+     * @param pageable  the pagination information
      * @return a paginated list of ArtistDTOs matching the search criteria
      */
     public Page<ArtistDTO> searchArtists(String name, String nickname, String birthDate, Pageable pageable) {
