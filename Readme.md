@@ -69,11 +69,20 @@ El sistema se basa en una arquitectura REST bien estructurada. Las entidades cla
 Desarrollado por el grupo **15**:
 
 👨‍💻 **Alejandro Sanchez Díaz**  
-Encargado de .  
+Encargado de:
+  - Controladores Rest
+  - Conversión a DTO y Mappers
+  - Postman sampleData
+  - Cambio a base de datos MySQL
+  - Arreglos menores
 🔗 [@asaanchezz10](https://github.com/asaanchezz10)
 
 👨‍🎨 **Samuel López Cabezudo**  
-Responsable de.  
+Responsable de:
+- Paginación
+- Consulta dinámica
+- Controladores Rest
+- Arreglos menores
 🔗 [@P3rseo](https://github.com/P3rseo)
 
 ---
