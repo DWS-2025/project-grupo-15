@@ -68,13 +68,13 @@ El sistema se basa en una arquitectura REST bien estructurada. Las entidades cla
 
 Desarrollado por el grupo **15**:
 
-👨‍💻 **Alejandro Sanchez**  
+👨‍💻 **Alejandro Sanchez Díaz**  
 Encargado de .  
-🔗 [@usuarioGit](https://github.com/<idDeGithub>)
+🔗 [@asaanchezz10](https://github.com/https://github.com/asaanchezz10)
 
-👨‍🎨 **Samuel López**  
+👨‍🎨 **Samuel López Cabezudo**  
 Responsable de.  
-🔗 [@usuarioGit](https://github.com/<idDeGithub>)
+🔗 [@P3rseo](https://github.com/P3rseo)
 
 ---
 
