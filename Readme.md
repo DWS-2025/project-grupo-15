@@ -69,11 +69,11 @@ El sistema se basa en una arquitectura REST bien estructurada. Las entidades cla
 Desarrollado por el grupo **15**:
 
 👨‍💻 **Alejandro Sanchez**  
-Encargado de la integración de DTOs, lógica REST y pruebas funcionales.  
+Encargado de .  
 🔗 [@usuarioGit](https://github.com/<idDeGithub>)
 
 👨‍🎨 **Samuel López**  
-Responsable del rediseño visual, estructura de base de datos y mejoras de experiencia.  
+Responsable de.  
 🔗 [@usuarioGit](https://github.com/<idDeGithub>)
 
 ---
