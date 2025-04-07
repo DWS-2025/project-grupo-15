@@ -70,7 +70,7 @@ Desarrollado por el grupo **15**:
 
 👨‍💻 **Alejandro Sanchez Díaz**  
 Encargado de .  
-🔗 [@asaanchezz10](https://github.com/https://github.com/asaanchezz10)
+🔗 [@asaanchezz10](https://github.com/asaanchezz10)
 
 👨‍🎨 **Samuel López Cabezudo**  
 Responsable de.  
