@@ -31,10 +31,12 @@ import java.util.stream.Collectors;
 
 /**
  * Service class that manages picture-related operations.
+ * Handles operations like retrieving, creating, deleting, and modifying pictures.
  */
-@Service
+@Service // Spring annotation indicating this is a service class
 public class PictureService {
 
+    // Injecting repositories and services needed for picture operations
     @Autowired
     private PictureRepository pictureRepository;
 
@@ -50,110 +52,183 @@ public class PictureService {
     @Autowired
     private PictureMapper mapper;
 
+    /**
+     * Retrieves all pictures and converts them to PictureDTOs.
+     *
+     * @return a collection of PictureDTOs.
+     */
     public Collection<PictureDTO> getPictures() {
         return toDTOs(pictureRepository.findAll());
     }
 
-    public Page <PictureDTO> getPictures(Pageable pageable) {
+    /**
+     * Retrieves a paginated list of pictures and converts them to PictureDTOs.
+     *
+     * @param pageable the pagination information.
+     * @return a Page of PictureDTOs.
+     */
+    public Page<PictureDTO> getPictures(Pageable pageable) {
         Page<Picture> picturePage = pictureRepository.findAll(pageable);
         return convertToDTOPage(picturePage);
     }
 
+    /**
+     * Retrieves a specific picture by ID and converts it to a PictureDTO.
+     *
+     * @param id the ID of the picture.
+     * @return the PictureDTO of the picture with the given ID.
+     * @throws NoSuchElementException if the picture is not found.
+     */
     public PictureDTO getPicture(long id) {
         return toDTO(pictureRepository.findById(id).orElseThrow());
     }
 
+    /**
+     * Creates a new picture and associates it with an artist and an image file.
+     *
+     * @param pictureDTO the data transfer object containing picture details.
+     * @param artistId the ID of the artist to associate with the picture.
+     * @param imageFile the image file to associate with the picture.
+     * @throws IOException if there is an error handling the image file.
+     * @throws IllegalArgumentException if any required fields are empty.
+     */
     public void createPicture(PictureDTO pictureDTO, Long artistId, MultipartFile imageFile) throws IOException {
         // Validate if all required fields are filled
         Picture picture = toDomain(pictureDTO);
-        if (picture.getDate().isEmpty()|| picture.getName().isEmpty()|| artistId == null || imageFile.isEmpty()) {
-            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
+        if (picture.getDate().isEmpty() || picture.getName().isEmpty() || artistId == null || imageFile.isEmpty()) {
+            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Error if any field is empty
         }
-        if(!imageFile.isEmpty()) {
+        // If the image file is provided, mark it as "True" and set the image file
+        if (!imageFile.isEmpty()) {
             picture.setImage("True");
         }
-        // Create and save the image, then associate it with the picture
+
+        // Generate a Blob from the image file and associate it with the picture
         picture.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        picture.setArtist(artistService.toDomain(artistService.getArtist(artistId)));
-        pictureRepository.save(picture);
+        picture.setArtist(artistService.toDomain(artistService.getArtist(artistId))); // Associate the artist with the picture
+        pictureRepository.save(picture); // Save the picture
     }
 
+    /**
+     * Creates a new picture via a REST endpoint, associating it with an artist.
+     *
+     * @param pictureDTO the data transfer object containing picture details.
+     * @return the PictureDTO of the newly created picture.
+     * @throws IOException if there is an error handling the picture data.
+     */
     public PictureDTO createPictureREST(PictureDTO pictureDTO) throws IOException {
-        // Validate if all required fields are filled
+        // Convert the PictureDTO to a Picture domain object and associate the artist
         Picture picture = toDomain(pictureDTO);
-        /*if (picture.getDate().isEmpty()|| picture.getName().isEmpty()) {
-            throw new IllegalArgumentException("NO pueden haber campos vacios"); // Throw error if any field is empty
-        }
-
-         */
-
-        // Create and save the image, then associate it with the picture
         picture.setArtist(artistService.toDomain(artistService.getArtist(pictureDTO.artistId())));
-        pictureRepository.save(picture);
-        return toDTO(picture);
+        pictureRepository.save(picture); // Save the picture
+        return toDTO(picture); // Return the newly created picture as a DTO
     }
 
+    /**
+     * Creates and associates an image file to an existing picture via a REST endpoint.
+     *
+     * @param picId the ID of the picture to update.
+     * @param location the URI location of the image.
+     * @param inputStream the input stream of the image file.
+     * @param size the size of the image file.
+     * @throws IOException if there is an error handling the image file.
+     */
     public void createPictureImageREST(Long picId, URI location, InputStream inputStream, long size) throws IOException {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
-
-        picture.setImage(location.toString());
-        picture.setImageFile(BlobProxy.generateProxy(inputStream, size));
-        pictureRepository.save(picture);
+        picture.setImage(location.toString()); // Set the image location
+        picture.setImageFile(BlobProxy.generateProxy(inputStream, size)); // Set the image file
+        pictureRepository.save(picture); // Save the picture with the new image
     }
 
+    /**
+     * Deletes a picture and its associated data (like user likes and comments).
+     *
+     * @param pictureDTO the data transfer object representing the picture to delete.
+     * @return the PictureDTO of the deleted picture.
+     */
     public PictureDTO deletePicture(PictureDTO pictureDTO) {
         Picture picture = toDomain(pictureDTO);
+
         // Remove the picture from all users' liked lists
         for (User user : picture.getUserLikes()) {
             user.getLikedPictures().remove(picture);
         }
-        picture.getUserLikes().clear();
+        picture.getUserLikes().clear(); // Clear the list of users who liked the picture
 
-        // Remove all comments associated with the picture
+        // Delete all comments associated with the picture
         List<Comment> comments = picture.getComments();
         for (int i = comments.size() - 1; i >= 0; --i) {
             commentService.deleteComment(comments.get(i).getId(), pictureDTO.id());
         }
 
-        picture.getComments().clear();
-        pictureRepository.deleteById(picture.getId());
-        return pictureDTO;
+        picture.getComments().clear(); // Clear the list of comments
+        pictureRepository.deleteById(picture.getId()); // Delete the picture
+        return pictureDTO; // Return the deleted picture as a DTO
     }
 
+    /**
+     * Adds a comment to a picture.
+     *
+     * @param commentDTO the comment to add.
+     * @param picId the ID of the picture to add the comment to.
+     * @return the updated PictureDTO with the new comment.
+     */
     public PictureDTO addComment(CommentDTO commentDTO, long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
-        comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO()));
-        picture.getComments().add(comment);
-        commentService.toDTO(comment);
-        pictureRepository.save(picture);
-        return toDTO(picture);
+        comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
+        picture.getComments().add(comment); // Add the comment to the picture's list of comments
+        pictureRepository.save(picture); // Save the picture with the new comment
+        return toDTO(picture); // Return the updated picture as a DTO
     }
 
+    /**
+     * Removes a comment from a picture.
+     *
+     * @param commentId the ID of the comment to remove.
+     * @param picId the ID of the picture to remove the comment from.
+     * @return the updated PictureDTO after removing the comment.
+     */
     public PictureDTO removeComment(Long commentId, long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentService.getComment(commentId));
-        picture.getComments().remove(comment);
-        pictureRepository.save(picture);
-        commentService.deleteComment(commentId, picId);
-        return toDTO(picture);
+        picture.getComments().remove(comment); // Remove the comment from the picture's list of comments
+        pictureRepository.save(picture); // Save the updated picture
+        commentService.deleteComment(commentId, picId); // Delete the comment from the repository
+        return toDTO(picture); // Return the updated picture as a DTO
     }
 
+    /**
+     * Retrieves the image of a picture.
+     *
+     * @param id the ID of the picture.
+     * @return a Resource containing the image file.
+     * @throws SQLException if the image file is not found or there is an error accessing it.
+     */
     public Resource getPictureImage(long id) throws SQLException {
-
         Picture picture = pictureRepository.findById(id).orElseThrow();
-
-        if(picture.getImageFile() != null) {
-            return new InputStreamResource(picture.getImageFile().getBinaryStream());
-        }else {
-            throw new NoSuchElementException();
+        if (picture.getImageFile() != null) {
+            return new InputStreamResource(picture.getImageFile().getBinaryStream()); // Return the image as a resource
+        } else {
+            throw new NoSuchElementException(); // Throw an error if the image is not found
         }
     }
 
-    public long count(){
-		return pictureRepository.count();
-	}
+    /**
+     * Retrieves the total count of pictures in the repository.
+     *
+     * @return the number of pictures.
+     */
+    public long count() {
+        return pictureRepository.count();
+    }
 
+    /**
+     * Converts a Page of Picture entities to a Page of PictureDTOs.
+     *
+     * @param picturePage the Page of Picture entities.
+     * @return a Page of PictureDTOs.
+     */
     public Page<PictureDTO> convertToDTOPage(Page<Picture> picturePage) {
         return new PageImpl<>(
             picturePage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
@@ -162,15 +237,17 @@ public class PictureService {
         );
     }
 
+    // Helper methods to convert between Picture entities and PictureDTOs
+
     private PictureDTO toDTO(Picture picture) {
         return mapper.toDTO(picture);
     }
 
-    protected Picture toDomain(PictureDTO pictureDTO){
+    protected Picture toDomain(PictureDTO pictureDTO) {
         return mapper.toDomain(pictureDTO);
     }
 
-    private Collection<PictureDTO> toDTOs(Collection<Picture> pictures){
+    private Collection<PictureDTO> toDTOs(Collection<Picture> pictures) {
         return mapper.toDTOs(pictures);
     }
 }
