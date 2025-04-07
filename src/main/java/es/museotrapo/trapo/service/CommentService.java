@@ -1,7 +1,6 @@
 package es.museotrapo.trapo.service;
 
 import es.museotrapo.trapo.dto.CommentDTO;
-import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.CommentMapper;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
@@ -9,11 +8,10 @@ import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.CommentRepository;
 import es.museotrapo.trapo.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Optional;
+
 
 /**
  * Service class for managing Comment entities.

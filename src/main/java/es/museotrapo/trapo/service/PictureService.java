@@ -1,10 +1,8 @@
 package es.museotrapo.trapo.service;
 
-import es.museotrapo.trapo.dto.ArtistDTO;
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.PictureMapper;
-import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;

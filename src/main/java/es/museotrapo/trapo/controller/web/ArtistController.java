@@ -1,6 +1,5 @@
 package es.museotrapo.trapo.controller.web;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.service.ArtistService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 @RequestMapping("/artists")

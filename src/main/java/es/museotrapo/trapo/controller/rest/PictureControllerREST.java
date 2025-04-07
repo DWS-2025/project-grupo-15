@@ -2,7 +2,6 @@ package es.museotrapo.trapo.controller.rest;
 
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
-import es.museotrapo.trapo.service.CommentService;
 import es.museotrapo.trapo.service.PictureService;
 import es.museotrapo.trapo.service.UserService;
 import jakarta.annotation.Resource;
@@ -26,8 +25,6 @@ public class PictureControllerREST {
     // Injecting the PictureService to manage picture-related functionality
     @Autowired
     private PictureService pictureService;
-    @Autowired
-    private CommentService commentService;
     @Autowired
     private UserService userService;
 

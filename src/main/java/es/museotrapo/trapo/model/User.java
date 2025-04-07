@@ -3,9 +3,7 @@ package es.museotrapo.trapo.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-import es.museotrapo.trapo.dto.CommentSimpleDTO;
 import jakarta.persistence.*;
 
 @Entity
