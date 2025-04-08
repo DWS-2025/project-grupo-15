@@ -5,6 +5,9 @@ import es.museotrapo.trapo.model.Picture;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 
 /**
@@ -22,5 +25,10 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
      */
     @NonNull
     Page<Picture> findAll(Pageable pageable);
+
+    @Modifying
+    @Query(value = "DELETE FROM picture WHERE id = :id", nativeQuery = true)
+    void deleteByIdCustom(@Param("id") Long id);
+
 }
 

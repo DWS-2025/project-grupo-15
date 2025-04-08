@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.data.domain.Page;
@@ -144,14 +145,16 @@ public class PictureService {
      * @param pictureDTO the data transfer object representing the picture to delete.
      * @return the PictureDTO of the deleted picture.
      */
+    @Transactional
     public PictureDTO deletePicture(PictureDTO pictureDTO) {
-        Picture picture = toDomain(pictureDTO);
+        Picture picture = pictureRepository.findById(pictureDTO.id()).orElseThrow();
 
         // Remove the picture from all users' liked lists
         for (User user : picture.getUserLikes()) {
             user.getLikedPictures().remove(picture);
         }
         picture.getUserLikes().clear(); // Clear the list of users who liked the picture
+        pictureRepository.save(picture);
 
         // Delete all comments associated with the picture
         List<Comment> comments = picture.getComments();
@@ -160,7 +163,8 @@ public class PictureService {
         }
 
         picture.getComments().clear(); // Clear the list of comments
-        pictureRepository.deleteById(picture.getId()); // Delete the picture
+        pictureRepository.save(picture);
+        pictureRepository.deleteByIdCustom(picture.getId()); // Delete the picture
         return pictureDTO; // Return the deleted picture as a DTO
     }
 
