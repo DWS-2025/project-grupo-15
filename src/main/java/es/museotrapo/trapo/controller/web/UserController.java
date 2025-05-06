@@ -9,7 +9,7 @@ import es.museotrapo.trapo.service.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/profile")
 public class UserController {
 
     @Autowired
@@ -22,8 +22,8 @@ public class UserController {
      * @return "users" view to display the list of users
      */
     @GetMapping("")
-    public String getUsers(Model model) {
-        model.addAttribute("users", userService.findAll()); // Add all users to the model
-        return "users"; // Return the "users" view to render the list of users
+    public String me(Model model) {
+        model.addAttribute("users", this.userService.getLoggedUserDTO()); // Add all users to the model
+        return "profile"; // Return the "profile" view to render the of user page
     }
 }
