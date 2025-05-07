@@ -452,4 +452,19 @@ header {
     100% { transform: rotate(360deg); }
 }
 
+#load-more {
+    background-color: #800020;
+    color: white;
+    border: 2px solid #600018;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 20px;
+}
 
+#load-more:hover {
+    background-color: #600018;
+    transform: scale(1.05);
+}

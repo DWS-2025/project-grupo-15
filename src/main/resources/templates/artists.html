@@ -1,84 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistas</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
 
-<header>
-    <img src="/milogo.png" alt="Logo del Museo" class="logo">
-    <h1 class="title">Gran Museo del Trapo</h1>
-</header>
+    <header>
+        <img src="/milogo.png" alt="Logo del Museo" class="logo">
+        <h1 class="title">Gran Museo del Trapo</h1>
+    </header>
 
-<h1 class="gold-title">Busca tu artista</h1>
+    <h1 class="gold-title">Busca tu artista</h1>
 
-<form action="/artists" method="get" class="form search-form">
-    <div class="form-group">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name"/>
-    </div>
-    <div class="form-group">
-        <label for="nickname">Apodo:</label>
-        <input type="text" id="nickname" name="nickname"/>
-    </div>
-    <div class="form-group">
-        <label for="birthDate">Fecha de nacimiento:</label>
-        <input type="text" id="birthDate" name="birthDate"/>
-    </div>
-    <button type="submit" class="btn-wine">Buscar</button>
-</form>
-
-
-<div class="content">
-    <h1 class="gold-title">Artistas</h1>
-
-    <div class="artist-list">
-        {{#artists}}
-        <div class="artist-card">
-            <a href="/artists/{{id}}" class="btn-wine">{{nickname}}</a>
+    <form action="/artists" method="get" class="form search-form">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" />
         </div>
-        {{/artists}}
-    </div>
+        <div class="form-group">
+            <label for="nickname">Apodo:</label>
+            <input type="text" id="nickname" name="nickname" />
+        </div>
+        <div class="form-group">
+            <label for="birthDate">Fecha de nacimiento:</label>
+            <input type="text" id="birthDate" name="birthDate" />
+        </div>
+        <button type="submit" class="btn-wine">Buscar</button>
+    </form>
 
-    {{^artists}}
-    <p class="no-comments">No hay artistas disponibles, somos unos tristes.</p>
-    {{/artists}}
+    <div class="content">
+        <h1 class="gold-title">Artistas</h1>
 
-    <main>
-        <div id="artist-list" class="artist-grid"></div>
+        <div id="artist-list" class="artist-grid">
+            {{#artists}}
+            <div class="artist-card">
+                <a href="/artists/{{id}}" class="btn-wine">{{nickname}}</a>
+            </div>
+            {{/artists}}
+
+            {{^artists}}
+            <p class="no-comments">No hay artistas disponibles, somos unos tristes.</p>
+            {{/artists}}
+        </div>
+
         <div class="pagination">
-            <button id="load-more-button">Más resultados</button>
+            <button id="load-more">Más resultados</button>
             <div id="spinner" class="spinner" style="display: none;"></div>
         </div>
-    </main>
 
-    <script type="module" src="/js/artists.js"></script>
-
-    <div class="pagination">
-        <nobr>
-            {{#hasPrev}}<a href="artists?page={{prev}}">&#x2B05;&#xFE0F;</a>{{/hasPrev}}
-            {{#hasNext}}<a href="artists?page={{next}}">&#x27A1;&#xFE0F;</a>{{/hasNext}}
-        </nobr>
-    </div>
-
-
-    <!--
-    <div id="load-more-container">
-        <button id="load-more" data-page="1">Más resultados</button>
-        <div id="spinner" style="display: none;">
-          <img src="/spinner.gif" alt="Cargando..." />
+        <div class="btn-row">
+            <a href="/artists/new" class="btn">Añadir un nuevo artista</a>
+            <a href="/" class="btn">Volver al inicio</a>
         </div>
-    </div> -->
-
-
-    <div class="btn-row">
-        <a href="/artists/new" class="btn">Añadir un nuevo artista</a>
-        <a href="/" class="btn">Volver al inicio</a>
     </div>
-</div>
 
+    <script type="module" src="/js/artist-pagination.js"></script>
 </body>
+
 </html>

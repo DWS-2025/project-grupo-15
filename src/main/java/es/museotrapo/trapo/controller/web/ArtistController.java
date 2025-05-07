@@ -1,6 +1,7 @@
 package es.museotrapo.trapo.controller.web;
 
 import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import es.museotrapo.trapo.model.Artist;
 import es.museotrapo.trapo.service.ArtistService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -62,15 +64,14 @@ public class ArtistController {
         return "artists"; // Return the view name
     }
 
-    /* 
     @GetMapping("/more")
     @ResponseBody
     public List<ArtistDTO> getMoreArtists(@RequestParam(defaultValue = "0") int page) {
-        int pageSize = 10;
-        Page<ArtistDTO> productPage = artistService.getArtists(PageRequest.of(page, pageSize));
-        return productPage.getContent();
-    }
-    */
+    int pageSize = 10;
+    Page<ArtistDTO> artistPage = artistService.getArtists(PageRequest.of(page, pageSize));
+    return artistPage.getContent();
+}
+
 
     /**
      * Displays the form to create a new artist.
