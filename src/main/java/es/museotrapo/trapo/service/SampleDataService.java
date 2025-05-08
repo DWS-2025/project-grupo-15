@@ -9,6 +9,7 @@ import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +30,8 @@ public class SampleDataService {
 
     @Autowired
     private ArtistRepository artistRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Method executed after the beans are created and the dependencies are
@@ -39,8 +42,8 @@ public class SampleDataService {
     public void init() {
 
         // Create sample users
-        User alex = userRepository.save(new User("Alex", "ponisalvaje@gmail.com"));
-        User samu = userRepository.save(new User("Samu", "sosacaustica@hotmail.com"));
+        User alex = userRepository.save(new User("user", "ponisalvaje@yahoo.es", passwordEncoder.encode("pass"), "USER"));
+        User samu = userRepository.save(new User("admin", "sosacaustica@hotmail.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");

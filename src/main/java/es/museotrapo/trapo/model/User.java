@@ -17,6 +17,11 @@ public class User {
     private String name;
     private String email;
 
+    private String encodedPassword;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
+
     // Lists inside a User
     @ManyToMany(mappedBy = "userLikes", cascade = CascadeType.PERSIST)
     private List<Picture> likedPictures = new ArrayList<>();// List of all his liked pictures
@@ -28,9 +33,11 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email) {
+    public User(String name, String email, String encodedPassword, String... roles) {
         this.name = name;
         this.email = email;
+        this.encodedPassword = encodedPassword;
+        this.roles = List.of(roles);
     }
 
     // Getters & Setters
@@ -88,6 +95,20 @@ public class User {
             comments.add(comment.getMessage());
         }
         return comments;
+    }
+    public String getEncodedPassword() {
+        return encodedPassword;
+    }
+
+    public void setEncodedPassword(String encodedPassword) {
+        this.encodedPassword = encodedPassword;
+    }
+
+    public List<String> getRoles(){
+        return this.roles;
+    }
+    public void setRoles(List<String> roles){
+        this.roles = roles;
     }
 
     @Override
