@@ -42,8 +42,10 @@ public class SampleDataService {
     public void init() {
 
         // Create sample users
-        User alex = userRepository.save(new User("user", "ponisalvaje@yahoo.es", passwordEncoder.encode("pass"), "USER"));
-        User samu = userRepository.save(new User("admin", "sosacaustica@hotmail.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER"));
+        User user1 = userRepository.save(new User("user1", "ponisalvaje@yahoo.es", passwordEncoder.encode("pass1"), "USER"));
+        User user2 = userRepository.save(new User("user2", "luisafer@yahoo.es", passwordEncoder.encode("pass2"), "USER"));
+        User user3 = userRepository.save(new User("user3", "arturito@yahoo.es", passwordEncoder.encode("pass3"), "USER"));
+        User admin = userRepository.save(new User("admin", "sosacaustica@hotmail.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
@@ -67,8 +69,8 @@ public class SampleDataService {
         monaLisa.setArtist(daVinci);
         marioConda.setArtist(daVinchi);
 
-        monaLisa.getUserLikes().add(alex);
-        marioConda.getUserLikes().add(samu);
+        monaLisa.getUserLikes().add(user1);
+        marioConda.getUserLikes().add(user2);
 
         // Create sample comments
         Comment commentSample1 = new Comment("Amazing");
@@ -76,10 +78,10 @@ public class SampleDataService {
         Comment commentSample3 = new Comment("Pretty");
         Comment commentSample4 = new Comment("Beautiful");
 
-        commentSample1.setAuthor(samu);
-        commentSample2.setAuthor(alex);
-        commentSample3.setAuthor(alex);
-        commentSample4.setAuthor(samu);
+        commentSample1.setAuthor(user1);
+        commentSample2.setAuthor(user2);
+        commentSample3.setAuthor(user2);
+        commentSample4.setAuthor(user1);
 
         monaLisa.getComments().add(commentSample1);
         monaLisa.getComments().add(commentSample2);
