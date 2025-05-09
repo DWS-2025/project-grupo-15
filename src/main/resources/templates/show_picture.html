@@ -32,10 +32,12 @@
         <div class="comment">
             <b>{{nameAuthor}}</b>: {{message}}
             <form action="/pictures/{{picture.id}}/comments/{{id}}/delete" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}"/> <!-- CSRF Token -->
                 <button type="submit" class="btn btn-delete">Eliminar</button>
             </form>
         </div>
         {{/picture.comments}}
+
 
         {{^picture.comments}}
         <p class="no-comments">No hay comentarios aún.</p>

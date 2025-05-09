@@ -10,6 +10,7 @@ body {
     color: white;
     text-align: center;
     display: flex;
+    text-align: center;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;

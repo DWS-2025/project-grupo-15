@@ -1,10 +1,31 @@
 {{>header}}
 <div class="container">
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <h1>Profile</h1>
-            <p>Welcome, {{user.name}}!</p>
-        </div>
+    <header>
+        <h1 class="title">Your profile</h1>
+    </header>
+    <div class="user-card">
+        <h2>Wellcome!!, {{username}}</h2>
     </div>
+        <div class="comments-section">
+            <p><strong>Your comments:</strong></p>
+            <ul>
+                {{#user.comments}}
+                <li>{{message}}</li>
+                {{/user.comments}}
+                {{^user.comments}}
+                <li>No comments yet by {{username}}</li>
+                {{/user.comments}}
+            </ul>
+            <p><strong>Posts liked by you:</strong></p>
+            <ul>
+                {{#user.likedPictures}}
+                <li><a href="/pictures/{{id}}">{{name}}</a></li>
+                {{/user.likedPictures}}
+                {{^user.likedPictures}}
+                <li>No liked posts by {{username}}</li>
+                {{/user.likedPictures}}
+            </ul>
+
+        </div>
 </div>
 {{>footer}}
