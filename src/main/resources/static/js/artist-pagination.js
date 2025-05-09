@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         list.appendChild(div);
                     });
 
-                    if (artists.length < 10) {
+                    if (artists.length < 3) {
                         loadMoreBtn.style.display = "none";
                     }
 

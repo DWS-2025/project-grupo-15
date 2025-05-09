@@ -67,7 +67,7 @@ public class ArtistController {
     @GetMapping("/more")
     @ResponseBody
     public List<ArtistDTO> getMoreArtists(@RequestParam(defaultValue = "0") int page) {
-    int pageSize = 10;
+    int pageSize = 3; // Number of artists per page
     Page<ArtistDTO> artistPage = artistService.getArtists(PageRequest.of(page, pageSize));
     return artistPage.getContent();
 }
