@@ -43,9 +43,32 @@
 
         <form action="/pictures/{{picture.id}}/comments/new" method="post" class="add-comment-form">
             <label for="comment-message">Escribe un comentario:</label>
-            <input type="text" id="comment-message" name="message" placeholder="Escribe un comentario..." required>
+
+            <!-- Quill Editor -->
+            <div id="quill-editor" style="height: 150px;"></div>
+
+            <!-- Input oculto para enviar el contenido HTML -->
+            <input type="hidden" name="message" id="comment-message" required>
+
             <button type="submit" class="btn">Agregar comentario</button>
         </form>
+
+        <!-- Incluir Quill.js -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet">
+
+        <script>
+            // Inicializar Quill
+            const quill = new Quill('#quill-editor', {
+                theme: 'snow'
+            });
+
+            // Sincronizar Quill con el input oculto
+            document.querySelector('.add-comment-form').addEventListener('submit', function () {
+                document.getElementById('comment-message').value = quill.root.innerHTML;
+            });
+        </script>
+
     </div>
 
     <div class="btn-row">
