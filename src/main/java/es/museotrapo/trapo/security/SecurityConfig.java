@@ -96,10 +96,10 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
                 //PUBLIC
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
                 .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
-                .requestMatchers("/artists/**").permitAll()
-                .requestMatchers("/error").permitAll()
+                .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
+                .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
                 //PRIVATE
                 .requestMatchers("/profile").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/pictures/new").hasAnyRole("ADMIN", "USER")
