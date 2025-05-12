@@ -45,16 +45,36 @@ public class SampleDataService {
         User user1 = userRepository.save(new User("user1", "ponisalvaje@yahoo.es", passwordEncoder.encode("pass1"), "USER"));
         User user2 = userRepository.save(new User("user2", "luisafer@yahoo.es", passwordEncoder.encode("pass2"), "USER"));
         User user3 = userRepository.save(new User("user3", "arturito@yahoo.es", passwordEncoder.encode("pass3"), "USER"));
+        User user4 = userRepository.save(new User("user4", "nose@yahoo.es", passwordEncoder.encode("pass4"), "USER"));
+        User user5 = userRepository.save(new User("user5", "queponer@yahoo.es", passwordEncoder.encode("pass5"), "USER"));
         User admin = userRepository.save(new User("admin", "sosacaustica@hotmail.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER"));
 
         // Create sample artists
         Artist unknown = new Artist("", "Artista Desconocido", "");
         Artist daVinci = new Artist("Leonardo", "DaPichi", "1400");
         Artist daVinchi = new Artist("Webonardo", "DePincho", "1500");
+        Artist daVinicius = new Artist("Tumai", "daVinicius", "1500");
+        Artist daPincho = new Artist("dolomites", "daPinchote", "1500");
+        Artist deLoite = new Artist("Kilian", "deLoite", "1500");
+        Artist NoseYamas = new Artist("Weardo", "NoseYamas", "1500");
+        Artist LaRuina = new Artist("onardo", "LaRuina", "1500");
+        Artist EsteNoSbe = new Artist("Webo", "EsteNoSbe", "1500");
+        Artist PatronDelMal = new Artist("pariguayo", "PatronDelMal", "1500");
+        Artist SIoQUEE = new Artist("asindeuq", "SIoQUEE", "1500");
+        Artist TUTECallas = new Artist("asi", "TUTECallas", "1500");
 
         artistRepository.save(daVinci);
         artistRepository.save(daVinchi);
         artistRepository.save(unknown);
+        artistRepository.save(daVinicius);
+        artistRepository.save(daPincho);
+        artistRepository.save(deLoite);
+        artistRepository.save(NoseYamas);
+        artistRepository.save(LaRuina);
+        artistRepository.save(EsteNoSbe);
+        artistRepository.save(PatronDelMal);
+        artistRepository.save(SIoQUEE);
+        artistRepository.save(TUTECallas);
 
         // Create a sample picture
         Picture monaLisa = new Picture("Mona Picha", "1900");

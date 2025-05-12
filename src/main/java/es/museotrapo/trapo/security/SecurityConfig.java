@@ -107,8 +107,9 @@ public class SecurityConfig {
                 .requestMatchers("/artists/edit").hasAnyRole("ADMIN", "USER")
                 //.requestMatchers("/pictures/**/delete").hasAnyRole("ADMIN")
                 .requestMatchers("/artists/delete").hasAnyRole("ADMIN")
-                  //      .requestMatchers("/pictures/**/likeToggle").hasAnyRole("ADMIN", "USER")
-                    //    .requestMatchers("/pictures/**/comments/new").hasAnyRole("ADMIN", "USER")
+                //      .requestMatchers("/pictures/**/likeToggle").hasAnyRole("ADMIN", "USER")
+                //    .requestMatchers("/pictures/**/comments/new").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/pictures/**/comments/**/delete").hasAnyRole("ADMIN")
         )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

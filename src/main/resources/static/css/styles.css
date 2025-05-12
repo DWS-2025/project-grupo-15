@@ -386,7 +386,7 @@ header {
     color: #e0c48c;
 }
 .pagination {
-    margin: 30px 0;
+    margin: 30px 0 auto;
     text-align: center;
 }
 
