@@ -3,6 +3,7 @@ package es.museotrapo.trapo.controller.web;
 import es.museotrapo.trapo.dto.UserDTO;
 import es.museotrapo.trapo.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -33,5 +34,11 @@ public class LoginController {
     public String register(UserDTO userDTO, String password) {
         userService.add(userDTO, password);
         return "saved_user";
+    }
+
+    @GetMapping("/profile")
+    public String me(Model model) {
+        model.addAttribute("user", this.userService.getLoggedUserDTO()); // Add all users to the model
+        return "profile"; // Return the "profile" view to render the of user page
     }
 }
