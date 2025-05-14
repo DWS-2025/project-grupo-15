@@ -19,12 +19,19 @@
   <img src="/milogo.png" alt="Logo del Museo" class="logo">
   <h1 class="title">Gran Museo del Trapo</h1>
 </header>
-
-<form action="/login" method="post" class="d-flex flex-column gap-2 p-4">
-  <input type="text" class="form-control" name="username" placeholder="Username">
-  <input type="password" class="form-control" name="password" placeholder="Password">
-  <div class="text-start w-100">
-    <button type="submit" class="btn btn-primary">Log In</button>
+<form action="/login" method="post" class="form search-form">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" />
+  </div>
+  <div class="btn-row">
+    <button type="submit" class="btn">Log In</button>
+    <a href="/register" class="btn">Sign up</a>
+    <a href="/" class="btn-delete">Back</a>
   </div>
   <input type="hidden" name="_csrf" value="{{token}}" />
 </form>

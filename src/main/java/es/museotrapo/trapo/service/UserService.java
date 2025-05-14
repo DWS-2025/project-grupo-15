@@ -8,9 +8,12 @@ import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -21,6 +24,8 @@ public class UserService {
     private PictureRepository pictureRepository;
     @Autowired
     private UserMapper mapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -71,6 +76,12 @@ public class UserService {
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
+    public void add(UserDTO userDTO, String password) {
+        User user = toDomain(userDTO);
+        user.setEncodedPassword(passwordEncoder.encode(password));
+        user.setRoles(Collections.singletonList("USER"));
+        userRepository.save(user);
+    }
     private UserDTO toDTO(User user) {
         return mapper.toDTO(user);
     }

@@ -96,10 +96,11 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
                 //PUBLIC
-                .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
-                .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
-                .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
-                .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
+                                .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
+                                .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
+                                .requestMatchers("/register").permitAll()
                 //PRIVATE
                 .requestMatchers("/profile").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/pictures/new").hasAnyRole("ADMIN", "USER")
@@ -109,7 +110,7 @@ public class SecurityConfig {
                 .requestMatchers("/artists/delete").hasAnyRole("ADMIN")
                 //      .requestMatchers("/pictures/**/likeToggle").hasAnyRole("ADMIN", "USER")
                 //    .requestMatchers("/pictures/**/comments/new").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/pictures/**/comments/**/delete").hasAnyRole("ADMIN")
+                //.requestMatchers("/pictures/**/comments/**/delete").hasAnyRole("ADMIN")
         )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
