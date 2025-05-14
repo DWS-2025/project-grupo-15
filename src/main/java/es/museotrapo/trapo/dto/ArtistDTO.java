@@ -1,6 +1,5 @@
 package es.museotrapo.trapo.dto;
 
-
 import java.util.List;
 
 public record ArtistDTO(
@@ -8,6 +7,7 @@ public record ArtistDTO(
         String name,
         String nickname,
         String birthDate,
-        List<PictureSimpleDTO> paintedPictures) {
+        List<PictureSimpleDTO> paintedPictures,
+        String biography) {
 }
    

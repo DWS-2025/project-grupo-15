@@ -14,12 +14,15 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    private String biography;
+
     private String name;
     private String nickname;
     private String birthDate;
 
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Picture> paintedPictures = new ArrayList<>();
+
 
     // Constructors
     public Artist() {
@@ -82,6 +85,13 @@ public class Artist {
             namePaintedPictures.add(picture.getName());
         }
         return namePaintedPictures;
+    }
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
 
     @Override
