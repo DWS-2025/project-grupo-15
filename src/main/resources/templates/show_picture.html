@@ -43,43 +43,47 @@
         <p class="no-comments">No hay comentarios aún.</p>
         {{/picture.comments}}
 
+        {{#logged}}
         <form action="/pictures/{{picture.id}}/comments/new" method="post" class="add-comment-form">
             <label for="comment-message">Escribe un comentario:</label>
 
             <!-- Quill Editor -->
-            <div id="quill-editor" style="height: 150px;"></div>
+            <div id="editor" style="height: 150px;"></div>
 
             <!-- Input oculto para enviar el contenido HTML -->
-            <input type="hidden" name="message" id="comment-message" required>
+            <textarea style="display: none;" id="comment-message" name="message" required></textarea>
 
             <button type="submit" class="btn">Agregar comentario</button>
+            <input type="hidden" name="_csrf" value="{{token}}"/> <!-- CSRF Token -->
         </form>
-
-        <!-- Incluir Quill.js -->
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet">
-
-        <script>
-            // Inicializar Quill
-            const quill = new Quill('#quill-editor', {
-                theme: 'snow'
-            });
-
-            // Sincronizar Quill con el input oculto
-            document.querySelector('.add-comment-form').addEventListener('submit', function () {
-                document.getElementById('comment-message').value = quill.root.innerHTML;
-            });
-        </script>
-
+        {{/logged}}
     </div>
-
     <div class="btn-row">
         <a href="/pictures" class="btn">Volver</a>
         <form action="/pictures/{{picture.id}}/delete" method="post"
               onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
-            <button type="submit" class="btn btn-delete">Eliminar cuadro</button>
+            <button type="submit" class="btn-delete">Eliminar cuadro</button>
         </form>
     </div>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet">
+    <!-- Initialize Quill editor -->
+    <script>
+        const quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+        quill.on('text-change', function () {
+            let userInput = quill.root.innerHTML;
+            let sanitizedInput = DOMPurify.sanitize(userInput, {ALLOWED_TAGS: []});
+            document.getElementById('comment-message').value = sanitizedInput;
+        });
+    </script>
+
+    <!-- Include DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.7/dist/purify.min.js"></script>
+
 </div>
 
 {{>footer}}

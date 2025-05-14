@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+
 /**
  * Service class that manages picture-related operations.
  * Handles operations like retrieving, creating, deleting, and modifying pictures.
@@ -194,6 +195,8 @@ public class PictureService {
     public CommentDTO addComment(CommentDTO commentDTO, long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
+        String SanitizedMessage = SanitizeService.sanitize(comment.getMessage());
+        comment.setMessage(SanitizedMessage);
         comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
         picture.getComments().add(comment); // Add the comment to the picture's list of comments
         pictureRepository.save(picture); // Save the picture with the new comment

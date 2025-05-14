@@ -36,7 +36,7 @@ public class LoginController {
         return "saved_user";
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/login-profile")
     public String me(Model model) {
         model.addAttribute("user", this.userService.getLoggedUserDTO()); // Add all users to the model
         return "profile"; // Return the "profile" view to render the of user page
