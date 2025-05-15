@@ -7,6 +7,7 @@ import es.museotrapo.trapo.dto.ArtistDTO;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +58,12 @@ public class ArtistService {
     public Page<ArtistDTO> getArtists(Pageable pageable) {
         // Fetches the paginated list of artists from the repository and converts them to DTOs
         Page<Artist> artistPage = artistRepository.findAll(pageable);
+        return convertToDTOPage(artistPage);
+    }
+
+    public Page<ArtistDTO> getArtists(Example<Artist> example, Pageable pageable) {
+        // Fetches the paginated list of artists from the repository and converts them to DTOs
+        Page<Artist> artistPage = artistRepository.findAll(example, pageable);
         return convertToDTOPage(artistPage);
     }
 

@@ -112,6 +112,7 @@ public class SecurityConfig {
                         .requestMatchers("/pictures/*/likeToggle").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/pictures/*/comments/new").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/pictures/*/comments/*/delete").hasAnyRole("ADMIN")
+                        .requestMatchers("/users").hasAnyRole("ADMIN")
         )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

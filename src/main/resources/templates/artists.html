@@ -37,12 +37,14 @@
             <button id="load-more">Más resultados</button>
             <div id="spinner" class="spinner" style="display: none;"></div>
         </div>
-        {{#logged}}
+        <br>
+        <br>
         <div class="btn-row">
+            {{#logged}}
             <a href="/artists/new" class="btn">Añadir un nuevo artista</a>
+            {{/logged}}
             <a href="/" class="btn">Volver al inicio</a>
         </div>
-        {{/logged}}
     </div>
 
     <script type="module" src="/js/artist-pagination.js"></script>

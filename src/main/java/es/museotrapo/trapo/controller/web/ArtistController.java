@@ -13,7 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,13 +52,22 @@ public class ArtistController {
 
         artistPage = PageRequest.of(artistPage.getPageNumber(), pageSize);
 
-        if (name != null || nickname != null || birthDate != null) {
-            Page<ArtistDTO> artists = artistService.searchArtists(name, nickname, birthDate, artistPage);
+        if(name != null || nickname != null || birthDate != null) {
+			Artist artist = new Artist();
+			artist.setName(name);
+            artist.setNickname(nickname);
+            artist.setBirthDate(birthDate);
+			ExampleMatcher matcher = ExampleMatcher.matching()
+											.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+											.withIgnorePaths("id", "biography");
+			Example<Artist> example = Example.of(artist, matcher);
+            System.out.println("Estamos devolviendo todos los artistas que coincidan con el ejemplo "+example);
+			Page<ArtistDTO> artists = artistService.getArtists(example, artistPage);
             model.addAttribute("artists", artists);
-        } else {
+		}else{
             Page<ArtistDTO> artists = artistService.getArtists(artistPage);
             model.addAttribute("artists", artists);
-        }
+		}
 
         boolean hasPrev = artistPage.getPageNumber() >= 1;
         boolean hasNext = (artistPage.getPageNumber() * artistPage.getPageSize()) < artistService.count();
