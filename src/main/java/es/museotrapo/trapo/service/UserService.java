@@ -8,8 +8,10 @@ import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -40,7 +42,8 @@ public class UserService {
     }
 
     User getLoggedUser() {
-        return userRepository.findAll().get(0);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return this.userRepository.findByName(username).get();
     }
 
     /**

@@ -37,7 +37,8 @@ public class LoginController {
     }
 
     @GetMapping("/users")
-    public String users() {
+    public String users(Model model) {
+        model.addAttribute(userService.findAll());
         return "users";
     }
     @GetMapping("/login-profile")

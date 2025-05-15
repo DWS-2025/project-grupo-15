@@ -17,13 +17,13 @@
 </header>
 <div class="user-card">
     <header>
-        <h1 class="title">Your profile</h1>
+        <h1 class="title">Tu perfil</h1>
     </header>
     <div class="user-card">
-        <h2>Wellcome!!, {{username}}</h2>
+        <h2>Bienvenido!!, {{username}}</h2>
     </div>
         <div class="comments-section">
-            <p><strong>Your comments:</strong></p>
+            <p><strong>Tus comentarios:</strong></p>
             <ul>
                 {{#user.comments}}
                 <li>{{message}}</li>
@@ -32,7 +32,7 @@
                 <li>No comments yet by {{username}}</li>
                 {{/user.comments}}
             </ul>
-            <p><strong>Posts liked by you:</strong></p>
+            <p><strong>Cuadros que te gustan:</strong></p>
             <ul class="btn-row">
                 {{#user.likedPictures}}
                 <li><a href="/pictures/{{id}}" class="btn">{{name}}</a></li>
@@ -42,8 +42,9 @@
                 {{/user.likedPictures}}
             </ul>
                 <div class="btn-row">
-                    <a href="/users/delete" class="btn-delete">Delete account</a>
-                    <a href="/" class="btn-back">Back</a>
+                    <a href="/login-profile/delete" class="btn-delete">Borrar cuenta</a>
+                    <a href="/login-profile/edit" class="btn">Editar perfil</a>
+                    <a href="/" class="btn-back">Volver</a>
                 </div>
         </div>
 </div>

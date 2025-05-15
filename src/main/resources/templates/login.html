@@ -21,17 +21,17 @@
 </header>
 <form action="/login" method="post" class="form search-form">
   <div class="form-group">
-    <label for="username">Username:</label>
+    <label for="username">Usuario:</label>
     <input type="text" id="username" name="username" />
   </div>
   <div class="form-group">
-    <label for="password">Password:</label>
+    <label for="password">Contraseña:</label>
     <input type="password" id="password" name="password" />
   </div>
   <div class="btn-row">
     <button type="submit" class="btn">Log In</button>
-    <a href="/register" class="btn">Sign up</a>
-    <a href="/" class="btn-delete">Back</a>
+    <a href="/register" class="btn">Registrate</a>
+    <a href="/" class="btn-back">Volver</a>
   </div>
   <input type="hidden" name="_csrf" value="{{token}}" />
 </form>

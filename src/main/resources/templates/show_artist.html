@@ -21,7 +21,7 @@
     <div class="container">
         {{#artist.biography}}
         <form action="/artists/{{artist.id}}/biography" method="get">
-            <input type="submit" value="Download biography" class="btn">
+            <input type="submit" value="Descargar Biografía" class="btn">
         </form>
         {{/artist.biography}}
         {{^artist.biography}}
@@ -30,13 +30,13 @@
             <input type="file" id="file" name="file" accept=".pdf" required style="display: none;" onchange="showSelectedFileName(this)">
 
             <!-- Custom button to trigger file input -->
-            <label for="file" class="btn">Select file</label>
+            <label for="file" class="btn">Elegir archivo:</label>
 
             <!-- Text to show the file name -->
-            <span id="file-selected" style="margin-left: 10px; margin-right: 10px"><strong>No file selected</strong></span>
+            <span id="file-selected" style="margin-left: 10px; margin-right: 10px"><strong>No archivo seleccionado</strong></span>
 
             <!-- Submit button -->
-            <input type="submit" value="Upload biography" class="btn">
+            <input type="submit" value="Subir biografía" class="btn">
             <input type="hidden" name="_csrf" value="{{token}}">
         </form>
         {{/artist.biography}}
@@ -51,7 +51,7 @@
         {{#logged}}
         <a href="/artists/{{artist.id}}/edit" class="btn">Editar artista</a>
         {{/logged}}
-        <a href="/artists" class="btn-delete">Back</a>
+        <a href="/artists" class="btn-back">Volver</a>
     </div>
 </div>
 

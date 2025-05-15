@@ -17,16 +17,20 @@
 </header>
 <div class="btn-row-log">
     {{^logged}}
-    <a href="/login" class="btn">Log In</a>
+    <a href="/login" class="btn">Iniciar sesión</a>
     {{/logged}}
 
     {{#logged}}
-    <a href="/login-profile" class="btn">{{username}}'s Profile</a>
-    <form action="/logout" method="post" class="d-inline">
-        <button class="btn-delete" type="submit">Log Out</button>
-        <input type="hidden" name="_csrf" value="{{token}}"/>
-    </form>
+    <div class="btn-row">
+        <a href="/login-profile" class="btn">Perfil de {{username}}</a>
+
+        <form action="/logout" method="post" class="inline-form">
+            <input type="hidden" name="_csrf" value="{{token}}"/> <!-- Token CSRF obligatorio -->
+            <button type="submit" class="btn-delete">Cerrar sesión</button> <!-- Botón para logout -->
+        </form>
+    </div>
     {{/logged}}
+
 </div>
 
 </body>

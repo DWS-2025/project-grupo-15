@@ -20,12 +20,12 @@
         {{#hasNext}}<a href="pictures?page={{next}}">&#x27A1;&#xFE0F;</a>{{/hasNext}}
     </div>
 
-    {{#logged}}
     <div class="btn-row">
+        {{#logged}}
         <a href="/pictures/new" class="btn">Añadir un nuevo cuadro</a>
-        <a href="/" class="btn">Volver al inicio</a>
+        {{/logged}}
+        <a href="/" class="btn-back">Volver al inicio</a>
     </div>
-    {{/logged}}
 </main>
 
 {{>footer}}

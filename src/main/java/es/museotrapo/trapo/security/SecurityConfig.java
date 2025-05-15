@@ -100,7 +100,7 @@ public class SecurityConfig {
                                 .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
                                 .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
                                 .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
-                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/register").permitAll().requestMatchers("/favicon.ico").permitAll()
                 //PRIVATE
                         .requestMatchers("/users/").hasAnyRole("ADMIN")
                         .requestMatchers("/login-profile").hasAnyRole("ADMIN", "USER")
@@ -112,7 +112,9 @@ public class SecurityConfig {
                         .requestMatchers("/pictures/*/likeToggle").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/pictures/*/comments/new").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/pictures/*/comments/*/delete").hasAnyRole("ADMIN")
-        )
+                        .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
+
+                )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/loginerror")

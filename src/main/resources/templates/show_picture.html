@@ -64,7 +64,7 @@
         {{/logged}}
     </div>
     <div class="btn-row">
-        <a href="/pictures" class="btn">Volver</a>
+        <a href="/pictures" class="btn-back">Volver</a>
         {{#admin}}
         <form action="/pictures/{{picture.id}}/delete" method="post"
               onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
