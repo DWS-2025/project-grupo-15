@@ -11,6 +11,7 @@ import es.museotrapo.trapo.service.ArtistService;
 import es.museotrapo.trapo.dto.ArtistDTO;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,13 +32,14 @@ public class ArtistControllerREST {
     @Autowired
     private ArtistService artistService;
 
+    Pageable defaultPage = PageRequest.of(0, 2); // Default pagination settings (page 0, size 10)
     /**
      * Endpoint to retrieve all artists with pagination support.
      *
      * @param pageable the pagination information (page number, size, sorting).
      * @return a page of ArtistDTOs.
      */
-    @GetMapping("/")
+    @GetMapping("")
     public Page<ArtistDTO> getArtists(Pageable pageable) {
         return artistService.getArtists(pageable); // Retrieve artists with pagination
     }
@@ -59,7 +61,7 @@ public class ArtistControllerREST {
      * @param artistDTO the artist data to be created.
      * @return ResponseEntity with the created ArtistDTO and location of the newly created artist.
      */
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ArtistDTO> createArtist(@RequestBody ArtistDTO artistDTO) {
         // Create a new artist using the provided DTO
         artistDTO = artistService.createArtist(artistDTO);
