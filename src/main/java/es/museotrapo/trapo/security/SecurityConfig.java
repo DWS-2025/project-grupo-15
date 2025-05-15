@@ -61,14 +61,30 @@ public class SecurityConfig {
                 exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
         http.authorizeHttpRequests(authorize -> authorize
-                //PRIVATE ENDPOINTS
+                // ARTIST ENDPOINTS
+                .requestMatchers(HttpMethod.GET, "/api/artists").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/artists/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/artists").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/artists/**").hasRole("ADMIN") // Dudas en este
+                .requestMatchers(HttpMethod.DELETE, "/api/artists/**").hasRole("ADMIN")
+                
+                // PICTURE ENDPOINTS
+                .requestMatchers(HttpMethod.GET, "/api/pictures").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/**/comments").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/pictures").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/**/comments").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/**/likes").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/api/pictures/**/image").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/**/image").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**/comments/**").hasRole("ADMIN")
+
+
+                // USER ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/artists/").hasRole("USER")
-                .requestMatchers(HttpMethod.PUT, "api/artists/**").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "api/pictures/**").hasRole("ADMIN")
-                //PUBLIC ENDPOINTS
-                .anyRequest().permitAll()
+                
+                // .anyRequest().permitAll() NO SE QUE ES ESTO
         );
         //Disable form login Authentication
         http.formLogin(formLogin -> formLogin.disable());

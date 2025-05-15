@@ -33,7 +33,7 @@ public class PictureControllerREST {
      *
      * @return a collection of PictureDTOs.
      */
-    @GetMapping("/")
+    @GetMapping("")
     public Collection<PictureDTO> getPictures() {
         return pictureService.getPictures(); // Retrieve all pictures as DTOs
     }
@@ -90,7 +90,7 @@ public class PictureControllerREST {
      * @return ResponseEntity with the created PictureDTO and location of the newly created picture.
      * @throws IOException if there is an issue handling the image.
      */
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<PictureDTO> createPicture(@RequestBody PictureDTO PictureDTO) throws IOException {
         // Create a new picture using the provided DTO
         PictureDTO = pictureService.createPictureREST(PictureDTO);
