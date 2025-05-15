@@ -95,7 +95,6 @@ public class SecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(authorize -> authorize
-<<<<<<< Updated upstream
                 //PUBLIC
                                 .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
                                 .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
@@ -119,27 +118,6 @@ public class SecurityConfig {
                                 .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
 
                 )
-=======
-                //PUBLIC WEB PAGES
-                        .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
-                        .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
-                        .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
-                        .requestMatchers("/register").permitAll()
-                //PRIVATE WEB PAGES
-                        .requestMatchers("/users/").hasAnyRole("ADMIN")
-                        .requestMatchers("/login-profile").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/pictures/new").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/artists/new").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/artists/edit").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/pictures/*/delete").hasAnyRole("ADMIN")
-                        .requestMatchers("/artists/delete").hasAnyRole("ADMIN")
-                        .requestMatchers("/pictures/*/likeToggle").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/pictures/*/comments/new").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/pictures/*/comments/*/delete").hasAnyRole("ADMIN")
-                        .requestMatchers("/users").hasAnyRole("ADMIN")
-        )
->>>>>>> Stashed changes
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/loginerror")
