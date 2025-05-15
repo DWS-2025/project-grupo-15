@@ -46,6 +46,7 @@
         {{#admin}}
         <form action="/artists/{{artist.id}}/delete" method="post">
             <input type="submit" value="Delete artist" class="btn btn-delete">
+            <input type="hidden" name="_csrf" value="{{token}}">
         </form>
         {{/admin}}
         {{#logged}}
