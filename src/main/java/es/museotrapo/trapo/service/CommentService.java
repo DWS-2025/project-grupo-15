@@ -52,9 +52,8 @@ public class CommentService {
      * @param commentId the ID of the comment to delete
      * @param picId     the ID of the picture associated with the comment
      * @return the deleted CommentDTO
-     * @throws NoSuchElementException if the comment or picture is not found
      */
-    public CommentDTO deleteComment(long commentId, Long picId) {
+    public CommentDTO deleteComment(Long commentId, Long picId) {
         // Fetch the Picture and Comment entities by their respective IDs
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentRepository.findById(commentId).orElseThrow();

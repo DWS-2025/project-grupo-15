@@ -98,6 +98,11 @@ public class SampleDataService {
         Comment commentSample3 = new Comment("Pretty");
         Comment commentSample4 = new Comment("Beautiful");
 
+        commentSample1.setPicture(monaLisa);
+        commentSample2.setPicture(monaLisa);
+        commentSample3.setPicture(marioConda);
+        commentSample4.setPicture(marioConda);
+
         commentSample1.setAuthor(user1);
         commentSample2.setAuthor(user2);
         commentSample3.setAuthor(user2);

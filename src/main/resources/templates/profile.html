@@ -38,10 +38,11 @@
                 <li><a href="/pictures/{{id}}" class="btn">{{name}}</a></li>
                 {{/user.likedPictures}}
                 {{^user.likedPictures}}
-                <li>No liked posts by {{username}}</li>
+                <li>No te gusta nada, amargado</li>
                 {{/user.likedPictures}}
             </ul>
-                <div class="btn-row">
+            <p><strong>Tu correo: {{user.email}}</strong></p>
+            <div class="btn-row">
                     <a href="/login-profile/delete" class="btn-delete">Borrar cuenta</a>
                     <a href="/login-profile/edit" class="btn">Editar perfil</a>
                     <a href="/" class="btn-back">Volver</a>

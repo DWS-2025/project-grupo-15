@@ -3,15 +3,18 @@ package es.museotrapo.trapo.service;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.UserDTO;
 import es.museotrapo.trapo.dto.UserMapper;
+import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +31,8 @@ public class UserService {
     private UserMapper mapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CommentService commentService;
 
     /**
      * Returns the logged-in username for simplicity. This is a placeholder method.
@@ -43,6 +48,11 @@ public class UserService {
 
     User getLoggedUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (SecurityContextHolder.getContext().getAuthentication() == null || !SecurityContextHolder.getContext().getAuthentication().isAuthenticated() ||
+                SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+
         return this.userRepository.findByName(username).get();
     }
 
@@ -76,6 +86,7 @@ public class UserService {
 
     public boolean isPictureLiked(PictureDTO pictureDTO) {
         User user = getLoggedUser();// Get the logged-in username
+        if(user == null) return false;
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
@@ -84,6 +95,37 @@ public class UserService {
         user.setEncodedPassword(passwordEncoder.encode(password));
         user.setRoles(Collections.singletonList("USER"));
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void remove(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        List<Picture> pictures = user.getLikedPictures();
+        int num1 = pictures.size();
+        for (int i = 0; i < num1; i++) {
+            Picture picture = pictures.get(i);
+            picture.getUserLikes().remove(user);
+            user.getLikedPictures().remove(picture);
+            pictureRepository.save(picture);
+        }
+        List<Comment> comments = user.getComments();
+        int num = comments.size();
+        for (int i = 0; i < num; i++) {
+            Comment comment = comments.get(0);
+            commentService.deleteComment(comment.getId(), comment.getPicture().getId());
+        }
+        userRepository.save(user);
+        userRepository.deleteById(id);
+    }
+
+    public void update(UserDTO userDTO, String password) {
+        User oldUser = userRepository.findById(userDTO.id()).get();
+        User newUser = toDomain(userDTO);
+        newUser.setRoles(oldUser.getRoles());
+        newUser.setEncodedPassword(passwordEncoder.encode(password));
+        newUser.setLikedPictures(oldUser.getLikedPictures());
+        newUser.setComments(oldUser.getComments());
+        userRepository.save(newUser);
     }
     private UserDTO toDTO(User user) {
         return mapper.toDTO(user);

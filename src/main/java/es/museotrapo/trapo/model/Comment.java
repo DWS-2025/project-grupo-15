@@ -17,6 +17,11 @@ public class Comment {
     @ManyToOne
     private User author;
 
+    @ManyToOne
+    @JoinColumn(name = "picture_id", nullable = false) // Columna FK en la tabla Comment
+    private Picture picture;
+
+
     // Constructors
     protected Comment() {
     }
@@ -52,6 +57,14 @@ public class Comment {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 
     @Override

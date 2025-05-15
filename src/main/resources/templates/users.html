@@ -19,12 +19,16 @@
         <p><strong>Posts liked by {{name}}:</strong></p>
         <ul>
             {{#likedPictures}}
-            <li><a href="/pictures/{{id}}">{{name}}</a></li>
+            <li><a href="/pictures/{{id}}" class="btn">{{name}}</a></li>
             {{/likedPictures}}
             {{^likedPictures}}
             <li>No liked posts by {{name}}</li>
             {{/likedPictures}}
         </ul>
+        <form action="/users/{{id}}/delete" method="post">
+            <input type="submit" value="Borrar cuenta" class="btn-delete">
+            <input type="hidden" name="_csrf" value="{{token}}">
+        </form>
     </div>
     {{/users}}
 

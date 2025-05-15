@@ -69,6 +69,7 @@
         <form action="/pictures/{{picture.id}}/delete" method="post"
               onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
             <button type="submit" class="btn-delete">Eliminar cuadro</button>
+            <input type="hidden" name="_csrf" value="{{token}}">
         </form>
         {{/admin}}
     </div>
