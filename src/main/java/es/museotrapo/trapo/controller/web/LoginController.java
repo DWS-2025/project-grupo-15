@@ -1,7 +1,12 @@
 package es.museotrapo.trapo.controller.web;
 
 import es.museotrapo.trapo.dto.UserDTO;
+import es.museotrapo.trapo.security.jwt.UserLogingService;
 import es.museotrapo.trapo.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LoginController {
     private final UserService userService;
+    private final UserLogingService userLogingService;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, UserLogingService userLogingService) {
         this.userService = userService;
+        this.userLogingService = userLogingService;
     }
 
     @GetMapping({"/login"})
@@ -59,8 +66,11 @@ public class LoginController {
     }
 
     @PostMapping("/login-profile/delete")
-    public String deleteMyUser() {
+    public String deleteMyUser(HttpServletResponse response, HttpServletRequest request) {
         userService.remove(this.userService.getLoggedUserDTO().id());
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+
         return "deleted_user";
     }
 
