@@ -43,10 +43,14 @@
     </div>
     {{/logged}}
     <div class="btn-row">
+        {{#admin}}
         <form action="/artists/{{artist.id}}/delete" method="post">
             <input type="submit" value="Delete artist" class="btn btn-delete">
         </form>
+        {{/admin}}
+        {{#logged}}
         <a href="/artists/{{artist.id}}/edit" class="btn">Editar artista</a>
+        {{/logged}}
         <a href="/artists" class="btn-delete">Back</a>
     </div>
 </div>

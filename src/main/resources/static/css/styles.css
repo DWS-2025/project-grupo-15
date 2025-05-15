@@ -172,6 +172,7 @@ header {
 
 .btn-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     align-items: center;
@@ -329,34 +330,61 @@ header {
     margin-bottom: 30px;
 }
 
+/* Personalización de select */
 .custom-select {
-    width: 100%;
-    padding: 10px 15px;
-    border: 2px solid #c4a661;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 18px;
-    margin-bottom: 15px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23c4a661"><polygon points="0,0 12,0 6,6"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    height: auto;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold; /* Acentúa el texto */
+    color: white; /* Texto blanco */
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo oscuro translúcido */
+    border: 2px solid #c4a661; /* Borde dorado elegante */
+    border-radius: 10px; /* Bordes suavemente redondeados */
+    outline: none;
+    appearance: none; /* Quita las flechas predeterminadas */
+    transition: background 0.3s ease, border-color 0.3s ease;
+    cursor: pointer; /* Cambia al puntero en mano */
+    font-family: "Times New Roman", Times, serif; /* Fuente clásica */
 }
 
+/* Hover: Cambia el fondo y el borde */
+.custom-select:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo más claro */
+    border-color: #e0c48c; /* Bordes dorados más brillantes */
+}
+
+/* Focus (Enfocado): Resalta en dorado */
 .custom-select:focus {
     border-color: #e0c48c;
-    outline: none;
+    box-shadow: 0 0 10px rgba(224, 196, 140, 0.5); /* Resplandor dorado suave */
 }
 
-.custom-select option {
-    background-color: #000;
-    color: white;
+/* Select con múltiples opciones */
+.custom-select[multiple] {
+    height: 150px; /* Espacio para múltiples opciones */
+    overflow-y: auto; /* Habilita scroll si es necesario */
 }
+
+/* Opciones */
+.custom-select option {
+    padding: 8px;
+    background: #000; /* Fondo negro */
+    color: white; /* Texto blanco */
+}
+
+/* Opciones al pasar sobre ellas */
+.custom-select option:hover {
+    background: #c4a661; /* Fondo dorado */
+    color: black; /* Texto negro */
+}
+
+/* Animación para las transiciones */
+.custom-select,
+.custom-select option {
+    transition: all 0.3s ease;
+}
+
 
 .artist-description p {
     font-size: 1.2em;
@@ -383,11 +411,11 @@ header {
     border: 2px solid #c4a661;
     border-radius: 8px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .user-card h2 {
     margin-top: 0;
-    color: #e0c48c;
     font-size: 1.8em;
 }
 
@@ -408,7 +436,6 @@ header {
 }
 
 .user-card a {
-    color: #c4a661;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -503,4 +530,25 @@ header {
 #load-more:hover {
     background-color: #600018;
     transform: scale(1.05);
+}
+.btn-back {
+    padding: 12px 24px;
+    background: #2a2d42; /* Fondo azul oscuro elegante */
+    color: white; /* Texto blanco */
+    font-size: 18px; /* Tamaño del texto */
+    border: 2px solid #3c4160; /* Borde ligeramente más claro */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el puntero */
+    transition: background 0.3s ease, transform 0.2s ease; /* Animación fluida */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    font-family: "Times New Roman", Times, serif; /* Fuente clásica */
+}
+
+.btn-back:hover {
+    background: #3c4160; /* Fondo azul más claro en hover */
+    color: #f0f0f0; /* Texto en blanco tenue */
+    transform: scale(1.05); /* Pequeño aumento al pasar el cursor */
 }

@@ -21,9 +21,12 @@
         <p class="likes">&#x2764;&#xfe0f; {{picture.userLikes.size}}</p>
     </div>
 
+    {{#logged}}
     <form action="/pictures/{{picture.id}}/likeToggle" method="post">
         <button type="submit" class="btn">{{likedPicture}}</button>
+        <input type="hidden" name="_csrf" value="{{token}}">
     </form>
+    {{/logged}}
 
     <h2 class="comments-title">Comentarios</h2>
 
@@ -33,7 +36,9 @@
             <b>{{nameAuthor}}</b>: {{message}}
             <form action="/pictures/{{picture.id}}/comments/{{id}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}"/> <!-- CSRF Token -->
+                {{#admin}}
                 <button type="submit" class="btn btn-delete">Eliminar</button>
+                {{/admin}}
             </form>
         </div>
         {{/picture.comments}}
@@ -60,10 +65,12 @@
     </div>
     <div class="btn-row">
         <a href="/pictures" class="btn">Volver</a>
+        {{#admin}}
         <form action="/pictures/{{picture.id}}/delete" method="post"
               onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cuadro?');">
             <button type="submit" class="btn-delete">Eliminar cuadro</button>
         </form>
+        {{/admin}}
     </div>
 
     <!-- Include the Quill library -->

@@ -9,7 +9,13 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
-<div class="container">
+
+<body>
+<header>
+    <img src="/milogo.png" alt="Logo del Museo" class="logo">
+    <h1 class="title">Gran Museo del Trapo</h1>
+</header>
+<div class="user-card">
     <header>
         <h1 class="title">Your profile</h1>
     </header>
@@ -27,15 +33,18 @@
                 {{/user.comments}}
             </ul>
             <p><strong>Posts liked by you:</strong></p>
-            <ul>
+            <ul class="btn-row">
                 {{#user.likedPictures}}
-                <li><a href="/pictures/{{id}}">{{name}}</a></li>
+                <li><a href="/pictures/{{id}}" class="btn">{{name}}</a></li>
                 {{/user.likedPictures}}
                 {{^user.likedPictures}}
                 <li>No liked posts by {{username}}</li>
                 {{/user.likedPictures}}
             </ul>
-
+                <div class="btn-row">
+                    <a href="/users/delete" class="btn-delete">Delete account</a>
+                    <a href="/" class="btn-back">Back</a>
+                </div>
         </div>
 </div>
 
