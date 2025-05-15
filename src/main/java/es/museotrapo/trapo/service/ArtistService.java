@@ -158,42 +158,6 @@ public class ArtistService {
     }
 
     /**
-     * Searches for artists based on the provided criteria: name, nickname, and birth date.
-     * The search is case-insensitive.
-     *
-     * @param name      the name of the artist to search for (optional)
-     * @param nickname  the nickname of the artist to search for (optional)
-     * @param birthDate the birth date of the artist to search for (optional)
-     * @param pageable  the pagination information
-     * @return a paginated list of ArtistDTOs matching the search criteria
-     */
-    public Page<ArtistDTO> searchArtists(String name, String nickname, String birthDate, Pageable pageable) {
-        Page<Artist> artistPage;
-
-        // Checks the different combinations of search criteria and calls the corresponding repository method
-        if (name != null && !name.isEmpty() && nickname != null && !nickname.isEmpty() && birthDate != null) {
-            artistPage = artistRepository.findByNameContainingIgnoreCaseAndNicknameContainingIgnoreCaseAndBirthDateContainingIgnoreCase(name, nickname, birthDate, pageable);
-        } else if (name != null && !name.isEmpty() && nickname != null && !nickname.isEmpty()) {
-            artistPage = artistRepository.findByNameContainingIgnoreCaseAndNicknameContainingIgnoreCase(name, nickname, pageable);
-        } else if (name != null && !name.isEmpty() && birthDate != null) {
-            artistPage = artistRepository.findByNameContainingIgnoreCaseAndBirthDateContainingIgnoreCase(name, birthDate, pageable);
-        } else if (nickname != null && !nickname.isEmpty() && birthDate != null) {
-            artistPage = artistRepository.findByNicknameContainingIgnoreCaseAndBirthDateContainingIgnoreCase(nickname, birthDate, pageable);
-        } else if (name != null && !name.isEmpty()) {
-            artistPage = artistRepository.findByNameContainingIgnoreCase(name, pageable);
-        } else if (nickname != null && !nickname.isEmpty()) {
-            artistPage = artistRepository.findByNicknameContainingIgnoreCase(nickname, pageable);
-        } else if (birthDate != null) {
-            artistPage = artistRepository.findByBirthDateContainingIgnoreCase(birthDate, pageable);
-        } else {
-            artistPage = artistRepository.findAll(pageable);
-        }
-
-        // Converts the resulting Page of Artist entities to a Page of ArtistDTOs
-        return convertToDTOPage(artistPage);
-    }
-
-    /**
      * Saves the biography file for a specific artist by validating the file,
      * sanitizing its content and name, and ensuring it is safely stored in the designated directory.
      *

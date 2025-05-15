@@ -20,7 +20,7 @@ public class UserControllerREST {
      *
      * @return "users" view to display the list of users
      */
-    @GetMapping("/")
+    @GetMapping("")
     public Collection<UserDTO> getUsers() {
         return userService.findAll();
     }
