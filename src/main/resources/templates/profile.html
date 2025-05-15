@@ -43,7 +43,10 @@
             </ul>
             <p><strong>Tu correo: {{user.email}}</strong></p>
             <div class="btn-row">
-                    <a href="/login-profile/delete" class="btn-delete">Borrar cuenta</a>
+                <form action="/login-profile/delete" method="post">
+                    <input type="submit" value="Borrar cuenta" class="btn-delete">
+                    <input type="hidden" name="_csrf" value="{{token}}">
+                </form>
                     <a href="/login-profile/edit" class="btn">Editar perfil</a>
                     <a href="/" class="btn-back">Volver</a>
                 </div>
