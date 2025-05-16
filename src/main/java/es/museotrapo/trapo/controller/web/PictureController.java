@@ -7,6 +7,7 @@ import es.museotrapo.trapo.service.*;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,7 +149,7 @@ public class PictureController {
      * @return Redirect to the picture's page after the comment is saved
      */
     @PostMapping("/{picId}/comments/new")
-    public String newComment(@PathVariable long picId, CommentDTO commentDTO) {
+    public String newComment(@PathVariable Long picId, CommentDTO commentDTO) {
         PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
         if (picture != null) {
             pictureService.addComment(commentDTO, picId);
@@ -166,10 +167,10 @@ public class PictureController {
      * @return Redirect to the picture's page after the comment is deleted
      */
     @PostMapping("/{picId}/comments/{commentId}/delete")
-    public String deleteComment(@PathVariable long picId, @PathVariable long commentId) {
+    public String deleteComment(@PathVariable long picId, @PathVariable long commentId, Authentication authentication) {
         PictureDTO picture = pictureService.getPicture(picId); // Retrieve the picture by ID
         if (picture != null) {
-            pictureService.removeComment(commentId, picId);
+            pictureService.removeComment(commentId, picId, authentication);
             return "redirect:/pictures/" + picId; // Redirect back to the picture's page
         } else {
             return "picture_not_found"; // Return "picture_not_found" view if the picture does not exist

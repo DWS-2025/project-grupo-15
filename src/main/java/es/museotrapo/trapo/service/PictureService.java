@@ -11,6 +11,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,7 +147,7 @@ public class PictureService {
      * @param pictureDTO the data transfer object representing the picture to delete.
      * @return the PictureDTO of the deleted picture.
      */
-    @Transactional
+
     public PictureDTO deletePicture(PictureDTO pictureDTO) {
         Picture picture = pictureRepository.findById(pictureDTO.id()).orElseThrow();
 
@@ -160,7 +161,7 @@ public class PictureService {
         // Delete all comments associated with the picture
         List<Comment> comments = picture.getComments();
         for (int i = comments.size() - 1; i >= 0; --i) {
-            commentService.deleteComment(comments.get(i).getId(), pictureDTO.id());
+            commentService.deleteCommentHelp(comments.get(i).getId(), pictureDTO.id());
         }
 
         picture.getComments().clear(); // Clear the list of comments
@@ -192,13 +193,14 @@ public class PictureService {
      * @param picId      the ID of the picture to add the comment to.
      * @return the updated PictureDTO with the new comment.
      */
-    public CommentDTO addComment(CommentDTO commentDTO, long picId) {
+    public CommentDTO addComment(CommentDTO commentDTO, Long picId) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentDTO);
         String SanitizedMessage = SanitizeService.sanitize(comment.getMessage());
         comment.setMessage(SanitizedMessage);
         comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
         picture.getComments().add(comment); // Add the comment to the picture's list of comments
+        comment.setPicture(picture);
         pictureRepository.save(picture); // Save the picture with the new comment
         return commentService.toDTO(comment); // Return the updated picture as a DTO
     }
@@ -210,12 +212,10 @@ public class PictureService {
      * @param picId     the ID of the picture to remove the comment from.
      * @return the updated PictureDTO after removing the comment.
      */
-    public CommentDTO removeComment(Long commentId, long picId) {
+    public CommentDTO removeComment(Long commentId, long picId, Authentication authentication) {
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentService.toDomain(commentService.getComment(commentId));
-        picture.getComments().remove(comment); // Remove the comment from the picture's list of comments
-        pictureRepository.save(picture); // Save the updated picture
-        commentService.deleteComment(commentId, picId); // Delete the comment from the repository
+        commentService.deleteComment(commentId, picId, authentication); // Delete the comment from the repository
         return commentService.toDTO(comment); // Return the updated picture as a DTO
     }
 

@@ -3,6 +3,7 @@ package es.museotrapo.trapo.service;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.dto.UserDTO;
 import es.museotrapo.trapo.dto.UserMapper;
+import es.museotrapo.trapo.exceptions.UserAlreadyExistsException;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
@@ -90,11 +91,14 @@ public class UserService {
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
-    public void add(UserDTO userDTO, String password) {
+    public UserDTO add(UserDTO userDTO, String password) {
         User user = toDomain(userDTO);
+        if(userRepository.findByName(user.getName()).isPresent()) throw new UserAlreadyExistsException("Username already exists. Please choose another.");
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) throw new UserAlreadyExistsException("Email already exists. Please choose another.");
         user.setEncodedPassword(passwordEncoder.encode(password));
         user.setRoles(Collections.singletonList("USER"));
         userRepository.save(user);
+        return toDTO(user);
     }
 
     @Transactional
@@ -112,7 +116,7 @@ public class UserService {
         int num = comments.size();
         for (int i = 0; i < num; i++) {
             Comment comment = comments.get(0);
-            commentService.deleteComment(comment.getId(), comment.getPicture().getId());
+            commentService.deleteCommentHelp(comment.getId(), comment.getPicture().getId());
         }
         userRepository.save(user);
         userRepository.deleteById(id);

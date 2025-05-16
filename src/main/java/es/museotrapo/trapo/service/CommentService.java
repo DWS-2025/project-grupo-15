@@ -2,13 +2,16 @@ package es.museotrapo.trapo.service;
 
 import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.CommentMapper;
+import es.museotrapo.trapo.exceptions.UnauthorizedCommentDeleteException;
 import es.museotrapo.trapo.model.Comment;
 import es.museotrapo.trapo.model.Picture;
 import es.museotrapo.trapo.model.User;
 import es.museotrapo.trapo.repository.CommentRepository;
 import es.museotrapo.trapo.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -53,7 +56,37 @@ public class CommentService {
      * @param picId     the ID of the picture associated with the comment
      * @return the deleted CommentDTO
      */
-    public CommentDTO deleteComment(Long commentId, Long picId) {
+    public CommentDTO deleteComment(Long commentId, Long picId, Authentication authentication) {
+        // Fetch the Picture and Comment entities by their respective IDs
+        Picture picture = pictureRepository.findById(picId)
+                .orElseThrow(() -> new RuntimeException("Picture not found."));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found."));
+        String username = authentication.getName();
+
+        // Check if the user is an admin
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+        // Check if the user has permission to delete the comment
+        if (!comment.getAuthor().getName().equals(username) && !isAdmin) {
+            // Throw exception and ensure no further lines are executed
+            throw new UnauthorizedCommentDeleteException("You can't delete other users' comments. (" + username + " tried to delete comment "
+                    + commentId + " from picture " + picId + " by "
+                    + comment.getAuthor().getName() + ")");
+        }
+
+        // Actual deletion process
+        picture.getComments().remove(comment);  // Remove from picture
+        User author = comment.getAuthor();
+        author.getComments().remove(comment);   // Remove from author
+        commentRepository.delete(comment);      // Delete from database
+
+        // Return the deleted comment as a DTO
+        return toDTO(comment);
+    }
+
+    public CommentDTO deleteCommentHelp(Long commentId, Long picId) {
         // Fetch the Picture and Comment entities by their respective IDs
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentRepository.findById(commentId).orElseThrow();

@@ -36,4 +36,10 @@
     </div>
     <input type="hidden" name="_csrf" value="{{token}}" />
 </form>
+
+<div id="popup" style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); padding: 20px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+    <span id="popup-message"></span>
+    <button onclick="hidePopup()" style="margin-left: 10px;">Cerrar</button>
+</div>
+
 {{>footer}}

@@ -552,3 +552,37 @@ header {
     color: #f0f0f0; /* Texto en blanco tenue */
     transform: scale(1.05); /* Pequeño aumento al pasar el cursor */
 }
+#editor {
+     height: 150px;
+     max-height: 150px;
+     width: 100%;
+     max-width: 600px;
+     overflow-y: auto; /* Solo permite scroll vertical */
+     border: 1px solid #ccc;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: Arial, sans-serif;
+ }
+
+.ql-container {
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    font-size: 14px; /* Tamaño fijo de la fuente */
+    line-height: 1.5;
+}
+
+.ql-editor {
+    height: 100%;
+    padding: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    font-family: inherit; /* Hereda tu fuente definida anteriormente */
+    cursor: text; /* Asegúrate de que se muestre el cursor de texto */
+    resize: none;
+}
+#editor, .ql-container, .ql-editor {
+    pointer-events: auto !important; /* Habilita la interacción */
+    user-select: text !important; /* Permitirá seleccionar contenidos */
+}

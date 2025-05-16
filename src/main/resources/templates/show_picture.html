@@ -36,9 +36,9 @@
             <b>{{nameAuthor}}</b>: {{message}}
             <form action="/pictures/{{picture.id}}/comments/{{id}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}"/> <!-- CSRF Token -->
-                {{#admin}}
+                {{#logged}}
                 <button type="submit" class="btn btn-delete">Eliminar</button>
-                {{/admin}}
+                {{/logged}}
             </form>
         </div>
         {{/picture.comments}}
@@ -53,7 +53,7 @@
             <label for="comment-message">Escribe un comentario:</label>
 
             <!-- Quill Editor -->
-            <div id="editor" style="height: 150px;"></div>
+            <div id="editor"></div>
 
             <!-- Input oculto para enviar el contenido HTML -->
             <textarea style="display: none;" id="comment-message" name="message" required></textarea>
@@ -80,7 +80,9 @@
     <!-- Initialize Quill editor -->
     <script>
         const quill = new Quill('#editor', {
-            theme: 'snow'
+            theme: 'snow',
+            scrollingContainer: '#editor',
+            bounds: '#editor'
         });
         quill.on('text-change', function () {
             let userInput = quill.root.innerHTML;

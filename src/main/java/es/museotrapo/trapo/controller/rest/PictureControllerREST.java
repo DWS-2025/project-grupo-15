@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -179,8 +180,8 @@ public class PictureControllerREST {
      * @throws IOException if there is an issue removing the comment.
      */
     @DeleteMapping("/{id}/comments/{commentId}")
-    public CommentDTO deleteComment(@PathVariable long id, @PathVariable long commentId) throws IOException {
-        return pictureService.removeComment(id, commentId); // Remove the comment for the picture
+    public CommentDTO deleteComment(@PathVariable long id, @PathVariable long commentId, Authentication authentication) throws IOException {
+        return pictureService.removeComment(id, commentId, authentication); // Remove the comment for the picture
     }
 }
 

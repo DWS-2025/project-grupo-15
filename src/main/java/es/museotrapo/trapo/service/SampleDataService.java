@@ -42,11 +42,8 @@ public class SampleDataService {
     public void init() {
 
         // Create sample users
-        User user1 = userRepository.save(new User("user1", "ponisalvaje@yahoo.es", passwordEncoder.encode("pass1"), "USER"));
-        User user2 = userRepository.save(new User("user2", "luisafer@yahoo.es", passwordEncoder.encode("pass2"), "USER"));
-        User user3 = userRepository.save(new User("user3", "arturito@yahoo.es", passwordEncoder.encode("pass3"), "USER"));
-        User user4 = userRepository.save(new User("user4", "nose@yahoo.es", passwordEncoder.encode("pass4"), "USER"));
-        User user5 = userRepository.save(new User("user5", "queponer@yahoo.es", passwordEncoder.encode("pass5"), "USER"));
+        User user1 = userRepository.save(new User("samu", "ponisalvaje@yahoo.es", passwordEncoder.encode("samupass"), "USER"));
+        User user2 = userRepository.save(new User("alex", "luisafer@yahoo.es", passwordEncoder.encode("alexpass"), "USER"));
         User admin = userRepository.save(new User("admin", "sosacaustica@hotmail.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER"));
 
         // Create sample artists
