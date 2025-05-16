@@ -140,7 +140,7 @@ public class SecurityConfig {
                                 .requestMatchers("/pictures/{id}/delete").hasAnyRole("ADMIN")
                                 .requestMatchers("/pictures/{id}/likeToggle").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/pictures/{id}/comments/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
 
                 )
