@@ -29,6 +29,8 @@
     {{/logged}}
 
     <h2 class="comments-title">Comentarios</h2>
+    
+    <br>
 
     <div class="comments-section">
         {{#picture.comments}}
@@ -59,7 +61,7 @@
             <textarea style="display: none;" id="comment-message" name="message" required></textarea>
 
             <button type="submit" class="btn">Agregar comentario</button>
-            <input type="hidden" name="_csrf" value="{{token}}"/> <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" value="{{token}}"> <!-- CSRF Token -->
         </form>
         {{/logged}}
     </div>

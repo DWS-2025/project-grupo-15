@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Museo del Trapo</title>
-
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
+{{>header}}
 
 <div class="content">
     <form action="{{#isEdit}}/artists/{{artist.id}}/edit{{/isEdit}}{{^isEdit}}/artists/new{{/isEdit}}" method="post"
@@ -30,10 +20,11 @@
         <div class="btn-row">
             <button type="submit" class="btn"> {{#isEdit}}Actualizar{{/isEdit}}{{^isEdit}}Crear{{/isEdit}}</button>
         </div>
+        <input type="hidden" name="_csrf" value="{{token}}">
     </form>
     <div class="btn-row">
         <a href="/" class="btn-back">Volver al inicio</a>
     </div>
 </div>
 
-{{footer}}
+{{>footer}}
