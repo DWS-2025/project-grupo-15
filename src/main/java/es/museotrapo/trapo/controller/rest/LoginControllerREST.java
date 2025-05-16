@@ -2,6 +2,7 @@ package es.museotrapo.trapo.controller.rest;
 
 import es.museotrapo.trapo.security.jwt.AuthResponse;
 import es.museotrapo.trapo.security.jwt.LoginRequest;
+import es.museotrapo.trapo.security.jwt.RegisterRequest;
 import es.museotrapo.trapo.security.jwt.UserLogingService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,9 @@ public class LoginControllerREST {
     }
 
     @PostMapping("/register")
-    public UserDTO register(@RequestBody UserDTO userDTO, String password) {
+    public UserDTO register(@RequestBody RegisterRequest registerRequest) {
+        UserDTO userDTO = registerRequest.getUserDTO();
+        String password = registerRequest.getPassword();
         userService.add(userDTO, password);
         return userDTO;
     }
