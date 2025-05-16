@@ -147,7 +147,7 @@ public class PictureService {
      * @param pictureDTO the data transfer object representing the picture to delete.
      * @return the PictureDTO of the deleted picture.
      */
-
+    @Transactional
     public PictureDTO deletePicture(PictureDTO pictureDTO) {
         Picture picture = pictureRepository.findById(pictureDTO.id()).orElseThrow();
 

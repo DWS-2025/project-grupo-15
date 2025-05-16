@@ -112,25 +112,35 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
                 //PUBLIC
-                                .requestMatchers("/").permitAll().requestMatchers("/cuadro.jpg").permitAll()
-                                .requestMatchers("/pictures/**").permitAll().requestMatchers("/css/**").permitAll()
-                                .requestMatchers("/artists/**").permitAll().requestMatchers("/js/**").permitAll()
-                                .requestMatchers("/error").permitAll().requestMatchers("/milogo.png").permitAll()
-                                .requestMatchers("/register").permitAll().requestMatchers("/favicon.ico").permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/cuadro.jpg").permitAll()
+                                .requestMatchers("/pictures/{id}/{imageFile}").permitAll()
+                                .requestMatchers("/pictures/{id}").permitAll()
+                                .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/artists/{id}").permitAll()
+                                .requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/error").permitAll()
+                                .requestMatchers("/milogo.png").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/favicon.ico").permitAll()
+                                .requestMatchers("/pictures").permitAll()
+                                .requestMatchers("/artists").permitAll()
+                                .requestMatchers("/artists/more").permitAll()
                 //PRIVATE
                                 .requestMatchers("/users").hasAnyRole("ADMIN")
-                                .requestMatchers("/users/*/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("/users/{id}/delete").hasAnyRole("ADMIN")
                                 .requestMatchers("/login-profile").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/login-profile/delete").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/login-profile/edit").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/pictures/new").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/artists/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/artists/edit").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/*/delete").hasAnyRole("ADMIN")
-                                .requestMatchers("/artists/delete").hasAnyRole("ADMIN")
-                                .requestMatchers("/pictures/*/likeToggle").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/*/comments/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/*/comments/*/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("/artists/{id}/edit").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/artists/{id}/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("artists/{id}/biography").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/pictures/{id}/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("/pictures/{id}/likeToggle").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/pictures/{id}/comments/new").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN")
                                 .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
 
                 )
@@ -145,6 +155,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 );
+        //http.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect("/error")));
         return http.build();
     }
 }
