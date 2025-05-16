@@ -61,7 +61,7 @@ public class SecurityConfig {
                 exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
         http.authorizeHttpRequests(authorize -> authorize
-                // ENDPOINTS
+                // LoginController
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/auth/refresh").hasRole("USER")
@@ -85,9 +85,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}/comments/{commentId}").hasRole("USER")
 
-
-                // USER ENDPOINTS
+                // UserController
                 .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("ADMIN")
+
                 
                 // .anyRequest().permitAll() NO SE QUE ES ESTO
         );

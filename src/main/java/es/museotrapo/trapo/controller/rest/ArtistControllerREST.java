@@ -1,11 +1,16 @@
 package es.museotrapo.trapo.controller.rest;
 
+import java.io.IOException;
 import java.net.URI;
 //import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.museotrapo.trapo.service.ArtistService;
 import es.museotrapo.trapo.dto.ArtistDTO;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -94,6 +100,21 @@ public class ArtistControllerREST {
     @PutMapping("/{id}")
     public ArtistDTO replaceArtist(@PathVariable long id, @RequestBody ArtistDTO updatedArtistDTO) {
         return artistService.replaceArtist(id, updatedArtistDTO); // Update the artist and return the updated DTO
+    }
+
+    @GetMapping("/{id}/biography")
+    public ResponseEntity<Resource> getBiography(@PathVariable long id) {
+        try{
+            return artistService.getBiographyResponse(id);
+        } catch (IOException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File was not found.", e);
+        } // Retrieve the biography of the artist by ID
+    }
+
+    @PostMapping("/{id}/biography")
+    public MultipartFile uploadBiography(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
+        artistService.saveBiography(id, file);
+        return file;
     }
 }
 

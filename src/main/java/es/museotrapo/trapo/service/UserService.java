@@ -66,6 +66,10 @@ public class UserService {
         return toDTOs(userRepository.findAll());
     }
 
+    public UserDTO findById(Long id) {
+        return toDTO(userRepository.findById(id).orElseThrow());
+    }
+
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
         Picture picture = pictureRepository.findById(pictureDTO.id()).get();

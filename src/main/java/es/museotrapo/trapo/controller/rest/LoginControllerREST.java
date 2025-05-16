@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import es.museotrapo.trapo.dto.UserDTO;
+import es.museotrapo.trapo.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -14,6 +16,9 @@ public class LoginControllerREST {
 
     @Autowired
     private UserLogingService userLogingService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
@@ -30,4 +35,11 @@ public class LoginControllerREST {
     public ResponseEntity<AuthResponse> logOut(HttpServletResponse response) {
         return ResponseEntity.ok(new AuthResponse(AuthResponse.Status.SUCCESS, userLogingService.logout(response)));
     }
+
+    @PostMapping("/register")
+    public UserDTO register(@RequestBody UserDTO userDTO, String password) {
+        userService.add(userDTO, password);
+        return userDTO;
+    }
+    // FALTA EL /login-profile
 }
