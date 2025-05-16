@@ -59,7 +59,7 @@ public class PictureControllerREST {
      * @throws IOException  if there is an issue with the image.
      */
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getPostImage(@PathVariable Long id) throws SQLException, IOException {
+    public ResponseEntity<Object> getPostImage(@PathVariable long id) throws SQLException, IOException {
 
         // Retrieve the image associated with the picture
         Resource postImage = (Resource) pictureService.getPictureImage(id);
@@ -79,7 +79,7 @@ public class PictureControllerREST {
      * @throws IOException if there is an issue retrieving the comments.
      */
     @GetMapping("/{id}/comments")
-    public Collection<CommentDTO> getComments(@PathVariable Long id) throws IOException {
+    public Collection<CommentDTO> getComments(@PathVariable long id) throws IOException {
         return pictureService.getComments(id); // Retrieve all comments for the picture
     }
 
@@ -133,7 +133,7 @@ public class PictureControllerREST {
      * @throws IOException if there is an issue handling the comment.
      */
     @PostMapping("/{id}/comments")
-    public ResponseEntity<CommentDTO> addComment(@PathVariable Long id, @RequestBody CommentDTO commentDTO) throws IOException {
+    public ResponseEntity<CommentDTO> addComment(@PathVariable long id, @RequestBody CommentDTO commentDTO) throws IOException {
         commentDTO = pictureService.addComment(commentDTO, id);
         // Construct the URI for the newly created comment
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(commentDTO.id()).toUri();

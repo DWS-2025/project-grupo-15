@@ -61,28 +61,37 @@ public class SecurityConfig {
                 exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
         http.authorizeHttpRequests(authorize -> authorize
+                // LoginController
+                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/auth/refresh").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/api/auth/logout").hasRole("USER")
                 // ARTIST ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/artists").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/artists/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/artists/{id}").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/artists").hasRole("USER")
-                .requestMatchers(HttpMethod.PUT, "/api/artists/**").hasRole("ADMIN") // Dudas en este
-                .requestMatchers(HttpMethod.DELETE, "/api/artists/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/artists/{id}").hasRole("USER") 
+                .requestMatchers(HttpMethod.DELETE, "/api/artists/{id}").hasRole("ADMIN")
                 
                 // PICTURE ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/pictures").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**/comments").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/comments").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/pictures").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/comments").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/likes").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**/image").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/image").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**/comments/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/comments").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/likes").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/image").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/image").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}/comments/{commentId}").hasRole("USER")
 
-
-                // USER ENDPOINTS
+                // UserController
                 .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/login-profile").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("ADMIN")
+
                 
                 // .anyRequest().permitAll() NO SE QUE ES ESTO
         );
