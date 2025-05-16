@@ -63,26 +63,26 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                 // ARTIST ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/artists").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/artists/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/artists").hasRole("USER")
-                .requestMatchers(HttpMethod.PUT, "/api/artists/**").hasRole("ADMIN") // Dudas en este
-                .requestMatchers(HttpMethod.DELETE, "/api/artists/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/artists/{id}").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/artists").permitAll()//hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/artists/{id}").permitAll()//.hasRole("USER") // Dudas en este
+                .requestMatchers(HttpMethod.DELETE, "/api/artists/{id}").permitAll()//.hasRole("ADMIN")
                 
                 // PICTURE ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/pictures").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**/comments").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/pictures").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/comments").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/likes").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/api/pictures/**/image").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/**/image").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/pictures/**/comments/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/comments").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/pictures").permitAll()//.hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/comments").permitAll()//.hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/likes").permitAll()//.hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/image").permitAll()//.hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/image").permitAll()//.hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}").permitAll()//.hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}/comments/{commentId}").permitAll()//.hasRole("ADMIN")
 
 
                 // USER ENDPOINTS
-                .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/users").permitAll()//.hasRole("ADMIN")
                 
                 // .anyRequest().permitAll() NO SE QUE ES ESTO
         );
@@ -140,7 +140,7 @@ public class SecurityConfig {
                                 .requestMatchers("/pictures/{id}/delete").hasAnyRole("ADMIN")
                                 .requestMatchers("/pictures/{id}/likeToggle").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/pictures/{id}/comments/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN")
+                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
 
                 )

@@ -15,6 +15,7 @@ public class Comment {
     private String message;
 
     @ManyToOne
+    //@JoinColumn(name = "author_id") // Columna FK en la tabla Comment
     private User author;
 
     @ManyToOne
