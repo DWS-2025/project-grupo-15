@@ -1,4 +1,4 @@
-package es.museotrapo.trapo.controller;
+package es.museotrapo.trapo.controller.web;
 
 import es.museotrapo.trapo.exceptions.UnauthorizedCommentDeleteException;
 import es.museotrapo.trapo.exceptions.UserAlreadyExistsException;
