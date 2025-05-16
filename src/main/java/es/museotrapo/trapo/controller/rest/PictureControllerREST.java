@@ -133,7 +133,7 @@ public class PictureControllerREST {
      * @throws IOException if there is an issue handling the comment.
      */
     @PostMapping("/{id}/comments")
-    public ResponseEntity<CommentDTO> addComment(@PathVariable long id, @RequestBody CommentDTO commentDTO) throws IOException {
+    public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO commentDTO, @PathVariable Long id) throws IOException {
         commentDTO = pictureService.addComment(commentDTO, id);
         // Construct the URI for the newly created comment
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(commentDTO.id()).toUri();
