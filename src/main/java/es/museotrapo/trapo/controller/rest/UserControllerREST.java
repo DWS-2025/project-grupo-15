@@ -1,6 +1,7 @@
 package es.museotrapo.trapo.controller.rest;
 
 import es.museotrapo.trapo.dto.UserDTO;
+import es.museotrapo.trapo.security.jwt.RegisterRequest;
 import es.museotrapo.trapo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,13 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -49,9 +44,11 @@ public class UserControllerREST {
     }
 
     @PutMapping("/login-profile")
-    public UserDTO updateMe(UserDTO userDTO, String password) {
-        userService.update(userDTO, password);
-        return userDTO;
+    public UserDTO updateMe(@RequestBody RegisterRequest registerRequest) {
+        UserDTO user = registerRequest.getUserDTO();
+        String password = registerRequest.getPassword();
+        UserDTO newUser = userService.update(user, password);
+        return newUser;
     }
 
     @DeleteMapping("/{id}")

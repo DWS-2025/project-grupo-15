@@ -126,14 +126,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public void update(UserDTO userDTO, String password) {
-        User oldUser = userRepository.findById(userDTO.id()).get();
+    public UserDTO update(UserDTO userDTO, String password) {
+        User oldUser = getLoggedUser();
         User newUser = toDomain(userDTO);
         newUser.setRoles(oldUser.getRoles());
         newUser.setEncodedPassword(passwordEncoder.encode(password));
         newUser.setLikedPictures(oldUser.getLikedPictures());
         newUser.setComments(oldUser.getComments());
         userRepository.save(newUser);
+        return toDTO(newUser);
     }
     private UserDTO toDTO(User user) {
         return mapper.toDTO(user);

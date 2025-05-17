@@ -6,6 +6,7 @@ public record UserDTO(
         Long id,
         String name,
         String email,
+        String encodedPassword,
         List<PictureSimpleDTO> likedPictures,
         List<CommentSimpleDTO> comments) {
 }

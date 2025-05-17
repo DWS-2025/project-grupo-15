@@ -16,6 +16,10 @@ public class SanitizeService {
 
     private static final PolicyFactory CUSTOM_POLICY = new HtmlPolicyBuilder()
             .allowElements("h1", "h2", "h3") // Permitir encabezados
+            .allowElements("a") // Permitir enlaces
+            .allowUrlProtocols("https") // Solo permitir https
+            .allowAttributes("href").onElements("a")
+            .requireRelNofollowOnLinks() // Añadir rel="nofollow" a los enlaces
             .toFactory();
 
     private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS).and(CUSTOM_POLICY); // Permitir formato básico y enlaces
@@ -27,8 +31,8 @@ public class SanitizeService {
         return POLICY.sanitize(input);
     }
 
-    public String sanitizeFileName(String filename){
-        if (filename == null || filename.isEmpty()){
+    public String sanitizeFileName(String filename) {
+        if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("The file does not have a legit name");
         }
         // Extract only the base name of the file (prevents relative or absolute paths).
@@ -39,7 +43,7 @@ public class SanitizeService {
         sanitizedName = sanitizedName.replaceAll("[^a-zA-Z0-9.\\-]", "_");
 
         // Limit the name to a maximum of 120 characters.
-        if (sanitizedName.length() > 120){
+        if (sanitizedName.length() > 120) {
             sanitizedName = sanitizedName.substring(120);
         }
         return sanitizedName;
@@ -49,13 +53,13 @@ public class SanitizeService {
         String extension = fileName
                 .substring(fileName.lastIndexOf('.') + 1)
                 .toLowerCase();
-        if(!"pdf".equals(extension)){
+        if (!"pdf".equals(extension)) {
             throw new IllegalArgumentException("Invalid file extension: only PDF files are allowed.");
         }
 
         String mimeType = Files
                 .probeContentType(filePath);
-        if (!"application/pdf".equals(mimeType)){
+        if (!"application/pdf".equals(mimeType)) {
             throw new IllegalArgumentException("Invalid content type: the uploaded file is not a valid PDF.");
         }
 

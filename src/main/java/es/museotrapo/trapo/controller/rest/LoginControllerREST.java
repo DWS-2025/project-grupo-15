@@ -28,7 +28,6 @@ public class LoginControllerREST {
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refreshToken(@CookieValue(name = "RefreshToken", required = false) String refreshToken, HttpServletResponse response) {
-
         return userLogingService.refresh(response, refreshToken);
     }
 
@@ -38,11 +37,9 @@ public class LoginControllerREST {
     }
 
     @PostMapping("/register")
-    public UserDTO register(@RequestBody RegisterRequest registerRequest) {
-        UserDTO userDTO = registerRequest.getUserDTO();
-        String password = registerRequest.getPassword();
-        userService.add(userDTO, password);
+    public UserDTO register(@RequestBody UserDTO userDTO) {
+        userService.add(userDTO,userDTO.encodedPassword());
         return userDTO;
     }
-    // FALTA EL /login-profile
+
 }
