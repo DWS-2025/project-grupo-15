@@ -4,8 +4,8 @@ import es.museotrapo.trapo.dto.CommentDTO;
 import es.museotrapo.trapo.dto.PictureDTO;
 import es.museotrapo.trapo.service.PictureService;
 import es.museotrapo.trapo.service.UserService;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -62,7 +62,7 @@ public class PictureControllerREST {
     public ResponseEntity<Object> getPostImage(@PathVariable long id) throws SQLException, IOException {
 
         // Retrieve the image associated with the picture
-        Resource postImage = (Resource) pictureService.getPictureImage(id);
+        Resource postImage = pictureService.getPictureImage(id);
 
         // Return the image as the response body with the appropriate content type
         return ResponseEntity

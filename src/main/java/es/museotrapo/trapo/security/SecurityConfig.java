@@ -72,10 +72,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/artists").hasRole("USER")
                 .requestMatchers(HttpMethod.PUT, "/api/artists/{id}").hasRole("USER") 
                 .requestMatchers(HttpMethod.DELETE, "/api/artists/{id}").hasRole("ADMIN")
-                
                 // PICTURE ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/pictures").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/pictures/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/image").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/comments").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/pictures").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/comments").hasRole("USER")
