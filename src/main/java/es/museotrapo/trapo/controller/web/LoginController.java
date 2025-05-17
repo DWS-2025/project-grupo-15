@@ -83,6 +83,6 @@ public class LoginController {
     @PostMapping("/login-profile/edit")
     public String editUser(UserDTO userDTO, String password){
         userService.update(userDTO, password);
-        return "redirect:/login-profile";
+        return "saved_user";
     }
 }

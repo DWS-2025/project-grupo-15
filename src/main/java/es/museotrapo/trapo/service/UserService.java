@@ -11,6 +11,7 @@ import es.museotrapo.trapo.repository.PictureRepository;
 import es.museotrapo.trapo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class UserService {
         return toDTO(getLoggedUser());
     }
 
-    User getLoggedUser() {
+    public User getLoggedUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (SecurityContextHolder.getContext().getAuthentication() == null || !SecurityContextHolder.getContext().getAuthentication().isAuthenticated() ||
                 SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
@@ -134,7 +135,10 @@ public class UserService {
         newUser.setLikedPictures(oldUser.getLikedPictures());
         newUser.setComments(oldUser.getComments());
         userRepository.save(newUser);
-        return getLoggedUserDTO();
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(toDTO(newUser), password);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        return toDTO(newUser);
     }
 
     private UserDTO toDTO(User user) {
