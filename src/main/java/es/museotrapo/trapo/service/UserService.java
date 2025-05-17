@@ -134,8 +134,9 @@ public class UserService {
         newUser.setLikedPictures(oldUser.getLikedPictures());
         newUser.setComments(oldUser.getComments());
         userRepository.save(newUser);
-        return toDTO(newUser);
+        return getLoggedUserDTO();
     }
+
     private UserDTO toDTO(User user) {
         return mapper.toDTO(user);
     }

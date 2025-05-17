@@ -181,7 +181,7 @@ public class PictureControllerREST {
      */
     @DeleteMapping("/{id}/comments/{commentId}")
     public CommentDTO deleteComment(@PathVariable long id, @PathVariable long commentId, Authentication authentication) throws IOException {
-        return pictureService.removeComment(id, commentId, authentication); // Remove the comment for the picture
+        return pictureService.removeComment(commentId, id, authentication); // Remove the comment for the picture
     }
 }
 

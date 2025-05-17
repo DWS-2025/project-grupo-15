@@ -45,9 +45,7 @@ public class UserControllerREST {
 
     @PutMapping("/login-profile")
     public UserDTO updateMe(@RequestBody RegisterRequest registerRequest) {
-        UserDTO user = registerRequest.getUserDTO();
-        String password = registerRequest.getPassword();
-        UserDTO newUser = userService.update(user, password);
+        UserDTO newUser = userService.update(registerRequest.getUserDTO(), registerRequest.getPassword());
         return newUser;
     }
 
