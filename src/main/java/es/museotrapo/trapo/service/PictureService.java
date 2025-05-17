@@ -201,6 +201,7 @@ public class PictureService {
         comment.setAuthor(userService.toDomain(userService.getLoggedUserDTO())); // Set the logged-in user as the author of the comment
         picture.getComments().add(comment); // Add the comment to the picture's list of comments
         comment.setPicture(picture);
+        commentService.addComment(comment);
         pictureRepository.save(picture); // Save the picture with the new comment
         return commentService.toDTO(comment); // Return the updated picture as a DTO
     }

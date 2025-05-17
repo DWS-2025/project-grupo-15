@@ -105,6 +105,10 @@ public class CommentService {
         return toDTO(comment);
     }
 
+    public void addComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
     // Helper method to convert a single Comment entity to CommentDTO
     protected CommentDTO toDTO(Comment comment) {
         return mapper.toDTO(comment);

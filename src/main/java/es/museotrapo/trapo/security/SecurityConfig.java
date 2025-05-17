@@ -91,9 +91,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/users/login-profile").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/login-profile").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/artists/{id}/biography").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/artists/{id}/biography").hasRole("USER")
 
                 
-                // .anyRequest().permitAll() NO SE QUE ES ESTO
         );
         //Disable form login Authentication
         http.formLogin(formLogin -> formLogin.disable());
