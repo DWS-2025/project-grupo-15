@@ -1,0 +1,714 @@
+{
+	"info": {
+		"_postman_id": "f332f3a9-a4d1-4d6b-a8fd-4cefeb68fe28",
+		"name": "DWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43731098",
+		"_collection_link": "https://speeding-sunset-803855.postman.co/workspace/Alejandro-S%C3%A1nchez's-Workspace~05589bb4-0626-421c-840e-929a5b14b54e/collection/43731098-f332f3a9-a4d1-4d6b-a8fd-4cefeb68fe28?action=share&source=collection_link&creator=43731098"
+	},
+	"item": [
+		{
+			"name": "GETs",
+			"item": [
+				{
+					"name": "GET pictures",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Picture by Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Artists",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Artist by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/users",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Comments",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1/comments",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/users/login-profile",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Artist Biography",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Alejandro/Downloads/GuiaDocente_ARQUITECTURA DE COMPUTADORES.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists/1/biography",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists",
+								"1",
+								"biography"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Image Picture",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1/image",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1",
+								"image"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POSTs",
+			"item": [
+				{
+					"name": "POST Artist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lionardo Messilini\",\r\n    \"nickname\": \"Messi\",\r\n    \"birthDate\": \"1990-12-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Picture",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"El grito\",\r\n    \"date\": \"1777\",\r\n    \"artistId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Image Picture",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/Alejandro/OneDrive/Pictures/Camera Roll/img1.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/3/image?imageFile",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"3",
+								"image"
+							],
+							"query": [
+								{
+									"key": "imageFile",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Hola\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1/comments",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Like",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1/likes",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"alex\",\r\n    \"password\": \"alexpass\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/auth/login",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Admin Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"adminpass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/auth/login",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"admin1i\",\r\n    \"email\" : \"sosacusica@hhh.acom\",\r\n    \"encodedPassword\" : \"adminpasseable\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/auth/register",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/auth/logout",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Artist Biography",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Alejandro/Downloads/GuiaDocente_ARQUITECTURA DE COMPUTADORES.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists/1/biography",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists",
+								"1",
+								"biography"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/auth/refresh",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETEs",
+			"item": [
+				{
+					"name": "DELETE Comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1/comments/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Artist",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists/2",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Picture",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/pictures/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"pictures",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE OwnUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"alex\",\r\n    \"email\" : \"sosacusica@hhh.com\",\r\n    \"encodedPassword\" : \"adminpass\"\r\n}"
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/users/login-profile",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE User by Admin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{pruebasURL}}/api/users/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUTs",
+			"item": [
+				{
+					"name": "PUT Artist",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Leonardo daBicho\",\r\n    \"nickname\": \"CR7\",\r\n    \"birthDate\": \"2000-12-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/artists/1",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"artists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"alex\",\r\n    \"email\" : \"sosacusica@hhh.com\",\r\n    \"encodedPassword\" : \"adminpass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pruebasURL}}/api/users/login-profile",
+							"host": [
+								"{{pruebasURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
