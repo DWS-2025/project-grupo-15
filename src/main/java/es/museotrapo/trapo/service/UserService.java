@@ -130,10 +130,12 @@ public class UserService {
     public UserDTO update(UserDTO userDTO, String password) {
         User oldUser = getLoggedUser();
         User newUser = toDomain(userDTO);
+
         newUser.setRoles(oldUser.getRoles());
         newUser.setEncodedPassword(passwordEncoder.encode(password));
         newUser.setLikedPictures(oldUser.getLikedPictures());
         newUser.setComments(oldUser.getComments());
+        newUser.setId( oldUser.getId());
         userRepository.save(newUser);
 
         Authentication newAuth = new UsernamePasswordAuthenticationToken(toDTO(newUser), password);

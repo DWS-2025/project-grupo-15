@@ -112,9 +112,10 @@ public class ArtistControllerREST {
     }
 
     @PostMapping("/{id}/biography")
-    public MultipartFile uploadBiography(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<Object> uploadBiography(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
         artistService.saveBiography(id, file);
-        return file;
+        URI location = fromCurrentRequest().build().toUri();
+        return ResponseEntity.created(location).build();
     }
 }
 

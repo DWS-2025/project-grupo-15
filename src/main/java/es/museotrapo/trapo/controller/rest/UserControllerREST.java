@@ -1,7 +1,6 @@
 package es.museotrapo.trapo.controller.rest;
 
 import es.museotrapo.trapo.dto.UserDTO;
-import es.museotrapo.trapo.security.jwt.RegisterRequest;
 import es.museotrapo.trapo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,9 +43,8 @@ public class UserControllerREST {
     }
 
     @PutMapping("/login-profile")
-    public UserDTO updateMe(@RequestBody RegisterRequest registerRequest) {
-        UserDTO newUser = userService.update(registerRequest.getUserDTO(), registerRequest.getPassword());
-        return newUser;
+    public UserDTO updateMe(@RequestBody UserDTO userDTO) {
+        return userService.update(userDTO, userDTO.encodedPassword());
     }
 
     @DeleteMapping("/{id}")
