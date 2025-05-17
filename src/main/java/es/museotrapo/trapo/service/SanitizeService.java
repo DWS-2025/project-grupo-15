@@ -49,7 +49,7 @@ public class SanitizeService {
         return sanitizedName;
     }
 
-    public void validateFileExtensionAndContent(Path filePath, String fileName, InputStream fileContent) throws IOException {
+    public void validateFileExtensionAndContent(String fileName, InputStream fileContent) throws IOException {
         String extension = fileName
                 .substring(fileName.lastIndexOf('.') + 1)
                 .toLowerCase();
@@ -58,7 +58,7 @@ public class SanitizeService {
         }
 
         String mimeType = Files
-                .probeContentType(filePath);
+                .probeContentType(Paths.get(fileName));
         if (!"application/pdf".equals(mimeType)) {
             throw new IllegalArgumentException("Invalid content type: the uploaded file is not a valid PDF.");
         }

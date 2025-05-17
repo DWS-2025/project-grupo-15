@@ -173,12 +173,10 @@ public class ArtistService {
         // Throws an exception if the artist does not exist.
         Artist artist = artistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Artist not found"));
-        var folder = Files.createTempDirectory("MYAPP");
-        var fileTemp = folder.resolve("asdasdasd");
-        file.transferTo(fileTemp);
+
 
         // Validate the file's content and extension to ensure it is a valid and secure file.
-        sanitizeService.validateFileExtensionAndContent(fileTemp, file.getOriginalFilename(), file.getInputStream());
+        sanitizeService.validateFileExtensionAndContent(file.getOriginalFilename(), file.getInputStream());
 
         // Create the biography directory if it doesn't exist.
         File directory = new File(biographyDir);
