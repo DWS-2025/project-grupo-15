@@ -64,7 +64,7 @@ public class SecurityConfig {
                 // LoginController
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/auth/refresh").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/auth/refresh").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout").hasRole("USER")
                 // ARTIST ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/artists").permitAll()
