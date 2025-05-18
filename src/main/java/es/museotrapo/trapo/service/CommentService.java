@@ -14,112 +14,148 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-
+import java.util.NoSuchElementException;
 
 /**
- * Service class for managing Comment entities.
- * Provides methods to interact with CommentRepository and handle
- * comment-related operations.
+ * Service class for managing `Comment` entities.
+ * Encapsulates business logic related to comments, such as retrieval, deletion, and interaction with related entities.
  */
-@Service // Spring annotation indicating this is a service class
+@Service
 public class CommentService {
 
-    // Injecting CommentRepository to manage comment data in the database.
+    // Injecting `CommentRepository` to interact with comments in the database.
     @Autowired
     private CommentRepository commentRepository;
 
-    // Injecting CommentMapper to convert between Comment domain objects and CommentDTOs.
+    // Injecting `CommentMapper` to convert between `Comment` domain objects and `CommentDTO`.
     @Autowired
     private CommentMapper mapper;
 
-    // Injecting PictureRepository to interact with picture data in the database.
+    // Injecting `PictureRepository` to access pictures for comment-related operations.
     @Autowired
     private PictureRepository pictureRepository;
 
     /**
-     * Finds a comment by its ID and converts it to a DTO.
+     * Retrieves a comment by its ID and converts it to a `CommentDTO`.
      *
-     * @param id The ID of the comment.
-     * @return the CommentDTO corresponding to the given ID.
-     * @throws NoSuchElementException if the comment is not found.
+     * @param id ID of the comment to retrieve.
+     * @return The corresponding `CommentDTO`.
+     * @throws NoSuchElementException If the comment does not exist.
      */
     public CommentDTO getComment(long id) {
-        // Retrieves the comment by ID, converts it to DTO and returns it
-        return toDTO(commentRepository.findById(id).orElseThrow());
+        // Find the comment in the repository and convert it to a DTO.
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        return toDTO(comment);
     }
 
     /**
-     * Deletes a comment from a picture and from the comment repository.
-     * Removes the comment from the associated picture and author.
+     * Deletes a specific comment by its ID from a specific picture.
+     * Ensures that only the comment's author or an admin can delete the comment.
      *
-     * @param commentId the ID of the comment to delete
-     * @param picId     the ID of the picture associated with the comment
-     * @return the deleted CommentDTO
+     * @param commentId The ID of the comment to delete.
+     * @param picId     The ID of the associated picture.
+     * @param authentication The logged-in user's authentication data.
+     * @return The deleted `CommentDTO`.
+     * @throws RuntimeException If the comment or picture is not found in the database.
+     * @throws UnauthorizedCommentDeleteException If the user is not allowed to delete the comment.
      */
     public CommentDTO deleteComment(Long commentId, Long picId, Authentication authentication) {
-        // Fetch the Picture and Comment entities by their respective IDs
+        // Find the relevant picture and comment entities.
         Picture picture = pictureRepository.findById(picId)
                 .orElseThrow(() -> new RuntimeException("Picture not found."));
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found."));
+
+        // Extract the username of the logged-in user from the authentication object.
         String username = authentication.getName();
 
-        // Check if the user is an admin
+        // Check whether the user has admin privileges.
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 
-        // Check if the user has permission to delete the comment
+        // Verify if the logged-in user has permission to delete the comment.
         if (!comment.getAuthor().getName().equals(username) && !isAdmin) {
-            // Throw exception and ensure no further lines are executed
-            throw new UnauthorizedCommentDeleteException("You can't delete other users' comments. (" + username + " tried to delete comment "
-                    + commentId + " from picture " + picId + " by "
+            // If neither the author nor an admin, throw an exception.
+            throw new UnauthorizedCommentDeleteException("You can't delete other users' comments. (" + username
+                    + " tried to delete comment " + commentId + " from picture " + picId + " by "
                     + comment.getAuthor().getName() + ")");
         }
 
-        // Actual deletion process
-        picture.getComments().remove(comment);  // Remove from picture
+        // Remove the comment from associated entities.
+        picture.getComments().remove(comment); // Remove comment from the picture.
         User author = comment.getAuthor();
-        author.getComments().remove(comment);   // Remove from author
-        commentRepository.delete(comment);      // Delete from database
+        author.getComments().remove(comment);  // Remove comment from the author's list.
 
-        // Return the deleted comment as a DTO
+        // Delete the comment from the database.
+        commentRepository.delete(comment);
+
+        // Return the deleted comment as a DTO.
         return toDTO(comment);
     }
 
+    /**
+     * An alternative or helper method for deleting a comment without authentication checks.
+     *
+     * @param commentId ID of the comment to delete.
+     * @param picId     ID of the picture associated with the comment.
+     * @return The deleted `CommentDTO`.
+     * @throws RuntimeException If the picture or comment does not exist.
+     */
     public CommentDTO deleteCommentHelp(Long commentId, Long picId) {
-        // Fetch the Picture and Comment entities by their respective IDs
+        // Find the relevant picture and comment entities.
         Picture picture = pictureRepository.findById(picId).orElseThrow();
         Comment comment = commentRepository.findById(commentId).orElseThrow();
 
-        // Remove the comment from the picture's list of comments
-        picture.getComments().remove(comment);
-
-        // Remove the comment from the author's list of comments
+        // Remove references to the comment from other entities.
+        picture.getComments().remove(comment); // Remove from picture.
         User author = comment.getAuthor();
-        author.getComments().remove(comment);
+        author.getComments().remove(comment);  // Remove from author's list.
 
-        // Delete the comment from the repository
+        // Delete the comment from the database.
         commentRepository.delete(comment);
 
-        // Return the deleted comment as a DTO
+        // Return the deleted comment as a DTO.
         return toDTO(comment);
     }
 
+    /**
+     * Adds a new comment to the database.
+     *
+     * @param comment The comment to be added.
+     */
     public void addComment(Comment comment) {
+        // Save the comment entity to the database.
         commentRepository.save(comment);
     }
 
-    // Helper method to convert a single Comment entity to CommentDTO
+    /* Conversion Helper Methods */
+
+    /**
+     * Converts a `Comment` domain object to a `CommentDTO`.
+     *
+     * @param comment The domain object.
+     * @return The `CommentDTO`.
+     */
     protected CommentDTO toDTO(Comment comment) {
         return mapper.toDTO(comment);
     }
 
-    // Helper method to convert a CommentDTO to a Comment domain object
+    /**
+     * Converts a `CommentDTO` to a `Comment` domain object.
+     *
+     * @param commentDTO The DTO.
+     * @return The domain object.
+     */
     protected Comment toDomain(CommentDTO commentDTO) {
         return mapper.toDomain(commentDTO);
     }
 
-    // Helper method to convert a collection of Comment entities to CommentDTOs
+    /**
+     * Converts a collection of `Comment` domain objects to `CommentDTOs`.
+     *
+     * @param comments The collection of domain objects.
+     * @return The collection of `CommentDTOs`.
+     */
     protected Collection<CommentDTO> toDTOs(Collection<Comment> comments) {
         return mapper.toDTOs(comments);
     }

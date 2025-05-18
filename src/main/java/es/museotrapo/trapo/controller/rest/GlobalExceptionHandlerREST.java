@@ -9,21 +9,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Map;
 
+/**
+ * Global exception handler for REST controllers.
+ * Captures specific exceptions and provides appropriate HTTP responses.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandlerREST {
 
-    // Manejar la UnauthorizedCommentDeleteException
+    /**
+     * Handles the UnauthorizedCommentDeleteException.
+     *
+     * @param ex the exception indicating an unauthorized attempt to delete a comment.
+     * @return a {@link ResponseEntity} with an HTTP 403 Forbidden status and an error message.
+     */
     @ExceptionHandler(UnauthorizedCommentDeleteException.class)
     public ResponseEntity<?> handleUnauthorizedCommentDeleteException(UnauthorizedCommentDeleteException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(Map.of("error", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN) // Return HTTP status 403 (Forbidden)
+                .body(Map.of("error", ex.getMessage())); // Return the error message in the body
     }
 
-    // Manejar la excepción UserAlreadyExistsException
+    /**
+     * Handles the UserAlreadyExistsException.
+     *
+     * @param ex the exception indicating that a user with the same credentials already exists.
+     * @return a {@link ResponseEntity} with an HTTP 409 Conflict status and an error message.
+     */
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT) // 409 Conflict
-                .body(Map.of("error", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT) // Return HTTP status 409 (Conflict)
+                .body(Map.of("error", ex.getMessage())); // Return the error message in the body
     }
-
 }

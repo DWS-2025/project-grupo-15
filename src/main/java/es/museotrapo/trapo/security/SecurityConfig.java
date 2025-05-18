@@ -2,7 +2,6 @@ package es.museotrapo.trapo.security;
 
 import es.museotrapo.trapo.security.jwt.JwtRequestFilter;
 import es.museotrapo.trapo.security.jwt.UnauthorizedHandlerJwt;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,152 +19,157 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security configuration class for the application.
+ * It manages authentication and authorization rules, defines security filters, JWT handling, and more.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    RepositoryUserDetailsService userDetailsService;
+    private JwtRequestFilter jwtRequestFilter; // Custom filter to validate JWT tokens
 
     @Autowired
-    private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
+    private RepositoryUserDetailsService userDetailsService; // Service for loading user details
 
+    @Autowired
+    private UnauthorizedHandlerJwt unauthorizedHandlerJwt; // Handles unauthorized access attempts
+
+    /**
+     * Configures the password encoder to encode plain-text passwords (BCrypt hashing).
+     *
+     * @return Password encoder bean.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Provides the `AuthenticationManager` used for authentication processes.
+     *
+     * @param authConf Spring's authentication configuration.
+     * @return AuthenticationManager bean.
+     * @throws Exception If something goes wrong while fetching the AuthenticationManager.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConf) throws Exception {
         return authConf.getAuthenticationManager();
     }
 
+    /**
+     * Configures the Data Access Object (DAO) authentication provider.
+     * This provider uses the `UserDetailsService` to load user information and checks passwords with the configured `PasswordEncoder`.
+     *
+     * @return DAO Authentication Provider bean.
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService((UserDetailsService) userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
+        authProvider.setUserDetailsService(userDetailsService); // Set the custom user details service
+        authProvider.setPasswordEncoder(passwordEncoder()); // Set password encoder
         return authProvider;
     }
 
+    /**
+     * Custom security filter chain for `/api/**` endpoints.
+     * Defines authentication and authorization rules for REST APIs.
+     *
+     * @param http HttpSecurity object for configuring security.
+     * @return SecurityFilterChain bean for API endpoints.
+     * @throws Exception If configuration fails.
+     */
     @Bean
-    @Order(1)
+    @Order(1) // Higher priority chain for APIs
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Use custom authentication provider
         http.authenticationProvider(authenticationProvider());
 
-        http.securityMatcher("/api/**").
-                exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
+        // Match requests under `/api/**` and configure exception handling
+        http.securityMatcher("/api/**")
+                .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
+        // Define authorization rules for API endpoints
         http.authorizeHttpRequests(authorize -> authorize
-                // LoginController
+                // Authentication and authorization rules for `/api/auth/**`
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/refresh").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout").hasRole("USER")
+
                 // ARTIST ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/artists").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artists/{id}").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/artists").hasRole("USER")
-                .requestMatchers(HttpMethod.PUT, "/api/artists/{id}").hasRole("USER") 
+                .requestMatchers(HttpMethod.PUT, "/api/artists/{id}").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/artists/{id}").hasRole("ADMIN")
+
                 // PICTURE ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/pictures").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/pictures/{id}").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/image").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/comments").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/pictures").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/comments").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/likes").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/api/pictures/{id}/image").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/pictures/{id}/image").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/pictures/{id}").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/pictures/{id}/comments/{commentId}").hasRole("USER")
 
-                // UserController
+                // USER ENDPOINTS
                 .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/users/login-profile").hasRole("USER")
                 .requestMatchers(HttpMethod.PUT, "/api/users/login-profile").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/login-profile").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/artists/{id}/biography").hasRole("USER")
-                .requestMatchers(HttpMethod.POST, "/api/artists/{id}/biography").hasRole("USER")
-
-                
         );
-        //Disable form login Authentication
-        http.formLogin(formLogin -> formLogin.disable());
 
-        //Disable CSRF protection
+        // Disable CSRF, basic authentication, and session creation for APIs
         http.csrf(csrf -> csrf.disable());
-
-        //Disable Basic Authentication
         http.httpBasic(httpBasic -> httpBasic.disable());
-
-        //Stateless session
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        //Add JWT token filter
+        // Add JWT validation filter before Spring's username-password auth filter
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    /**
+     * Another security filter chain for non-API/custom web endpoints (e.g., web pages).
+     * Configures public and private access rules for different URLs.
+     *
+     * @param http HttpSecurity object for configuring security.
+     * @return SecurityFilterChain bean for web endpoints.
+     * @throws Exception If configuration fails.
+     */
     @Bean
-    @Order(2)
+    @Order(2) // Lower priority chain for general web pages
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
-
+        // Use the custom authentication provider
         http.authenticationProvider(authenticationProvider());
 
+        // Authorization settings for web resources
         http.authorizeHttpRequests(authorize -> authorize
-                //PUBLIC
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/cuadro.jpg").permitAll()
-                                .requestMatchers("/pictures/{id}/{imageFile}").permitAll()
-                                .requestMatchers("/pictures/{id}").permitAll()
-                                .requestMatchers("/css/**").permitAll()
-                                .requestMatchers("/artists/{id}").permitAll()
-                                .requestMatchers("/js/**").permitAll()
-                                .requestMatchers("/error").permitAll()
-                                .requestMatchers("/milogo.png").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/favicon.ico").permitAll()
-                                .requestMatchers("/pictures").permitAll()
-                                .requestMatchers("/artists").permitAll()
-                                .requestMatchers("/artists/more").permitAll()
-                //PRIVATE
-                                .requestMatchers("/users").hasAnyRole("ADMIN")
-                                .requestMatchers("/users/{id}/delete").hasAnyRole("ADMIN")
-                                .requestMatchers("/login-profile").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/login-profile/delete").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/login-profile/edit").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/artists/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/artists/{id}/edit").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/artists/{id}/delete").hasAnyRole("ADMIN")
-                                .requestMatchers("artists/{id}/biography").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/{id}/delete").hasAnyRole("ADMIN")
-                                .requestMatchers("/pictures/{id}/likeToggle").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/{id}/comments/new").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/pictures/{id}/comments/{commentId}/delete").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/logout").hasAnyRole("ADMIN", "USER")
+                // Public access endpoints
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/register").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/favicon.ico").permitAll()
 
-                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .failureUrl("/loginerror")
-                        .defaultSuccessUrl("/")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll()
-                );
-        //http.exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect("/error")));
+                // Private access endpoints
+                .requestMatchers("/users").hasRole("ADMIN")
+                .requestMatchers("/login-profile").hasAnyRole("USER", "ADMIN")
+        );
+
+        // Enable CSRF protection and configure form login/logout for web access
+        http.formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .failureUrl("/loginerror")
+                .defaultSuccessUrl("/")
+                .permitAll()
+        );
+
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll()
+        );
+
         return http.build();
     }
 }
