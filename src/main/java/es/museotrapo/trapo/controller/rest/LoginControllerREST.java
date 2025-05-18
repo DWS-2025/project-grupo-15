@@ -1,5 +1,6 @@
 package es.museotrapo.trapo.controller.rest;
 
+import es.museotrapo.trapo.security.LoginAttemptService;
 import es.museotrapo.trapo.security.jwt.AuthResponse;
 import es.museotrapo.trapo.security.jwt.LoginRequest;
 import es.museotrapo.trapo.security.jwt.UserLogingService;
@@ -19,11 +20,33 @@ public class LoginControllerREST {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoginAttemptService loginAttemptService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        return userLogingService.login(response, loginRequest);
+        // Validar si el usuario está bloqueado
+
+        if (loginAttemptService.isBlocked()) {
+            return ResponseEntity.status(429).body(
+                    new AuthResponse(AuthResponse.Status.FAILURE, "Demasiados intentos fallidos. Usuario bloqueado temporalmente.")
+            );
+        }
+        try {
+            // Realizar la autenticación
+            ResponseEntity<AuthResponse> authResponse = userLogingService.login(response, loginRequest);
+            loginAttemptService.resetAttempts();
+            return authResponse;
+
+        } catch (Exception e) {
+            // Incrementar intentos fallidos si la autenticación falla
+            loginAttemptService.registerLoginFailure();
+            return ResponseEntity.status(401).body(
+                    new AuthResponse(AuthResponse.Status.FAILURE, "Credenciales inválidas.")
+            );
+        }
     }
+
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refreshToken(@CookieValue(name = "RefreshToken", required = false) String refreshToken, HttpServletResponse response) {

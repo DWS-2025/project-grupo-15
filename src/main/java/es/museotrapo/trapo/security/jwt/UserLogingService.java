@@ -1,11 +1,13 @@
 package es.museotrapo.trapo.security.jwt;
 
+import es.museotrapo.trapo.security.LoginAttemptService;
 import es.museotrapo.trapo.security.jwt.AuthResponse.Status;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
