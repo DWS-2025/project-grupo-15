@@ -70,76 +70,48 @@ Desarrollado por el grupo **15**:
 
 👨‍💻 **Alejandro Sanchez Díaz**  
 Encargado de:
-  - Controladores Rest
-  - Conversión a DTO y Mappers
-  - Postman sampleData
-  - Cambio a base de datos MySQL
-  - Arreglos menores
+  - Protección contra XSS, CSRF, LFI...
+  - Registro/login 
+  - Implementación de texto enriquecido
+  - Control de roles
 🔗 [@asaanchezz10](https://github.com/asaanchezz10)
 
 #### Listado de los 5 commits más significativos
 
-1. **[Commit: 3b19352 -> Migración a MySQL y extras a la API](https://github.com/DWS-2025/project-grupo-15/commit/3b1935250db1bb88bbd90601d5ce39092d894a87)**  
-   Descripción: Migración de la base de datos a MySQL y adición de nuevas funcionalidades a la API.
+1. **[Commit: b43580e -> Proteccion XSS](https://github.com/DWS-2025/project-grupo-15/commit/b43580e876670c36b3ed46233a5526cffb65e0f5)**  
+   Descripción: Proteccion XSS con sanitizacion en el servicio y cambios menores en algunos headers.
 
-2. **[Commit: 53fd23a -> Funcionamiento completo de la API](https://github.com/DWS-2025/project-grupo-15/commit/53fd23a31d0da626274f5afb534aefd9ff1a3c4b)**  
-   Descripción: Implementación completa de la API, asegurando que todos los endpoints funcionen correctamente.
+2. **[Commit: 1f87441 -> Proteccion LFI](https://github.com/DWS-2025/project-grupo-15/commit/1f87441c212ce8d41b9961cfd03c465daa03c2b0)**  
+   Descripción: Subida de ficheros en disco y seguridad contra ataques LFI.
 
-3. **[Commit: 9f05623 -> Finalización de la creación de DTOS](https://github.com/DWS-2025/project-grupo-15/commit/9f0562349eb7acb3b27743a7f3935f0442551b10)**
-   Descripción: Terminación de la creación de los DTOs para la correcta interacción entre capas de la aplicación.
+3. **[Commit: 4872cf1 -> Control de roles](https://github.com/DWS-2025/project-grupo-15/commit/4872cf1e4b7e09eb5340b493adfbe18eca61b2c5)**
+   Descripción: Mejoras y configuración de los roles dentro de la aplicación.
 
-4. **[Commit: 265b6a5 -> Funcionalidad completa del controlador web](https://github.com/DWS-2025/project-grupo-15/commit/265b6a5125974819aac2d276acb0d10efe119b9c)**  
-   Descripción: Implementación final del controlador web, asegurando la correcta interacción con el frontend.
+4. **[Commit: 80ddd08 -> Controladores de login y para usuarios](https://github.com/DWS-2025/project-grupo-15/commit/80ddd0805b3216b40d7efc21a0e68c0a87ab8a4b)**  
+   Descripción: Implementación de controladores para el login y para la gestion de usuarios.
 
-5. **[Commit: 7592700 -> Arreglo de referencias circulares](https://github.com/DWS-2025/project-grupo-15/commit/7592700a46242fd02f596bd1e5cd3de44c8e9753)**  
-   Descripción: Solución de las referencias circulares que causaban errores en la serialización de objetos.
+5. **[Commit: c74063a -> Texto enriquecido en comentarios](https://github.com/DWS-2025/project-grupo-15/commit/c74063a7bbb0acc0297896f8bdbfc1b76d788bc1)**  
+   Descripción: Implementación de texto enriquecido en la parte de comentarios de la aplicación.
 
-#### Listado de los 5 ficheros en los que más ha participado el miembro
-
-1. **[ `src/main/java/es/museotrapo/trapo/controller/rest/PictureControllerREST`](https://github.com/DWS-2025/project-grupo-15/blob/main/src/main/java/es/museotrapo/trapo/controller/rest/PictureControllerREST.java)**
-2. **[`src/main/java/es/museotrapo/trapo/service/PictureService.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/service/PictureService.java)**  
-
-3. **[`src/main/java/es/museotrapo/trapo/controller/rest/ArtistControllerREST`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/controller/rest/ArtistControllerREST.java)**  
-
-4. **[`src/main/java/es/museotrapo/trapo/dto/PictureDTO.java`](https://github.com/DWS-2025/project-grupo-15/blob/main/src/main/java/es/museotrapo/trapo/dto/PictureDTO.java)**  
-   Se pone este fichero para remarcar la contribución en los DTOs
-5. **[`src/main/java/es/museotrapo/trapo/service/CommentService.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/service/CommentService.java)**
 
 👨‍🎨 **Samuel López Cabezudo**  
 Responsable de:
-- Paginación
-- Consulta dinámica
 - Controladores Rest
-- Arreglos menores
+- Funcionamiento del servicio de seguridad
+- Pruebas de detección de vulnerabilidades
+- Otros arreglos menores
 🔗 [@P3rseo](https://github.com/P3rseo)
 
 #### Listado de los 5 commits más significativos
 
-1. **[Commit: 02263d8 -> CommentService con DTOs](https://github.com/DWS-2025/project-grupo-15/commit/02263d8c8b0b8fa450e0c124fa8bc5d64cf36eeb)**  
-   Descripción: Implementación de CommentService utilizando DTOs para una mejor interacción con la base de datos y la API.
+1. **[Commit: 267ce2e -> Configuración de seguridad de la API rest](https://github.com/DWS-2025/project-grupo-15/commit/267ce2e1845b5118a44262a8ac04aa05a51ddbf4)**  
+   Descripción: Implementación de la configuracion de seguridad de la aplicación.
 
-2. **[Commit: bea9326 -> Paginación](https://github.com/DWS-2025/project-grupo-15/commit/bea9326bb35db42f29714dad66b1f667412b9f5a)**  
-   Descripción: Implementación de la paginación en los resultados de la API para una mejor gestión de datos y eficiencia.
+2. **[Commit: 376b6cc -> Nuevas rutas API](https://github.com/DWS-2025/project-grupo-15/commit/376b6cc7a40318eb306286313db64dfec6b50784)**  
+   Descripción: Implementación de las nuevas rutas dentro de la aplicación.
 
-3. **[Commit: bb20be9 -> Picture REST](https://github.com/DWS-2025/project-grupo-15/commit/bb20be97e0eee55ef50dd92acdae325c3c141f5c)**  
-   Descripción: Creación de los endpoints REST para manejar las operaciones relacionadas con las imágenes.
-
-4. **[Commit: 6aaf08 -> Más implementación de la paginación](https://github.com/DWS-2025/project-grupo-15/commit/6aaf0898ef3711e2deee1ef64b48fd888306d815)**  
-   Descripción: Continuación de la implementación de la paginación en varios servicios y controladores de la API.
-
-5. **[Commit: 9f683a5 -> Creación del README](https://github.com/DWS-2025/project-grupo-15/commit/9f683a56706ac90d4c73d1994a71df0e7b947a27)**  
-   Descripción: Creación del archivo README.
-
-#### Listado de los 5 ficheros en los que más ha participado el miembro
-
-1. **[ `src/main/java/es/museotrapo/trapo/controller/rest/ArtistControllerREST.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/controller/rest/ArtistControllerREST.java)**
-2. **[`src/main/java/es/museotrapo/trapo/controller/web/ArtistController.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/controller/web/ArtistController.java)**
-
-3. **[`src/main/java/es/museotrapo/trapo/service/ArtistService.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/service/ArtistService.java)**
-
-4. **[`src/main/resources/templates/artists.html`](https://github.com/DWS-2025/project-grupo-15/blob/main/src/main/resources/templates/artists.html)**  
-
-5. **[`src/main/java/es/museotrapo/trapo/service/CommentService.java`](https://github.com/DWS-2025/project-grupo-15/blame/main/src/main/java/es/museotrapo/trapo/service/CommentService.java)**  
+3. **[Commit: efec7c2 -> Picture REST](https://github.com/DWS-2025/project-grupo-15/commit/efec7c2e56a3a1fa71dbbb46d4d56c0a0d211707)**  
+   Descripción: Modificaciones menores para el correcto funcionamiento de la aplicación.
 ---
 
 ## 🔗 Rutas Principales
@@ -147,7 +119,7 @@ Responsable de:
 - `/index` – Página principal de acceso a cuadros, artistas y usuarios
 - `/artists` – Lista de artistas con sus fichas y obras
 - `/pictures` – Catálogo de cuadros disponibles
-- `/users` – Registro de nuevos usuarios
+- `/register` – Registro de nuevos usuarios
 - `/api/**` – Endpoints REST para integraciones y pruebas
 
 ---
