@@ -30,92 +30,90 @@ import java.util.Collection;
 import org.springframework.http.MediaType;
 
 /**
- * Service class for managing `Artist` entities.
- * Contains business logic to interact with the database, validate inputs, and process entity-related data.
+ * Service class for managing Artist entities.
+ * Provides methods to interact with the ArtistRepository and PictureRepository to perform CRUD operations.
  */
-@Service
+@Service // Spring annotation indicating this is a service class
 public class ArtistService {
 
+    // Injecting ArtistRepository to interact with artist data in the database.
     @Autowired
-    private ArtistRepository artistRepository; // Repository for database operations on `Artist` entities.
+    private ArtistRepository artistRepository;
+
+    // Injecting ArtistMapper to convert between Artist domain objects and ArtistDTOs.
+    @Autowired
+    private ArtistMapper mapper;
 
     @Autowired
-    private ArtistMapper mapper; // Mapper for converting between `Artist` and `ArtistDTO`.
+    private SanitizeService sanitizeService;
 
-    @Autowired
-    private SanitizeService sanitizeService; // Service for sanitizing and validating files.
-
-    private final String biographyDir = "biographies"; // Directory to store biography files.
-
-    /* CRUD Operations */
+    private final String biographyDir = "biographies";
 
     /**
-     * Retrieves all artists as a paginated list of `ArtistDTO`.
+     * Retrieves a paginated list of ArtistDTOs.
      *
-     * @param pageable Pagination information such as page size and number.
-     * @return Paginated list of `ArtistDTO`.
+     * @param pageable pagination information (e.g., page number, page size)
+     * @return a Page of ArtistDTOs
      */
     public Page<ArtistDTO> getArtists(Pageable pageable) {
+        // Fetches the paginated list of artists from the repository and converts them to DTOs
         Page<Artist> artistPage = artistRepository.findAll(pageable);
         return convertToDTOPage(artistPage);
     }
 
-    /**
-     * Fetches the list of artists matching a given example as a paginated response.
-     *
-     * @param example Filter criteria represented by an example `Artist` object.
-     * @param pageable Pagination information.
-     * @return Paginated list of `ArtistDTO`.
-     */
     public Page<ArtistDTO> getArtists(Example<Artist> example, Pageable pageable) {
+        // Fetches the paginated list of artists from the repository and converts them to DTOs
         Page<Artist> artistPage = artistRepository.findAll(example, pageable);
         return convertToDTOPage(artistPage);
     }
 
     /**
-     * Retrieves all artists as a non-paginated collection of `ArtistDTO`.
+     * Retrieves a collection of all ArtistDTOs.
      *
-     * @return List of `ArtistDTO`.
+     * @return a collection of ArtistDTOs
      */
     public Collection<ArtistDTO> getArtists() {
+        // Converts all Artist entities to DTOs and returns them
         return toDTOs(artistRepository.findAll());
     }
 
     /**
-     * Retrieves a single `Artist` entity by its ID and converts it to `ArtistDTO`.
+     * Retrieves a single ArtistDTO by its ID.
      *
-     * @param id ID of the artist.
-     * @return `ArtistDTO` object.
-     * @throws NoSuchElementException If the artist with the given ID does not exist.
+     * @param id the ID of the artist to retrieve
+     * @return the ArtistDTO corresponding to the ID
      */
     public ArtistDTO getArtist(long id) {
+        // Finds the artist by ID and converts it to a DTO
         return toDTO(artistRepository.findById(id).orElseThrow());
     }
 
     /**
-     * Creates a new artist in the database.
+     * Creates a new artist from the given ArtistDTO.
      *
-     * @param artistDTO Object with the artist's details.
-     * @return The created `ArtistDTO`.
+     * @param artistDTO the ArtistDTO to create a new artist from
+     * @return the created ArtistDTO
      */
     public ArtistDTO createArtist(ArtistDTO artistDTO) {
+        // Converts the DTO to a domain object, saves it in the repository, and returns the saved DTO
         Artist artist = toDomain(artistDTO);
         artistRepository.save(artist);
         return toDTO(artist);
     }
 
     /**
-     * Updates/overwrites an existing artist by its ID.
+     * Replaces an existing artist with a new artist, identified by the given ID.
      *
-     * @param id ID of the artist to update.
-     * @param updatedArtistDTO Updated artist details.
-     * @return Updated `ArtistDTO`.
-     * @throws NoSuchElementException If the artist does not exist.
+     * @param id               the ID of the artist to replace
+     * @param updatedArtistDTO the updated ArtistDTO
+     * @return the updated ArtistDTO
+     * @throws NoSuchElementException if the artist does not exist
      */
     public ArtistDTO replaceArtist(long id, ArtistDTO updatedArtistDTO) {
         if (artistRepository.existsById(id)) {
+            // Converts the updated DTO to a domain object, sets the ID, saves it, and returns the updated DTO
             Artist updatedArtist = toDomain(updatedArtistDTO);
-            updatedArtist.setId(id); // Ensure the ID matches the existing entity.
+            updatedArtist.setId(id);
             artistRepository.save(updatedArtist);
             return toDTO(updatedArtist);
         } else {
@@ -124,11 +122,10 @@ public class ArtistService {
     }
 
     /**
-     * Deletes an artist by ID and returns the deleted `ArtistDTO`.
+     * Deletes an artist by ID.
      *
-     * @param id ID of the artist to delete.
-     * @return `ArtistDTO` of the deleted artist.
-     * @throws NoSuchElementException If the artist does not exist.
+     * @param id the ID of the artist to delete
+     * @return the ArtistDTO of the deleted artist
      */
     public ArtistDTO deleteArtist(long id) {
         Artist artist = artistRepository.findById(id).orElseThrow();
@@ -138,96 +135,11 @@ public class ArtistService {
     }
 
     /**
-     * Checks if an artist exists by ID.
+     * Converts a Page of Artist entities to a Page of ArtistDTOs.
      *
-     * @param id ID of the artist.
-     * @return `true` if the artist exists, otherwise `false`.
+     * @param artistPage the Page of Artist entities
+     * @return a Page of ArtistDTOs
      */
-    public boolean existsById(long id) {
-        return artistRepository.existsById(id);
-    }
-
-    /* Biography Management */
-
-    /**
-     * Saves an artist's biography file.
-     *
-     * - Validates the file's content and name.
-     * - Ensures the file path is secure and stores the file in the biography directory.
-     * - Updates the artist's biography path in the database.
-     *
-     * @param id    ID of the artist for whom the biography is saved.
-     * @param file  Biography file uploaded by the user.
-     * @throws IOException If there's an error processing the file.
-     */
-    public void saveBiography(Long id, MultipartFile file) throws IOException {
-        Artist artist = artistRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Artist not found"));
-
-        sanitizeService.validateFileExtensionAndContent(file.getOriginalFilename(), file.getInputStream());
-
-        File directory = new File(biographyDir);
-        if (!directory.exists()) {
-            directory.mkdirs(); // Create the directory if it doesn't exist.
-        }
-
-        String sanitizedFileName = sanitizeService.sanitizeFileName(file.getOriginalFilename());
-        if (sanitizedFileName == null || sanitizedFileName.isEmpty()) {
-            throw new IllegalArgumentException("The file does not have a valid name.");
-        }
-
-        File destinationFile = new File(biographyDir, sanitizedFileName).getCanonicalFile();
-        if (!destinationFile.getPath().startsWith(directory.getCanonicalPath())) {
-            throw new SecurityException("Invalid file path. File must reside in the biography directory.");
-        }
-
-        if (destinationFile.exists()) {
-            throw new RuntimeException("A file with the same name already exists.");
-        }
-
-        file.transferTo(destinationFile);
-        artist.setBiography(biographyDir + "/" + sanitizedFileName);
-
-        artistRepository.save(artist); // Update the artist with the new biography path.
-    }
-
-    /**
-     * Serves the biography file of the given artist as an HTTP response.
-     *
-     * @param id ID of the artist.
-     * @return HTTP response containing the biography file as a downloadable resource.
-     * @throws IOException If the file cannot be found or accessed.
-     */
-    public ResponseEntity<Resource> getBiographyResponse(Long id) throws IOException {
-        Artist artist = artistRepository.findById(id).orElseThrow();
-        Path path = Paths.get(artist.getBiography());
-
-        if (!Files.exists(path)) {
-            throw new FileNotFoundException("Biography not found for artist with ID: " + id);
-        }
-
-        Resource pdfResource = new UrlResource(path.toUri());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=biography_" + id + ".pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfResource);
-    }
-
-    /* Helper Methods for Conversions */
-
-    protected ArtistDTO toDTO(Artist artist) {
-        return mapper.toDTO(artist);
-    }
-
-    protected Artist toDomain(ArtistDTO artistDTO) {
-        return mapper.toDomain(artistDTO);
-    }
-
-    protected Collection<ArtistDTO> toDTOs(Collection<Artist> artists) {
-        return mapper.toDTOs(artists);
-    }
-
     public Page<ArtistDTO> convertToDTOPage(Page<Artist> artistPage) {
         return new PageImpl<>(
                 artistPage.getContent().stream().map(mapper::toDTO).collect(Collectors.toList()),
@@ -237,11 +149,113 @@ public class ArtistService {
     }
 
     /**
-     * Counts the total number of artists in the database.
+     * Returns the total count of Artist entities.
      *
-     * @return Total count of artist entities.
+     * @return the count of artists
      */
     public long count() {
         return artistRepository.count();
+    }
+
+    /**
+     * Saves the biography file for a specific artist by validating the file,
+     * sanitizing its content and name, and ensuring it is safely stored in the designated directory.
+     *
+     * @param id   The unique identifier of the artist.
+     * @param file The uploaded file containing the biography.
+     * @throws IOException              If an I/O error occurs while processing the file.
+     * @throws RuntimeException         If the artist is not found or the file cannot be safely saved.
+     * @throws IllegalArgumentException If the file name is invalid or the file cannot be processed.
+     * @throws SecurityException        If a path traversal attempt or unsafe file path is detected.
+     */
+    public void saveBiography(Long id, MultipartFile file) throws IOException {
+        // Retrieve artist from the database using the provided ID.
+        // Throws an exception if the artist does not exist.
+        Artist artist = artistRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Artist not found"));
+
+
+        // Validate the file's content and extension to ensure it is a valid and secure file.
+        sanitizeService.validateFileExtensionAndContent(file.getOriginalFilename(), file.getInputStream());
+
+        // Create the biography directory if it doesn't exist.
+        File directory = new File(biographyDir);
+        if (!directory.exists()) {
+            // mkdirs is used to create the directory and any non-existing parent directories.
+            directory.mkdirs();
+        }
+
+        // Sanitize the file name to prevent unsafe or invalid characters (e.g., ../ or special characters).
+        String originalName = sanitizeService.sanitizeFileName(file.getOriginalFilename());
+        if (originalName == null || originalName.isEmpty()) {
+            throw new IllegalArgumentException("The file does not have a valid name");
+        }
+
+        // Resolve the destination file path and ensure it is canonical (safe and absolute).
+        File destinationFile = new File(biographyDir, originalName).getCanonicalFile();
+
+        // Check that the resolved file path is within the intended directory (prevent path traversal attacks).
+        if (!destinationFile.getPath().startsWith(directory.getCanonicalPath())) {
+            throw new SecurityException("Invalid file path. File must reside in the biography directory");
+        }
+
+        // Check if a file with the same name already exists to prevent overwriting.
+        if (destinationFile.exists()) {
+            throw new RuntimeException("There is already a file with the same name: " + originalName);
+        }
+
+        // Save the file to the destination directory.
+        file.transferTo(destinationFile);
+
+        // Save the file reference (absolute path) in the artist's biography field.
+        artist.setBiography(biographyDir + "/" + originalName);
+
+        // Update the artist entity in the database.
+        artistRepository.save(artist);
+    }
+
+    public ResponseEntity<Resource> getBiographyResponse(Long id) throws IOException {
+        Artist artist = artistRepository.findById(id).orElseThrow();
+        // Construir la ruta al archivo
+        Path path = Paths.get(artist.getBiography());
+
+        // Validar si el archivo existe
+        if (!Files.exists(path)) {
+            throw new FileNotFoundException("Biography not found for artist with ID: " + id);
+        }
+
+        // Crear un recurso a partir del archivo
+        Resource pdfResource = new UrlResource(path.toUri());
+
+        // Construir la respuesta HTTP con el recurso
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=biography_" + id + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfResource);
+    }
+
+
+/**
+     * Checks if an artist with the given ID exists.
+     *
+     * @param id the ID of the artist to check
+     * @return true if the artist exists, false otherwise
+     */
+    public boolean existsById(long id) {
+        return artistRepository.existsById(id);
+    }
+
+    // Helper methods for converting between domain objects and DTOs
+
+    private ArtistDTO toDTO(Artist artist) {
+        return mapper.toDTO(artist);
+    }
+
+    protected Artist toDomain(ArtistDTO artistDTO) {
+        return mapper.toDomain(artistDTO);
+    }
+
+    private Collection<ArtistDTO> toDTOs(Collection<Artist> artists) {
+        return mapper.toDTOs(artists);
     }
 }
