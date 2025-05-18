@@ -102,6 +102,12 @@ public class ArtistControllerREST {
         return artistService.replaceArtist(id, updatedArtistDTO); // Update the artist and return the updated DTO
     }
 
+    /**
+     * Endpoint to retrieve the biography of a specific artist by its ID.
+     *
+     * @param id the ID of the artist.
+     * @return ResponseEntity with the biography file as a Resource.
+     */
     @GetMapping("/{id}/biography")
     public ResponseEntity<Resource> getBiography(@PathVariable long id) {
         try{
@@ -111,6 +117,14 @@ public class ArtistControllerREST {
         } // Retrieve the biography of the artist by ID
     }
 
+    /**
+     * Endpoint to upload a new biography file for a specific artist by its ID.
+     *
+     * @param id   the ID of the artist.
+     * @param file the biography file to upload.
+     * @return ResponseEntity with the location of the uploaded file.
+     * @throws IOException if an error occurs while saving the file.
+     */
     @PostMapping("/{id}/biography")
     public ResponseEntity<Object> uploadBiography(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
         artistService.saveBiography(id, file);

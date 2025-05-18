@@ -48,6 +48,11 @@ public class UserService {
         return toDTO(getLoggedUser());
     }
 
+    /**
+     * Retrieves the logged-in user from the security context.
+     *
+     * @return User - The logged-in user
+     */
     public User getLoggedUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (SecurityContextHolder.getContext().getAuthentication() == null || !SecurityContextHolder.getContext().getAuthentication().isAuthenticated() ||
@@ -67,10 +72,22 @@ public class UserService {
         return toDTOs(userRepository.findAll());
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id - The ID of the user to retrieve
+     * @return User - The user with the specified ID
+     */
     public UserDTO findById(Long id) {
         return toDTO(userRepository.findById(id).orElseThrow());
     }
 
+    /**
+     * Retrieves a user by their username.
+     *
+     * @param username - The username of the user to retrieve
+     * @return User - The user with the specified username
+     */
     public void likeOrRemovePicture(PictureDTO pictureDTO) {
 
         Picture picture = pictureRepository.findById(pictureDTO.id()).get();
@@ -90,12 +107,23 @@ public class UserService {
         userRepository.save(user);// Save the updated user and picture back to the repository
     }
 
+    /**
+     * Checks if the logged-in user likes a specific picture.
+     *
+     * @param pictureDTO - The picture to check
+     * @return boolean - True if the user likes the picture, false otherwise
+     */
     public boolean isPictureLiked(PictureDTO pictureDTO) {
         User user = getLoggedUser();// Get the logged-in username
         if(user == null) return false;
         return user.getLikedPictures().contains(pictureRepository.findById(pictureDTO.id()).get());// Return whether the picture is in the username's liked list
     }
 
+    /**
+     * Checks if the logged-in user is an admin.
+     *
+     * @return boolean - True if the user is an admin, false otherwise
+     */
     public UserDTO add(UserDTO userDTO, String password) {
         User user = toDomain(userDTO);
         if(userRepository.findByName(user.getName()).isPresent()) throw new UserAlreadyExistsException("Username already exists. Please choose another.");
@@ -106,6 +134,11 @@ public class UserService {
         return toDTO(user);
     }
 
+    /**
+     * Checks if the logged-in user is an admin.
+     *
+     * @return boolean - True if the user is an admin, false otherwise
+     */
     @Transactional
     public void remove(Long id) {
         User user = userRepository.findById(id).orElseThrow();
@@ -127,6 +160,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    /**
+     * Checks if the logged-in user is an admin.
+     *
+     * @return boolean - True if the user is an admin, false otherwise
+     */
     public UserDTO update(UserDTO userDTO, String password) {
         User oldUser = getLoggedUser();
         User newUser = toDomain(userDTO);
@@ -142,7 +180,7 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         return toDTO(newUser);
     }
-
+    
     private UserDTO toDTO(User user) {
         return mapper.toDTO(user);
     }

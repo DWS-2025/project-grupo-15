@@ -86,6 +86,14 @@ public class CommentService {
         return toDTO(comment);
     }
 
+    /**
+     * Deletes a comment from a picture and from the comment repository.
+     * Removes the comment from the associated picture and author.
+     *
+     * @param commentId the ID of the comment to delete
+     * @param picId     the ID of the picture associated with the comment
+     * @return the deleted CommentDTO
+     */
     public CommentDTO deleteCommentHelp(Long commentId, Long picId) {
         // Fetch the Picture and Comment entities by their respective IDs
         Picture picture = pictureRepository.findById(picId).orElseThrow();

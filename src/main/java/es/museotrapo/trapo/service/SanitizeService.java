@@ -15,22 +15,26 @@ import java.nio.file.Paths;
 public class SanitizeService {
 
     private static final PolicyFactory CUSTOM_POLICY = new HtmlPolicyBuilder()
-            .allowElements("h1", "h2", "h3") // Permitir encabezados
-            .allowElements("a") // Permitir enlaces
-            .allowUrlProtocols("https") // Solo permitir https
-            .allowAttributes("href").onElements("a")
-            .requireRelNofollowOnLinks() // Añadir rel="nofollow" a los enlaces
+            .allowElements("h1", "h2", "h3") // Permit headings
+            .allowElements("a") // Permit links
+            .allowUrlProtocols("https") // Permit only HTTPS links
+            .allowAttributes("href").onElements("a") // Permit href attribute on links
+            .requireRelNofollowOnLinks() // Require rel="nofollow" on links
             .toFactory();
 
-    private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS).and(CUSTOM_POLICY); // Permitir formato básico y enlaces
+    private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS).and(CUSTOM_POLICY); // Permit formatting and links
 
     private static final String[] ALLOWED_EXTENSIONS = {"pdf"};
 
-    // Método para sanitizar entradas de texto con HTML
+    
+    // Method to sanitize text inputs with HTML
     public static String sanitize(String input) {
         return POLICY.sanitize(input);
     }
 
+    /*
+     * Sanitize the file name to prevent directory traversal attacks and
+     */
     public String sanitizeFileName(String filename) {
         if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("The file does not have a legit name");
@@ -49,6 +53,10 @@ public class SanitizeService {
         return sanitizedName;
     }
 
+    /*
+     * Validate the file extension and content type.
+     * Only allows PDF files.
+     */
     public void validateFileExtensionAndContent(String fileName, InputStream fileContent) throws IOException {
         String extension = fileName
                 .substring(fileName.lastIndexOf('.') + 1)

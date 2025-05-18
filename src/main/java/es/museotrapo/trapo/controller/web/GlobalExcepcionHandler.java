@@ -10,19 +10,19 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExcepcionHandler {
 
-    // Manejar UnauthorizedCommentDeleteException
+    // Manage UnauthorizedCommentDeleteException
     @ExceptionHandler(UnauthorizedCommentDeleteException.class)
     public ModelAndView handleUnauthorizedCommentDeleteException(UnauthorizedCommentDeleteException ex) {
-        ModelAndView modelAndView = new ModelAndView("error_forbidden"); // Redirigir a forbidden.html
-        modelAndView.addObject("errorMessage", ex.getMessage()); // Pasar el mensaje
+        ModelAndView modelAndView = new ModelAndView("error_forbidden"); // Redirect to forbidden.html
+        modelAndView.addObject("errorMessage", ex.getMessage()); // Pass the message
         return modelAndView;
     }
 
-    // Manejar UserAlreadyExistsException
+    // Manage UserAlreadyExistsException
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ModelAndView handleUserAlreadyExistsException(UserAlreadyExistsException ex, Model model) {
-        ModelAndView modelAndView = new ModelAndView("error_forbidden"); // Redirigir a conflict.html
-        modelAndView.addObject("errorMessage", ex.getMessage()); // Pasar el mensaje
+        ModelAndView modelAndView = new ModelAndView("error_forbidden"); // Redirect to conflict.html
+        modelAndView.addObject("errorMessage", ex.getMessage()); // Pass the message
         return modelAndView;
     }
 

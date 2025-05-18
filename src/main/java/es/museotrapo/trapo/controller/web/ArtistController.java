@@ -80,6 +80,12 @@ public class ArtistController {
         return "artists"; // Return the view name
     }
 
+    /**
+     * Handles the request to fetch more artists for pagination.
+     *
+     * @param page The page number to fetch
+     * @return A list of ArtistDTO objects
+     */
     @GetMapping("/more")
     @ResponseBody
     public List<ArtistDTO> getMoreArtists(@RequestParam(defaultValue = "0") int page) {
@@ -191,12 +197,27 @@ public class ArtistController {
             return "artist_not_found";
         }
     }
+
+    /**
+     * Handles the upload of an artist's biography.
+     *
+     * @param id   The ID of the artist
+     * @param file The uploaded file
+     * @return The view name "saved_biography"
+     * @throws IOException If an error occurs during file upload
+     */
     @PostMapping("/{id}/biography")
     public String uploadBiography(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
         artistService.saveBiography(id, file);
         return "saved_biography";
     }
 
+    /**
+     * Handles the request to fetch an artist's biography.
+     *
+     * @param id The ID of the artist
+     * @return A ResponseEntity containing the biography file
+     */
     @GetMapping("/{id}/biography")
     public ResponseEntity<Resource> getBiography(@PathVariable Long id){
         try{

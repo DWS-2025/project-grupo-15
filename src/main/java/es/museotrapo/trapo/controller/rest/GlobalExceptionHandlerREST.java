@@ -12,14 +12,18 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandlerREST {
 
-    // Manejar la UnauthorizedCommentDeleteException
+    /*
+     * Manage the exception UnauthorizedCommentDeleteException
+     */
     @ExceptionHandler(UnauthorizedCommentDeleteException.class)
     public ResponseEntity<?> handleUnauthorizedCommentDeleteException(UnauthorizedCommentDeleteException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(Map.of("error", ex.getMessage()));
     }
 
-    // Manejar la excepción UserAlreadyExistsException
+    /*
+     * Manage the exception UserAlreadyExistsException
+     */
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT) // 409 Conflict

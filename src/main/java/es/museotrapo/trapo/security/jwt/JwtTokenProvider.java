@@ -20,6 +20,9 @@ public class JwtTokenProvider {
     private final SecretKey jwtSecret = SIG.HS256.key().build();
     private final JwtParser jwtParser = Jwts.parser().verifyWith(jwtSecret).build();
 
+    /**
+     * Enum representing the type of token (ACCESS or REFRESH) and its duration.
+     */
     public String tokenStringFromHeaders(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken == null) {
@@ -31,6 +34,12 @@ public class JwtTokenProvider {
         }
     }
 
+    /**
+     * Extracts the access token from the cookies in the request.
+     *
+     * @param request The HTTP request containing the cookies
+     * @return The access token string
+     */
     private String tokenStringFromCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
@@ -55,24 +64,46 @@ public class JwtTokenProvider {
         }
     }
 
+    /**
+     * Validates the JWT token and extracts the claims.
+     *
+     * @param req The HTTP request containing the JWT token
+     * @param fromCookie Indicates whether to extract the token from cookies or headers
+     * @return The claims extracted from the token
+     */
     public Claims validateToken(HttpServletRequest req, boolean fromCookie) {
         String token = fromCookie ? this.tokenStringFromCookies(req) : this.tokenStringFromHeaders(req);
         return this.validateToken(token);
     }
 
+    /**
+     * Validates the JWT token and extracts the claims.
+     *
+     * @param token The JWT token string
+     * @return The claims extracted from the token
+     */
     public Claims validateToken(String token) {
         return (Claims)this.jwtParser.parseSignedClaims(token).getPayload();
     }
 
+    /**
+     * Enum representing the type of token (ACCESS or REFRESH) and its duration.
+     */
     public String generateAccessToken(UserDetails userDetails) {
         return this.buildToken(TokenType.ACCESS, userDetails).compact();
     }
 
+    /**
+     * Enum representing the type of token (ACCESS or REFRESH) and its duration.
+     */
     public String generateRefreshToken(UserDetails userDetails) {
         JwtBuilder token = this.buildToken(TokenType.REFRESH, userDetails);
         return token.compact();
     }
 
+    /**
+     * Enum representing the type of token (ACCESS or REFRESH) and its duration.
+     */
     private JwtBuilder buildToken(TokenType tokenType, UserDetails userDetails) {
         Date currentDate = new Date();
         Date expiryDate = Date.from((new Date()).toInstant().plus(tokenType.duration));

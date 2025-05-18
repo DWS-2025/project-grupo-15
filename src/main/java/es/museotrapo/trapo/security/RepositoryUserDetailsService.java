@@ -22,6 +22,13 @@ public class RepositoryUserDetailsService implements UserDetailsService {
     public RepositoryUserDetailsService() {
     }
 
+    /**
+     * Loads user details by username.
+     *
+     * @param username the username of the user
+     * @return UserDetails object containing user information
+     * @throws UsernameNotFoundException if the user is not found
+     */
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = (User)this.userRepository.findByName(username).orElseThrow(() -> {
             return new UsernameNotFoundException("User not found");

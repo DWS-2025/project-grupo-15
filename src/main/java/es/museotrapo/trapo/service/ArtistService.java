@@ -61,6 +61,13 @@ public class ArtistService {
         return convertToDTOPage(artistPage);
     }
 
+    /**
+     * Retrieves a paginated list of ArtistDTOs based on the provided example.
+     *
+     * @param example  an Example object containing the search criteria
+     * @param pageable pagination information (e.g., page number, page size)
+     * @return a Page of ArtistDTOs matching the example
+     */
     public Page<ArtistDTO> getArtists(Example<Artist> example, Pageable pageable) {
         // Fetches the paginated list of artists from the repository and converts them to DTOs
         Page<Artist> artistPage = artistRepository.findAll(example, pageable);
@@ -214,6 +221,13 @@ public class ArtistService {
         artistRepository.save(artist);
     }
 
+    /**
+     * Retrieves the biography file of an artist by its ID and returns it as a downloadable resource.
+     *
+     * @param id the ID of the artist
+     * @return ResponseEntity containing the biography file as a Resource
+     * @throws IOException if an error occurs while retrieving the file
+     */
     public ResponseEntity<Resource> getBiographyResponse(Long id) throws IOException {
         Artist artist = artistRepository.findById(id).orElseThrow();
         // Construir la ruta al archivo

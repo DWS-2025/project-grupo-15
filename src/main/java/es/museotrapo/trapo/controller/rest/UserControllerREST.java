@@ -28,11 +28,23 @@ public class UserControllerREST {
         return userService.findAll();
     }
 
+    /**
+     * Handles the GET request to retrieve a specific user by ID
+     *
+     * @param id the ID of the user to retrieve
+     * @return the UserDTO object representing the user with the specified ID
+     */
     @GetMapping("/login-profile")
     public UserDTO me() {
         return this.userService.getLoggedUserDTO(); // Add all users to the model
     }
 
+    /**
+     * Handles the GET request to retrieve a specific user by ID
+     *
+     * @param id the ID of the user to retrieve
+     * @return the UserDTO object representing the user with the specified ID
+     */
     @DeleteMapping("/login-profile")
     public UserDTO deleteMe(HttpServletResponse response, HttpServletRequest request) {
         UserDTO removedUser = this.userService.getLoggedUserDTO(); 
@@ -42,11 +54,23 @@ public class UserControllerREST {
         return removedUser; // Return the "profile" view to render the of user page
     }
 
+    /**
+     * Handles the POST request to create a new user
+     *
+     * @param userDTO the UserDTO object representing the new user to create
+     * @return the created UserDTO object
+     */
     @PutMapping("/login-profile")
     public UserDTO updateMe(@RequestBody UserDTO userDTO) {
         return userService.update(userDTO, userDTO.encodedPassword());
     }
 
+    /**
+     * Handles the POST request to create a new user
+     *
+     * @param userDTO the UserDTO object representing the new user to create
+     * @return the created UserDTO object
+     */
     @DeleteMapping("/{id}")
     public UserDTO deleteUser(@PathVariable long id) {
         UserDTO removedUser = userService.findById(id);

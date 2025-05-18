@@ -16,6 +16,15 @@ public class UnauthorizedHandlerJwt implements AuthenticationEntryPoint {
     public UnauthorizedHandlerJwt() {
     }
 
+    /**
+     * This method is called when an authentication error occurs.
+     * It sends a 401 Unauthorized response with the error message and request path.
+     *
+     * @param request       the HTTP request
+     * @param response      the HTTP response
+     * @param authException the authentication exception
+     * @throws IOException if an I/O error occurs
+     */
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         logger.info("Unauthorized error: {}", authException.getMessage());
         response.sendError(401, "message: %s, path: %s".formatted(authException.getMessage(), request.getServletPath()));

@@ -69,6 +69,16 @@ public class PictureController {
         return "new_picture"; // Return the "new_picture" view to display the form
     }
 
+    /**
+     * Handles the POST request to save a new picture
+     *
+     * @param model      Model object to add attributes for the view
+     * @param pictureDTO The picture object to be saved
+     * @param imageFileFull Image file associated with the picture
+     * @param artistID   ID of the artist associated with the picture
+     * @return "saved_picture" view after saving the picture
+     * @throws IOException If an error occurs while saving the image file
+     */
     @PostMapping("/new")
     public String newPicture(Model model,
                              PictureDTO pictureDTO, // The picture object to be saved

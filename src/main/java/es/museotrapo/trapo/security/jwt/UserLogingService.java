@@ -26,12 +26,26 @@ public class UserLogingService {
     private final UserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * Constructor for UserLogingService.
+     *
+     * @param authenticationManager the AuthenticationManager to authenticate users
+     * @param userDetailsService    the UserDetailsService to load user details
+     * @param jwtTokenProvider      the JwtTokenProvider to generate and validate JWT tokens
+     */
     public UserLogingService(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    /**
+     * Authenticates a user and generates JWT tokens.
+     *
+     * @param response      the HTTP response to set the cookies
+     * @param loginRequest  the login request containing username and password
+     * @return a ResponseEntity containing the authentication response
+     */
     public ResponseEntity<AuthResponse> login(HttpServletResponse response, LoginRequest loginRequest) {
         Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -46,6 +60,13 @@ public class UserLogingService {
         return ((ResponseEntity.BodyBuilder) ResponseEntity.ok().headers(responseHeaders)).body(loginResponse);
     }
 
+    /**
+     * Refreshes the access token using the refresh token.
+     *
+     * @param response      the HTTP response to set the new access token cookie
+     * @param refreshToken  the refresh token to validate and generate a new access token
+     * @return a ResponseEntity containing the authentication response
+     */
     public ResponseEntity<AuthResponse> refresh(HttpServletResponse response, String refreshToken) {
         try {
             Claims claims = this.jwtTokenProvider.validateToken(refreshToken);
@@ -61,6 +82,12 @@ public class UserLogingService {
         }
     }
 
+    /**
+     * Logs out the user by clearing the security context and removing the cookies.
+     *
+     * @param response the HTTP response to set the cookies
+     * @return a message indicating successful logout
+     */
     public String logout(HttpServletResponse response) {
         SecurityContextHolder.clearContext();
         response.addCookie(this.removeTokenCookie(TokenType.ACCESS));
@@ -68,6 +95,12 @@ public class UserLogingService {
         return "logout successfully";
     }
 
+    /**
+     * Handles login attempts and tracks failed attempts.
+     *
+     * @param loginRequest the login request containing username and password
+     * @return a ResponseEntity containing the authentication response
+     */
     private Cookie buildTokenCookie(TokenType type, String token) {
         Cookie cookie = new Cookie(type.cookieName, token);
         cookie.setMaxAge((int) type.duration.getSeconds());
@@ -76,6 +109,12 @@ public class UserLogingService {
         return cookie;
     }
 
+    /**
+     * Removes the token cookie by setting its max age to 0.
+     *
+     * @param type the type of token to remove (ACCESS or REFRESH)
+     * @return the removed cookie
+     */
     private Cookie removeTokenCookie(TokenType type) {
         Cookie cookie = new Cookie(type.cookieName, "");
         cookie.setMaxAge(0);
