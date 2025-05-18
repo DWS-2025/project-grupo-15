@@ -9,12 +9,12 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
-<div class="container mt-4 mb-5">
-    <div class="alert alert-danger" role="alert">
-        <strong>Error:</strong> Credenciales inválidas.
-    </div>
-    <div class="mt-4">
-        <a href="/login" class="btn btn-primary">Prueba de nuevo</a>
+<div class="container">
+    <div class="error-title">Error:</div>
+    <div class="error-message">{{error}}</div>
+    <div class="btn-row-log">
+        <a href="/login" class="btn">Prueba de nuevo</a>
+        <a href="/" class="btn-back">Volver</a>
     </div>
 </div>
 

@@ -1,40 +1,57 @@
 package es.museotrapo.trapo.controller.web;
 
 import es.museotrapo.trapo.dto.UserDTO;
+import es.museotrapo.trapo.security.LoginAttemptService;
 import es.museotrapo.trapo.security.jwt.UserLogingService;
 import es.museotrapo.trapo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Controller
 public class LoginController {
-    private final UserService userService;
-    private final UserLogingService userLogingService;
 
-    public LoginController(UserService userService, UserLogingService userLogingService) {
-        this.userService = userService;
-        this.userLogingService = userLogingService;
-    }
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserLogingService userLogingService;
+
+    @Autowired
+    private LoginAttemptService loginAttemptService;
 
     @GetMapping({"/login"})
-    public String login() {
+    public String login(Model model) {
+        if(loginAttemptService.isBlocked()){
+            model.addAttribute("error", "Demasiados intentos fallidos. Inténtalo nuevamente en 10 minutos.");
+            return "loginerror";
+        }
         return "login";
     }
 
+    @GetMapping("/loginerror")
+    public String loginError(HttpServletRequest request, Model model) {
 
-    @GetMapping({"/loginerror"})
-    public String loginerror() {
+        if (loginAttemptService.isBlocked()) {
+            model.addAttribute("error", "Demasiados intentos fallidos. Inténtalo nuevamente en 10 minutos.");
+            return "loginerror";
+        }
+
+        loginAttemptService.registerLoginFailure(); // Registrar intento fallido
+
+        model.addAttribute("error", "Credenciales inválidas.");
         return "loginerror";
     }
-
 
     @GetMapping("/register")
     public String register() {
@@ -49,14 +66,14 @@ public class LoginController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        model.addAttribute("users",userService.findAll());
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
     @GetMapping("/login-profile")
     public String me(Model model) {
-        model.addAttribute("user", this.userService.getLoggedUserDTO()); // Add all users to the model
-        return "profile"; // Return the "profile" view to render the of user page
+        model.addAttribute("user", this.userService.getLoggedUserDTO());
+        return "profile";
     }
 
     @PostMapping("/users/{id}/delete")
@@ -70,7 +87,6 @@ public class LoginController {
         userService.remove(this.userService.getLoggedUserDTO().id());
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-
         return "deleted_user";
     }
 
@@ -81,7 +97,7 @@ public class LoginController {
     }
 
     @PostMapping("/login-profile/edit")
-    public String editUser(UserDTO userDTO, String password){
+    public String editUser(UserDTO userDTO, String password) {
         userService.update(userDTO, password);
         return "saved_user";
     }
