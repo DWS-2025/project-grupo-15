@@ -133,14 +133,5 @@ Responsable de:
 
 ---
 
-## 🗂️ ¿Qué viene después?
-
-- ✅ Paginación, filtros y búsquedas por artista o técnica
-- 🚧 Gestión de visitas guiadas y eventos especiales
-- 📊 Panel con métricas para artistas y administradores
-- 🌐 Versión multilingüe para visitantes internacionales
-
----
-
 > Hecho con arte, propósito y código.  
 > _Museo del Trapo – Donde la pintura cobra vida._
