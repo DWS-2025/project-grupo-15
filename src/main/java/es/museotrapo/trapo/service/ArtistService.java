@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.Collection;
@@ -120,9 +121,14 @@ public class ArtistService {
         if (artistRepository.existsById(id)) {
             // Converts the updated DTO to a domain object, sets the ID, saves it, and returns the updated DTO
             Artist updatedArtist = toDomain(updatedArtistDTO);
-            updatedArtist.setId(id);
-            artistRepository.save(updatedArtist);
-            return toDTO(updatedArtist);
+            Artist artist = new Artist();
+            artist.setId(id);
+            artist.setPaintedPictures(updatedArtist.getPaintedPictures());
+            artist.setNickname(updatedArtist.getNickname());
+            artist.setName(updatedArtist.getName());
+            artist.setBirthDate(updatedArtist.getBirthDate());
+            artistRepository.save(artist);
+            return toDTO(artist);
         } else {
             throw new NoSuchElementException();
         }
