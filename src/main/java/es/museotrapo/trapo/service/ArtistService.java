@@ -120,13 +120,10 @@ public class ArtistService {
     public ArtistDTO replaceArtist(long id, ArtistDTO updatedArtistDTO) {
         if (artistRepository.existsById(id)) {
             // Converts the updated DTO to a domain object, sets the ID, saves it, and returns the updated DTO
-            Artist updatedArtist = toDomain(updatedArtistDTO);
-            Artist artist = new Artist();
-            artist.setId(id);
-            artist.setPaintedPictures(updatedArtist.getPaintedPictures());
-            artist.setNickname(updatedArtist.getNickname());
-            artist.setName(updatedArtist.getName());
-            artist.setBirthDate(updatedArtist.getBirthDate());
+            Artist artist = artistRepository.findById(id).orElseThrow();
+            artist.setNickname(updatedArtistDTO.nickname());
+            artist.setName(updatedArtistDTO.name());
+            artist.setBirthDate(updatedArtistDTO.birthDate());
             artistRepository.save(artist);
             return toDTO(artist);
         } else {
