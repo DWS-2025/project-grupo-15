@@ -36,40 +36,50 @@ public class SanitizeService {
      * Sanitize the file name to prevent directory traversal attacks and
      */
     public String sanitizeFileName(String filename) {
+        // Reject null or empty file names immediately
         if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("The file does not have a legit name");
         }
-        // Extract only the base name of the file (prevents relative or absolute paths).
-        String sanitizedName = Paths.get(filename).toString();
 
-        // Replace invalid or dangerous characters with underscores.
-        // Only allows letters, numbers, dashes, and dots.
-        sanitizedName = sanitizedName.replaceAll("[^a-zA-Z0-9.\\-]", "_");
-
-        // Limit the name to a maximum of 120 characters.
-        if (sanitizedName.length() > 120) {
-            sanitizedName = sanitizedName.substring(120);
+        // Reject any attempt at directory traversal or path injection
+        if (filename.contains("..") || filename.contains("/") || filename.contains("\\\\")) {
+            throw new IllegalArgumentException("Invalid file name: path traversal or directory injection attempt");
         }
+
+        // Extract only the file name (removes any path fragments if present)
+        String baseName = Paths.get(filename).getFileName().toString();
+
+        // Replace any characters that are not safe (allow only letters, numbers, dots, dashes, underscores)
+        String sanitizedName = baseName.replaceAll("[^a-zA-Z0-9._-]", "_");
+
+        // Limit the file name to a maximum of 120 characters to avoid abuse
+        if (sanitizedName.length() > 120) {
+            sanitizedName = sanitizedName.substring(0, 120);
+        }
+
         return sanitizedName;
     }
+
 
     /*
      * Validate the file extension and content type.
      * Only allows PDF files.
      */
     public void validateFileExtensionAndContent(String fileName, InputStream fileContent) throws IOException {
-        String extension = fileName
-                .substring(fileName.lastIndexOf('.') + 1)
-                .toLowerCase();
-        if (!"pdf".equals(extension)) {
-            throw new IllegalArgumentException("Invalid file extension: only PDF files are allowed.");
+        // Validate that the file name is not null and matches a strict pattern for .pdf files
+        if (fileName == null || !fileName.matches("^[\\w\\s-]+\\.pdf$") || fileName.chars().filter(ch -> ch == '.').count() != 1) {
+            throw new IllegalArgumentException("Invalid file name or extension: only clean .pdf files are allowed.");
         }
 
-        String mimeType = Files
-                .probeContentType(Paths.get(fileName));
-        if (!"application/pdf".equals(mimeType)) {
-            throw new IllegalArgumentException("Invalid content type: the uploaded file is not a valid PDF.");
+        // Read the first 4 bytes to check the PDF magic number ("%PDF")
+        byte[] header = new byte[4];
+        if (fileContent.read(header) != 4) {
+            throw new IllegalArgumentException("File is too short or unreadable.");
         }
 
+        String signature = new String(header);
+        if (!"%PDF".equals(signature)) {
+            throw new IllegalArgumentException("Invalid file content: not a real PDF.");
+        }
     }
 }

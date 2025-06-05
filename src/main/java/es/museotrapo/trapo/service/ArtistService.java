@@ -206,9 +206,10 @@ public class ArtistService {
 
         // Resolve the destination file path and ensure it is canonical (safe and absolute).
         File destinationFile = new File(biographyDir, originalName).getCanonicalFile();
+        String canonicalBiographyDir = new File(biographyDir).getCanonicalPath();
 
         // Check that the resolved file path is within the intended directory (prevent path traversal attacks).
-        if (!destinationFile.getPath().startsWith(directory.getCanonicalPath())) {
+        if (!destinationFile.getPath().startsWith(canonicalBiographyDir + File.separator)) {
             throw new SecurityException("Invalid file path. File must reside in the biography directory");
         }
 
@@ -236,18 +237,25 @@ public class ArtistService {
      */
     public ResponseEntity<Resource> getBiographyResponse(Long id) throws IOException {
         Artist artist = artistRepository.findById(id).orElseThrow();
-        // Construir la ruta al archivo
-        Path path = Paths.get(artist.getBiography());
+        
+        // Build the path to file
+        Path path = Paths.get(artist.getBiography()).toAbsolutePath().normalize();
+        Path rootDir = Paths.get(biographyDir).toAbsolutePath().normalize();
 
-        // Validar si el archivo existe
+        // Validate if file is in the correct directory
+        if (!path.startsWith(rootDir)) {
+        throw new SecurityException("Attempt to access file outside the allowed directory.");
+        }
+
+        // Validate if file exists
         if (!Files.exists(path)) {
             throw new FileNotFoundException("Biography not found for artist with ID: " + id);
         }
 
-        // Crear un recurso a partir del archivo
+        // Create resource from file
         Resource pdfResource = new UrlResource(path.toUri());
 
-        // Construir la respuesta HTTP con el recurso
+        // Build HTTP resource
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=biography_" + id + ".pdf")
                 .contentType(MediaType.APPLICATION_PDF)
