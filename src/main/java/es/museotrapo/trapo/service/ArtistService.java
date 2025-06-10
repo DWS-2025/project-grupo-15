@@ -184,19 +184,23 @@ public class ArtistService {
         Artist artist = artistRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Artist not found"));
 
-
         // Validate the file's content and extension to ensure it is a valid and secure file.
         sanitizeService.validateFileExtensionAndContent(file.getOriginalFilename(), file.getInputStream());
 
-        // Create the biography directory if it doesn't exist.
-        File directory = new File(biographyDir);
-        if (!directory.exists()) {
-            // mkdirs is used to create the directory and any non-existing parent directories.
-            directory.mkdirs();
+        if(file.getSize() > 5 * 1024 * 1024){
+            throw new IllegalArgumentException("El archivo es demasiado grande");
         }
 
         // Sanitize the file name to prevent unsafe or invalid characters (e.g., ../ or special characters).
         String originalName = sanitizeService.sanitizeFileName(file.getOriginalFilename());
+
+        // Create the biography directory if it doesn't exist.
+        Path biographiesPath = Paths.get(biographyDir);
+        if (!Files.exists(biographiesPath)) {
+            // mkdirs is used to create the directory and any non-existing parent directories.
+            Files.createDirectories(biographiesPath);
+        }
+
         if (originalName == null || originalName.isEmpty()) {
             throw new IllegalArgumentException("The file does not have a valid name");
         }
